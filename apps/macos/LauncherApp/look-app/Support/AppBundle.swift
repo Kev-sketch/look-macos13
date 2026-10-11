@@ -4,7 +4,7 @@ import Foundation
 /// The .app this executable lives in, found from the executable's real path.
 /// Run through a symlink such as Homebrew's `lookapp`, `Bundle.main` resolves
 /// to the link's directory and carries no Info.plist or bundle identifier.
-nonisolated enum AppBundle {
+enum AppBundle {
     static let url: URL? = enclosingApp(of: executableURL())
 
     static let bundle: Bundle = url.flatMap(Bundle.init(url:)) ?? .main

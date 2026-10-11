@@ -1,7 +1,7 @@
 import Foundation
 import Observation
 
-nonisolated enum SpeedTestDefaults {
+enum SpeedTestDefaults {
     /// How recent a reading has to be for opening the panel to reuse it rather
     /// than spend bandwidth on a fresh run. The panel calls anything inside this
     /// window "just now", so the two read as one decision.

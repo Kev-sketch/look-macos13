@@ -69,13 +69,13 @@ struct SourceLevelFrame {
 
 /// An ancestor as the core reads it. `nonisolated` like the bridge's other
 /// payloads: encoding one is pure work any context may do.
-nonisolated struct SourceLevelParent: Encodable {
+struct SourceLevelParent: Encodable {
     let id: String
     let title: String
     let path: String
 }
 
-nonisolated extension Array where Element == SourceLevelParent {
+extension Array where Element == SourceLevelParent {
     /// An empty array rather than an empty string: the core parses it as JSON.
     var ancestorsJSON: String {
         guard let data = try? JSONEncoder().encode(self),

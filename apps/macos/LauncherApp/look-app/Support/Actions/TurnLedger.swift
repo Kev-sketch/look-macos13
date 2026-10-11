@@ -5,7 +5,7 @@ import Foundation
 /// The planner shows the message BEFORE it thinks, so a later path cannot know
 /// whether the turn exists - and the `userItemAppended: Bool` this replaces got
 /// it wrong both ways. One `startTurn()` per submit; first claimer wins.
-nonisolated struct TurnLedger: Equatable {
+struct TurnLedger: Equatable {
     private(set) var currentID: UUID?
 
     /// A new user message is being handled; the next claim materializes it.

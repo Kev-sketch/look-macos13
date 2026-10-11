@@ -2,7 +2,7 @@ import AppKit
 import Carbon
 import OSLog
 
-nonisolated private let hotkeyLog = Logger(subsystem: "noah-code.Look", category: "hotkey")
+private let hotkeyLog = Logger(subsystem: "noah-code.Look", category: "hotkey")
 
 @MainActor
 final class GlobalHotKeyManager {

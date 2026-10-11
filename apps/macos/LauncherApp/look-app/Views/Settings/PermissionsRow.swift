@@ -8,7 +8,7 @@ import SwiftUI
 /// its own call. `Grant all` therefore walks these in order rather than opening
 /// one dialog. Automation is absent on purpose - it cannot be requested without
 /// actually sending an Apple event, so it stays a first-use prompt.
-nonisolated struct PermissionItem: Identifiable {
+struct PermissionItem: Identifiable {
     enum Capability: String {
         case calendar
         case reminders

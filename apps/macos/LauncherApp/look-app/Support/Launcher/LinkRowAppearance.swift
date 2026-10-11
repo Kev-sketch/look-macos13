@@ -3,7 +3,7 @@ import Foundation
 /// The symbol for a row whose action is "open this URL". Derived from the
 /// scheme rather than stored on the row: the id already carries the URL, and a
 /// second copy of "what kind of link is this" is a second thing to keep true.
-nonisolated enum LinkRowAppearance {
+enum LinkRowAppearance {
     private enum Symbol {
         static let message = "message.fill"
         static let phone = "phone.fill"

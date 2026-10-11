@@ -5,7 +5,7 @@ import Foundation
 /// Its own type rather than a helper on the launcher view: the picker is built
 /// in `ActionController`, and a controller reaching into a `View` for wording
 /// would be the wrong way round.
-nonisolated enum MeetingTiming {
+enum MeetingTiming {
     private enum Copy {
         static let inProgress = "in progress"
         static let startingNow = "starting now"

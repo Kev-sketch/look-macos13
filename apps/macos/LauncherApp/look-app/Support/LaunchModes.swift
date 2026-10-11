@@ -197,6 +197,6 @@ enum LaunchModes {
     }
 }
 
-nonisolated private final class HandoffOutcome: @unchecked Sendable {
+private final class HandoffOutcome: @unchecked Sendable {
     var error: Error?
 }

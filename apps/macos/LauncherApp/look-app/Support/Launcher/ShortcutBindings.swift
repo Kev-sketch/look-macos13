@@ -3,7 +3,7 @@ import Combine
 import OSLog
 import SwiftUI
 
-nonisolated private let bindingsLog = Logger(subsystem: "noah-code.Look", category: "shortcuts")
+private let bindingsLog = Logger(subsystem: "noah-code.Look", category: "shortcuts")
 
 /// A resolved chord: what to compare an event against, plus what a menu item
 /// needs to draw its own key equivalent.

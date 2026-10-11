@@ -7,7 +7,7 @@ import Foundation
 /// resolve their icon inside `body`. Uncached, any list redraw hands SwiftUI a
 /// new instance per visible row, which it redraws: every icon flickers on each
 /// keypress.
-nonisolated enum RowIconCache {
+enum RowIconCache {
     // NSCache is documented thread-safe; nonisolated(unsafe) satisfies Swift 6
     // strict-concurrency without an actor wrapper, as in `HighlightedTextCache`.
     nonisolated(unsafe) private static let cache: NSCache<NSString, NSImage> = {

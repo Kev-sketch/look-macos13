@@ -42,7 +42,7 @@ enum BundleSizeService {
     /// approachable concurrency a plain `nonisolated async` runs on the
     /// caller's actor, and a large app would freeze the launcher for seconds.
     /// Still the caller's task, so moving to another row cancels it midway.
-    @concurrent nonisolated private static func sum(root: URL) async -> Int64? {
+    private static func sum(root: URL) async -> Int64? {
         sumSync(root: root)
     }
 

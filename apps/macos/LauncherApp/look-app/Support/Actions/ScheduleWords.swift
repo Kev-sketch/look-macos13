@@ -5,7 +5,7 @@ import Foundation
 /// package and is unit-tested without EventKit: the cost of a wrong answer here
 /// is either a missed calendar answer or a pointless EventKit fetch, so the
 /// exact vocabulary is worth pinning in tests.
-nonisolated enum ScheduleWords {
+enum ScheduleWords {
     static let reminderWords: Set<String> = [
         "reminder", "reminders", "todo", "todos", "tasks",
     ]

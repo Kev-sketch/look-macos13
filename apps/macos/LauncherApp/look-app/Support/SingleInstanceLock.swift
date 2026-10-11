@@ -1,13 +1,13 @@
 import Darwin
 import Foundation
 
-nonisolated enum SingleInstanceLockResult {
+enum SingleInstanceLockResult {
     case acquired(CInt)
     case heldByOtherInstance
     case unavailable
 }
 
-nonisolated enum SingleInstanceLock {
+enum SingleInstanceLock {
     static let defaultPollIntervalMicros: useconds_t = 50_000
     // FNV-1a 64-bit constants used for stable lock-file naming.
     private static let fnv1a64OffsetBasis: UInt64 = 1_469_598_103_934_665_603

@@ -47,7 +47,7 @@ enum LaunchpadTileRole: String, Decodable {
 }
 
 /// How a tile refresh went. `errors` are already worded for display.
-nonisolated struct LaunchpadTileRefresh: Decodable {
+struct LaunchpadTileRefresh: Decodable {
     let refreshed: Int
     let errors: [String]
 
@@ -58,7 +58,7 @@ nonisolated struct LaunchpadTileRefresh: Decodable {
 }
 
 /// What a user tile's `value` command printed. Only `value` is required.
-nonisolated struct LaunchpadTileValue: Decodable, Equatable {
+struct LaunchpadTileValue: Decodable, Equatable {
     let value: String
     let caption: String?
     let lines: [String]
@@ -86,7 +86,7 @@ nonisolated struct LaunchpadTileValue: Decodable, Equatable {
 }
 
 /// A single launchpad tile, decoded from the shared catalog.
-nonisolated struct LaunchpadTileModel: Decodable, Identifiable, Equatable {
+struct LaunchpadTileModel: Decodable, Identifiable, Equatable {
     let actionId: String
     let title: String
     let size: LaunchpadTileSize
@@ -167,7 +167,7 @@ extension Collection where Element == LaunchpadTileModel {
 /// The launchpad payload: the tiles and the shape the core resolved them
 /// against. `shape` is nil for the bare tile array a lib older than the shape
 /// sends, and the grid derives one then.
-nonisolated struct LaunchpadLayout: Decodable, Equatable {
+struct LaunchpadLayout: Decodable, Equatable {
     let tiles: [LaunchpadTileModel]
     let shape: LaunchpadGrid.Shape?
 

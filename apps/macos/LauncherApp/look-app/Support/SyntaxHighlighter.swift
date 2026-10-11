@@ -5,7 +5,7 @@ import SwiftUI
 /// Tokenizes by language and applies foreground colors via
 /// AttributedString. Not as accurate as a real parser - designed for
 /// "readable at a glance," not editor-quality fidelity.
-nonisolated enum SyntaxHighlighter {
+enum SyntaxHighlighter {
     enum Language {
         case c, cpp, css, go, html, java, javascript, json, markdown,
              python, ruby, rust, shell, swift, typescript, yaml, plain

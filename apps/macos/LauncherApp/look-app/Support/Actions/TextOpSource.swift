@@ -4,7 +4,7 @@ import UniformTypeIdentifiers
 
 /// Where a text op reads its input. The model never chooses this: it emits an
 /// instruction, and the target comes from UI state.
-nonisolated enum TextOpSource: Equatable {
+enum TextOpSource: Equatable {
     case clipboard
     /// `text` is present when the file was `@`-mentioned: it was read and
     /// checked at attach time, and re-reading here would undo that (a file
@@ -41,7 +41,7 @@ nonisolated enum TextOpSource: Equatable {
 /// Reads text out of a file for a text op. Deliberately narrow: text-ish files
 /// only, capped, no format conversion. PDF and friends need real extraction and
 /// anything past the cap needs chunk-and-retrieve, which is a separate build.
-nonisolated enum TextExtraction {
+enum TextExtraction {
     /// Roughly 30k tokens of English, comfortably past what a local model will
     /// take, so the cap is the model's limit rather than ours.
     static let defaultCap = 128 * 1024

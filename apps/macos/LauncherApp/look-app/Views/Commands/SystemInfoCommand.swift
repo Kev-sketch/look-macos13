@@ -80,7 +80,7 @@ struct SystemInfoView: View {
     }
 }
 
-nonisolated enum SystemInfoCommand {
+enum SystemInfoCommand {
     struct Snapshot {
         let items: [SystemInfoItem]
         let cpuLoad: host_cpu_load_info?

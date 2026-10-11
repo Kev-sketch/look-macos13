@@ -3,10 +3,10 @@ import Carbon
 import Combine
 import OSLog
 
-nonisolated private let launcherHotkeyLog = Logger(subsystem: "noah-code.Look", category: "hotkey")
+private let launcherHotkeyLog = Logger(subsystem: "noah-code.Look", category: "hotkey")
 
 /// `launcher_hotkey` as resolved by core, which owns the grammar and fallback.
-nonisolated struct LauncherHotkeySpec: Decodable {
+struct LauncherHotkeySpec: Decodable {
     struct Hotkey: Decodable {
         let modifiers: [String]
         let key: Key
@@ -29,7 +29,7 @@ nonisolated struct LauncherHotkeySpec: Decodable {
     }
 }
 
-nonisolated struct HotkeyCheck: Decodable {
+struct HotkeyCheck: Decodable {
     let spec: String
     let display: String?
     let error: String?

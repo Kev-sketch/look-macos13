@@ -4,7 +4,7 @@ import Foundation
 /// of app types, so it lives in the `LauncherLogic` package and is unit-tested
 /// without a live daemon. `OllamaProvider` (app target) does the networking and
 /// maps these plain results onto the app's AI types.
-nonisolated enum OllamaCodec {
+enum OllamaCodec {
     /// Health derived from `GET /api/tags`. Reaching the endpoint means the
     /// daemon is up; the only question left is whether the model is pulled.
     enum Health: Equatable {

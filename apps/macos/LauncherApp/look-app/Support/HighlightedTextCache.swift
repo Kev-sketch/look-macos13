@@ -3,7 +3,7 @@ import Foundation
 /// LRU cache for highlighted file previews, keyed by
 /// `(path, mtime, size)` so a file is re-tokenized only when it
 /// actually changes on disk.
-nonisolated enum HighlightedTextCache {
+enum HighlightedTextCache {
     // NSCache is documented thread-safe; mark nonisolated(unsafe) to
     // satisfy Swift 6 strict-concurrency without an actor wrapper.
     /// Attribute runs (one per highlighted token) dominate the real footprint,

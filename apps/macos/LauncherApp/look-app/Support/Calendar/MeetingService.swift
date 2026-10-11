@@ -3,7 +3,7 @@ import Foundation
 
 /// One event, flattened to exactly the fields the Rust core needs to find a
 /// join link and pick between meetings. Keys match `look_ai::meeting::EventInput`.
-nonisolated struct MeetingEventPayload: Encodable {
+struct MeetingEventPayload: Encodable {
     let title: String
     let startUnixS: Int64
     let endUnixS: Int64
@@ -14,7 +14,7 @@ nonisolated struct MeetingEventPayload: Encodable {
 }
 
 /// What a `join` request turned up. Mirrors `look_ai::meeting::JoinOutcome`.
-nonisolated struct JoinOutcome: Decodable, Equatable {
+struct JoinOutcome: Decodable, Equatable {
     var meetings: [JoinableMeeting] = []
     /// Titles that matched the name but carry no join link, so the answer can
     /// say which meeting is missing one rather than claiming none exists.
@@ -23,13 +23,13 @@ nonisolated struct JoinOutcome: Decodable, Equatable {
 
 /// A parsed `join ...` request. `name` is the words that were not filler, so
 /// "join testing" carries "testing" and a bare "join" carries nothing.
-nonisolated struct JoinRequest: Decodable, Equatable {
+struct JoinRequest: Decodable, Equatable {
     var name: String?
 }
 
 /// The meeting to join, as decided in core. Mirrors
 /// `look_ai::meeting::JoinableMeeting`.
-nonisolated struct JoinableMeeting: Decodable, Equatable {
+struct JoinableMeeting: Decodable, Equatable {
     let title: String
     let startUnixS: Int64
     let endUnixS: Int64
@@ -56,7 +56,7 @@ nonisolated struct JoinableMeeting: Decodable, Equatable {
 /// Look makes no network call here. A Teams, Zoom, or Meet invite already
 /// carries its join URL, and the account sync that put it there is the OS's
 /// job (see docs/ai-eventkit.md).
-nonisolated final class MeetingService: @unchecked Sendable {
+final class MeetingService: @unchecked Sendable {
     static let shared = MeetingService()
 
     private enum Metrics {

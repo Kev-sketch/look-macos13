@@ -7,7 +7,7 @@ import Foundation
 /// Pure Foundation so it lives in the `LauncherLogic` package and is tested -
 /// the failure mode of a sloppy check ("localhost.evil.com" reading as local)
 /// is silently shipping the user's calendar off-device.
-nonisolated enum LocalHostCheck {
+enum LocalHostCheck {
     /// Loopback only. `0.0.0.0` is deliberately absent: it is the unspecified
     /// address a daemon binds to in order to listen on EVERY interface, so
     /// treating it as proof of local inference would let a network-exposed

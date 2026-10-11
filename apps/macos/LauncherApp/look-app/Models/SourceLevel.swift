@@ -2,7 +2,7 @@ import Foundation
 
 /// One level of a drill-down: the rows a block produced against the row it was
 /// opened from.
-nonisolated struct SourceLevel: Decodable {
+struct SourceLevel: Decodable {
     /// The parent row's own id, decoded by the core so the shell never has to
     /// take a candidate id apart itself.
     let parentRowId: String
@@ -15,7 +15,7 @@ nonisolated struct SourceLevel: Decodable {
 
 /// A row inside a level. `candidateId` encodes the levels it came through, so
 /// two parents never share a row.
-nonisolated struct SourceLevelRow: Decodable, Identifiable {
+struct SourceLevelRow: Decodable, Identifiable {
     let candidateId: String
     let id: String
     let title: String
@@ -29,7 +29,7 @@ nonisolated struct SourceLevelRow: Decodable, Identifiable {
 /// The row a tool action acts on: one value because the four always travel
 /// together, and a block's `edit` / `terminal` / `reveal` expands against the
 /// row exactly like its `open` does.
-nonisolated struct ToolActionRow {
+struct ToolActionRow {
     let candidateID: String
     let title: String
     let path: String

@@ -5,7 +5,7 @@ import Foundation
 /// Narrow on purpose: `@` already means a time in `>add lunch @ 1pm`. A mention
 /// needs `@` to open a word and be followed immediately by non-space text, and
 /// nothing attaches until the user picks - so the date form never triggers.
-nonisolated enum MentionQuery {
+enum MentionQuery {
     struct Active: Equatable {
         /// The text after `@`, what the file search runs on.
         let token: String

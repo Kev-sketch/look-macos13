@@ -30,7 +30,7 @@ struct NowPlayingSnapshot: Equatable {
 /// `nonisolated` because the target defaults to `MainActor` isolation, which
 /// would make even closure literals here main-actor bound and trap the
 /// concurrency runtime when reached from the background queue below.
-nonisolated final class SystemNowPlaying: Sendable {
+final class SystemNowPlaying: Sendable {
     static let shared = SystemNowPlaying()
 
     /// `MRMediaRemoteSendCommand` command codes.
@@ -155,7 +155,7 @@ nonisolated final class SystemNowPlaying: Sendable {
 
 // MARK: - Scripts
 
-private nonisolated extension SystemNowPlaying {
+private extension SystemNowPlaying {
     /// Reports the elected player as JSON.
     ///
     /// The track and the owning app come from two independent calls, and the

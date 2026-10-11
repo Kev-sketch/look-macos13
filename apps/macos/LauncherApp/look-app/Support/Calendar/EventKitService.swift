@@ -1,14 +1,14 @@
 import EventKit
 import Foundation
 
-nonisolated struct EventKitServiceError: Error, LocalizedError {
+struct EventKitServiceError: Error, LocalizedError {
     let message: String
     init(_ message: String) { self.message = message }
     var errorDescription: String? { message }
 }
 
 /// Access state for calendar or reminders, mirroring `AIProviderAvailability`.
-nonisolated enum CalendarAccess: Equatable {
+enum CalendarAccess: Equatable {
     case authorized
     case writeOnly
     case notDetermined
@@ -29,7 +29,7 @@ nonisolated enum CalendarAccess: Equatable {
 
 /// A calendar event / reminder as passed to the Rust-core resolver and the
 /// session's referent targets.
-nonisolated struct EventCandidateData: Equatable {
+struct EventCandidateData: Equatable {
     let id: String
     let title: String
     let start: Date
@@ -37,7 +37,7 @@ nonisolated struct EventCandidateData: Equatable {
     let isAllDay: Bool
 }
 
-nonisolated struct ReminderCandidateData: Equatable {
+struct ReminderCandidateData: Equatable {
     let id: String
     let title: String
     let due: Date?
@@ -46,7 +46,7 @@ nonisolated struct ReminderCandidateData: Equatable {
 /// EventKit backend: the same system store Calendar.app and Reminders.app use.
 /// Look only touches the local store; any account sync is the OS's job. One
 /// reused `EKEventStore`. Resolution lives in the Rust core; this executes.
-nonisolated final class EventKitService: @unchecked Sendable {
+final class EventKitService: @unchecked Sendable {
     static let shared = EventKitService()
 
     private let store = EKEventStore()

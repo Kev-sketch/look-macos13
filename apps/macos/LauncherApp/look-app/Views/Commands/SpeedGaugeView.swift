@@ -2,7 +2,7 @@ import SwiftUI
 
 /// Nonisolated so the drawing helpers, which run inside `Canvas`, can read the
 /// same geometry the view lays out from.
-private nonisolated enum Orbit {
+private enum Orbit {
     /// Both rings carry the same log scale: one full turn from 0 to 1 Gbps, so a
     /// slow link and a fibre line are both somewhere readable on the dial.
     static let maxMbps: Double = 1000

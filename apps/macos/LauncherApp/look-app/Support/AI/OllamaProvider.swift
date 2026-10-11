@@ -160,7 +160,7 @@ enum OllamaError: LocalizedError {
 /// Thread-safe cache of the last Ollama health probe, refreshed off the UI
 /// thread and throttled. Mirrors the `@unchecked Sendable` + `NSLock` pattern
 /// used by `AIQueryRouter`.
-nonisolated final class OllamaHealthCache: @unchecked Sendable {
+final class OllamaHealthCache: @unchecked Sendable {
     static let shared = OllamaHealthCache()
 
     private let lock = NSLock()

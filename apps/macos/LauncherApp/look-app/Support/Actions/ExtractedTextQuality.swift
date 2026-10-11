@@ -5,7 +5,7 @@ import Foundation
 /// A PDF without an embedded character map still "extracts" - into glyph ids,
 /// not letters - and a model will summarize that gibberish fluently. So the
 /// verdict rejects only provably broken text, never merely unusual text.
-nonisolated enum ExtractedTextQuality {
+enum ExtractedTextQuality {
     /// A real document has essentially none; a mis-decoded one is full of
     /// them, so anything in between is rare and better refused.
     static let brokenScalarLimit = 0.02

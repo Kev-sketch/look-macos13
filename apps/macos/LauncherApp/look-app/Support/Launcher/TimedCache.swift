@@ -5,7 +5,7 @@ import Foundation
 /// The launcher's pinned rows are computed properties SwiftUI re-reads on every
 /// update, so an EventKit or Contacts lookup behind one needs a cache. One slot,
 /// one key, no eviction: a new key is a miss, not a stale hit.
-nonisolated final class TimedCache<Key: Equatable, Value>: @unchecked Sendable {
+final class TimedCache<Key: Equatable, Value>: @unchecked Sendable {
     private let ttl: TimeInterval
     private let lock = NSLock()
     private var key: Key?

@@ -4,7 +4,7 @@ import Foundation
 /// to a concrete `Date` using `NSDataDetector`, a Foundation system API. No
 /// third-party date library. Relative phrases resolve against the system clock;
 /// deterministic tests use absolute phrases.
-nonisolated enum DatePhrase {
+enum DatePhrase {
     /// Expands common shorthand day words NSDataDetector does not know ("tmr" ->
     /// "tomorrow"), so a time-plus-day phrase resolves to the right day instead of
     /// falling back to a time-only match on today.

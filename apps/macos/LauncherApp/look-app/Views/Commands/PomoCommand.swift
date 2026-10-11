@@ -5,7 +5,7 @@ import OSLog
 
 // nonisolated so the UNUserNotificationCenter completion-queue
 // closures can write to it without needing a MainActor hop.
-nonisolated private let pomoNotifLog = Logger(subsystem: "noah-code.Look", category: "pomo-notif")
+private let pomoNotifLog = Logger(subsystem: "noah-code.Look", category: "pomo-notif")
 
 // ── Model ──────────────────────────────────────────────────────────────
 

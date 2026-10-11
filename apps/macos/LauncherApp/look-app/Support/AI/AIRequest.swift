@@ -4,7 +4,7 @@ import Foundation
 /// that was not Ollama received `"\(instruction)\n\n\(text)"` - the roles were
 /// flattened away at the call site, so on-device and (later) cloud providers
 /// could not be given a system prompt at all.
-nonisolated struct AIMessage: Equatable, Sendable {
+struct AIMessage: Equatable, Sendable {
     enum Role: String, Sendable { case system, user, assistant }
 
     let role: Role
@@ -56,7 +56,7 @@ nonisolated struct AIMessage: Equatable, Sendable {
 /// vocabulary. Deliberately not Ollama's: `num_ctx` is meaningless to a cloud
 /// model whose context is fixed by the model chosen, and `max_tokens` is
 /// meaningless to Apple Intelligence, which caps its own response.
-nonisolated struct AIGenerationOptions: Equatable, Sendable {
+struct AIGenerationOptions: Equatable, Sendable {
     var maxOutputTokens: Int
     /// Roughly how large the prompt is. A HINT, not a limit: providers that
     /// must reserve their window up front (Ollama) size it from this, and

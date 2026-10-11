@@ -298,7 +298,7 @@ private func look_netspeed_run_json() -> UnsafeMutablePointer<CChar>?
 
 /// One measurement from the shared `core/netspeed` crate. The display strings
 /// are formatted in core so every shell prints the same text.
-nonisolated struct SpeedReading: Codable, Sendable, Equatable {
+struct SpeedReading: Codable, Sendable, Equatable {
     let downloadBitsPerSecond: Double
     let uploadBitsPerSecond: Double
     let latencyMs: Double?
@@ -321,22 +321,22 @@ nonisolated struct SpeedReading: Codable, Sendable, Equatable {
 
 /// Stands in when the bridge cannot make sense of the reply at all; every other
 /// message the panel shows comes from core's `SpeedError`.
-private nonisolated let speedTestUnknownFailure = "Speed test failed"
+private let speedTestUnknownFailure = "Speed test failed"
 
-nonisolated struct SpeedTestEnvelope: Decodable {
+struct SpeedTestEnvelope: Decodable {
     let ok: Bool
     let reading: SpeedReading?
     let error: String?
 }
 
-nonisolated enum SpeedTestOutcome: Sendable {
+enum SpeedTestOutcome: Sendable {
     case reading(SpeedReading)
     case failure(String)
 }
 
 /// A resolved lunar date from the shared `core/lunar` crate (East Asian
 /// lunisolar calendar). `leap` marks the intercalary month of a 13-month year.
-nonisolated struct LunarDate: Decodable {
+struct LunarDate: Decodable {
     let day: Int
     let month: Int
     let year: Int
@@ -559,7 +559,7 @@ final class EngineBridge: @unchecked Sendable {
         return Self.fileRecallOutcome(from: payload)
     }
 
-    private nonisolated static func fileRecallOutcome(from payload: SearchPayload) -> FileRecallOutcome {
+    private static func fileRecallOutcome(from payload: SearchPayload) -> FileRecallOutcome {
         let results = payload.results.map { LauncherResult($0, defaultKind: .file) }
         return FileRecallOutcome(results: results, relaxed: payload.relaxed)
     }
@@ -631,7 +631,7 @@ final class EngineBridge: @unchecked Sendable {
         Self.decodeOwnedJSON(spec.withCString { look_hotkey_check_local_json($0) })
     }
 
-    private nonisolated static func decodeOwnedJSON<T: Decodable>(_ ptr: UnsafeMutablePointer<CChar>?) -> T? {
+    private static func decodeOwnedJSON<T: Decodable>(_ ptr: UnsafeMutablePointer<CChar>?) -> T? {
         guard let ptr else { return nil }
         defer { look_free_cstring(ptr) }
         return try? JSONDecoder().decode(T.self, from: Data(String(cString: ptr).utf8))
@@ -1124,7 +1124,7 @@ final class EngineBridge: @unchecked Sendable {
         return Self.decodeToolAction(ptr)
     }
 
-    private nonisolated static func decodeToolAction(_ ptr: UnsafeMutablePointer<CChar>?) -> ToolAction? {
+    private static func decodeToolAction(_ ptr: UnsafeMutablePointer<CChar>?) -> ToolAction? {
         guard let ptr else { return nil }
         defer { look_free_cstring(ptr) }
         guard let data = String(cString: ptr).data(using: .utf8) else { return nil }
@@ -1455,7 +1455,7 @@ final class EngineBridge: @unchecked Sendable {
 
 /// Wire shape of a `look_answers::Answer` JSON object (snake_case `image_url`
 /// decoded via `.convertFromSnakeCase`).
-private nonisolated struct AnswerDTO: Decodable {
+private struct AnswerDTO: Decodable {
     let text: String
     let source: String
     let url: String?
@@ -1465,19 +1465,19 @@ private nonisolated struct AnswerDTO: Decodable {
 /// Wire shape of a `look_calc::Calculation` JSON object: `display` is grouped
 /// for showing (`1,000,000`), `raw` is bare and re-parseable, for the clipboard
 /// (`1000000`).
-nonisolated struct CalculationDTO: Decodable {
+struct CalculationDTO: Decodable {
     let display: String
     let raw: String
     let value: Double
 }
 
 /// Wire shape of `look_calc_eval_json`: exactly one of the two is non-nil.
-nonisolated struct CalcEvalResult: Decodable {
+struct CalcEvalResult: Decodable {
     let calculation: CalculationDTO?
     let error: String?
 }
 
-nonisolated struct TranslationResult: Decodable {
+struct TranslationResult: Decodable {
     let original: String
     let translated: String
     let error: BridgeError?
@@ -1486,7 +1486,7 @@ nonisolated struct TranslationResult: Decodable {
 /// Wire shape of `look_answers::UrlMatch`: the resolved openable URL and how
 /// certain the classification is. `tier` decodes the lowercased Rust enum
 /// (`structural` / `barehost`).
-nonisolated struct URLMatch: Decodable {
+struct URLMatch: Decodable {
     enum Tier: String, Decodable {
         case structural
         case bareHost = "barehost"
@@ -1500,7 +1500,7 @@ nonisolated struct URLMatch: Decodable {
 /// show exactly what Enter is about to do.
 /// One preferred-tool action resolved against a row. `kind` says which of the
 /// other fields are filled.
-nonisolated struct ToolAction: Decodable {
+struct ToolAction: Decodable {
     enum Kind: String, Decodable {
         /// Composed shell text. Only `look_tool_action_json` returns this;
         /// performing runs it in core and reports `performed` or `failed`.
@@ -1533,7 +1533,7 @@ nonisolated struct ToolAction: Decodable {
 /// always travel together, mirroring `RowArgs` on the Tauri side - and because
 /// they used to be three defaulted parameters, which let a call site drop the
 /// row and render `shortcuts run ''` while Enter still ran the real command.
-nonisolated struct RowRef {
+struct RowRef {
     let id: String
     let title: String
     let path: String
@@ -1548,7 +1548,7 @@ nonisolated struct RowRef {
     }
 }
 
-nonisolated struct SourceBlock: Decodable {
+struct SourceBlock: Decodable {
     let id: String
     let name: String
     let steps: [String]
@@ -1567,7 +1567,7 @@ nonisolated struct SourceBlock: Decodable {
 
 /// One `then` target. `performs` says what the target's own producer decided:
 /// steps to run now, or rows to descend into.
-nonisolated struct SourceBlockTarget: Decodable, Identifiable {
+struct SourceBlockTarget: Decodable, Identifiable {
     let id: String
     let name: String
     let icon: String?
@@ -1578,27 +1578,27 @@ nonisolated struct SourceBlockTarget: Decodable, Identifiable {
 
 /// A declared block as the row layer needs it: what to call it and what icon it
 /// asked for. Cached per launcher open so rendering a row never touches disk.
-nonisolated struct SourceBlockSummary: Decodable {
+struct SourceBlockSummary: Decodable {
     let id: String
     let name: String
     let icon: String?
 }
 
 /// How a `run`-block refresh went. A block that failed kept the rows it had.
-nonisolated struct RunBlockRefreshOutcome: Decodable {
+struct RunBlockRefreshOutcome: Decodable {
     let refreshed: Int
     let errors: [String]
 }
 
 /// A block's `preview` output, or why it could not run.
-nonisolated struct SourcePreview: Decodable {
+struct SourcePreview: Decodable {
     let text: String
     let error: String?
 }
 
 /// How performing a block went. `errors` is empty when every step was spawned;
 /// a step's own exit code is its business, since nothing waits for it.
-nonisolated struct PerformBlockOutcome: Decodable {
+struct PerformBlockOutcome: Decodable {
     let performed: Int
     let errors: [String]
     /// The target lists rows to pick from rather than steps to run. An explicit
@@ -1611,7 +1611,7 @@ nonisolated struct PerformBlockOutcome: Decodable {
 
 /// Wire shape of a `url_history` row (see url-history spec), decoded with
 /// `.convertFromSnakeCase`. `title` is reserved and nil today.
-nonisolated struct URLHistoryEntry: Decodable {
+struct URLHistoryEntry: Decodable {
     let url: String
     let title: String?
     let hitCount: Int
@@ -1621,7 +1621,7 @@ nonisolated struct URLHistoryEntry: Decodable {
     let score: Int
 }
 
-private nonisolated struct SearchPayload: Decodable {
+private struct SearchPayload: Decodable {
     let query: String
     let count: Int
     let results: [SearchItem]
@@ -1631,18 +1631,18 @@ private nonisolated struct SearchPayload: Decodable {
     let error: BridgeError?
 }
 
-private nonisolated struct CompactSearchPayload: Decodable {
+private struct CompactSearchPayload: Decodable {
     let count: Int
     let results: [SearchItem]
     let error: BridgeError?
 }
 
-private nonisolated struct UsageRecordPayload: Decodable {
+private struct UsageRecordPayload: Decodable {
     let ok: Bool
     let error: BridgeError?
 }
 
-nonisolated struct BridgeError: Decodable {
+struct BridgeError: Decodable {
     let code: String
     let message: String
 
@@ -1651,7 +1651,7 @@ nonisolated struct BridgeError: Decodable {
     }
 }
 
-private nonisolated struct SearchItem: Decodable {
+private struct SearchItem: Decodable {
     let id: String
     let kind: String
     let title: String
@@ -1665,7 +1665,7 @@ extension LauncherResult {
     /// One decode of a search payload row. Spelled out per call site, every new
     /// field the core adds is a three-site edit, and the sites drift: `icon`
     /// reached search results and missed file recall entirely.
-    fileprivate nonisolated init(_ item: SearchItem, defaultKind: LauncherResultKind) {
+    fileprivate init(_ item: SearchItem, defaultKind: LauncherResultKind) {
         self.init(
             id: item.id,
             kind: LauncherResultKind(rawValue: item.kind) ?? defaultKind,

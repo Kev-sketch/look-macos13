@@ -6,7 +6,7 @@ import UniformTypeIdentifiers
 
 /// One copied image. The pixels are not here: they live in a file named after
 /// `hash`, since a screenshot is megabytes and this is a list the user scrolls.
-nonisolated struct ClipboardImageEntry: Identifiable, Equatable {
+struct ClipboardImageEntry: Identifiable, Equatable {
     /// A filename when the image arrived as one, else where it came from and
     /// when, since raw pasteboard pixels have no name.
     let label: String
@@ -26,7 +26,7 @@ nonisolated struct ClipboardImageEntry: Identifiable, Equatable {
     var thumbnailURL: URL? { ClipboardImageFiles.thumbnailURL(forHash: hash) }
 }
 
-nonisolated struct StoredClipboardImage {
+struct StoredClipboardImage {
     let hash: String
     let pixelSize: CGSize
     let byteSize: Int
@@ -34,7 +34,7 @@ nonisolated struct StoredClipboardImage {
 
 /// Where an image clip's pixels live. Every call belongs off the main thread:
 /// encoding and hashing a screenshot drops frames while typing.
-nonisolated enum ClipboardImageFiles {
+enum ClipboardImageFiles {
     private typealias Constants = AppConstants.Launcher.ClipboardImage
 
     /// Core owns the location and sweeps it, so this side asks rather than
@@ -142,7 +142,7 @@ nonisolated enum ClipboardImageFiles {
     }
 }
 
-nonisolated struct ClipboardImageCandidate {
+struct ClipboardImageCandidate {
     let data: Data
     /// Set only when the image arrived as a file. Raw pixels have no name.
     let fileName: String?

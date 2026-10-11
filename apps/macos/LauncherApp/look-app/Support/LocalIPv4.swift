@@ -4,7 +4,7 @@ import Foundation
 /// The address this machine holds on the local network, shown beside a speed
 /// reading so the number has somewhere to belong. Read from `getifaddrs`, so it
 /// costs nothing and prompts for no permission.
-nonisolated enum LocalIPv4 {
+enum LocalIPv4 {
     /// Interfaces are ranked by this prefix order: Wi-Fi and Ethernet come up as
     /// `en`, while `utun` (VPN) and `bridge` are only used if nothing else is.
     private static let preferredPrefix = "en"

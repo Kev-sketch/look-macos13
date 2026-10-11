@@ -7,7 +7,7 @@ import ImageIO
 /// block's own targets replace the built-in verbs, since the author chose that
 /// row's vocabulary, while an action declared for rows LIKE this one joins
 /// them, since a file row still needs Edit and Reveal.
-nonisolated struct SourceBlockRowTargets {
+struct SourceBlockRowTargets {
     let own: [SourceBlockTarget]
     let global: [SourceBlockTarget]
 

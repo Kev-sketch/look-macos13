@@ -2,7 +2,7 @@ import Foundation
 
 /// Files attached to the next AI turn with `@`. Ordered, deduped, budgeted -
 /// Ollama truncates a too-long prompt silently, so the bar says what it holds.
-nonisolated struct MentionAttachments: Equatable {
+struct MentionAttachments: Equatable {
 
     private(set) var files: [Attached] = []
 

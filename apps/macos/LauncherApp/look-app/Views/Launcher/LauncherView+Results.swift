@@ -4,7 +4,7 @@ import SwiftUI
 
 // `Logger` is Sendable; declare it nonisolated so AppKit's background open
 // completion handlers can log without a main-actor hop.
-nonisolated private let openLaunchLog = Logger(subsystem: "noah-code.Look", category: "open")
+private let openLaunchLog = Logger(subsystem: "noah-code.Look", category: "open")
 
 extension LauncherView {
     func openSelectedApp() {

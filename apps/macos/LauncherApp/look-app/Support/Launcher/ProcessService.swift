@@ -33,7 +33,7 @@ struct ProcessDetail: Equatable {
 /// another user's process needs privilege and surfaces a clear error).
 /// `nonisolated` so callers can run it on a detached task - it walks the process
 /// table and sleeps, so it must stay off the main thread.
-nonisolated enum ProcessService {
+enum ProcessService {
     /// Own-user processes: pid, name, listening ports. Uses `sysctl
     /// KERN_PROC_ALL` (what `ps` uses), **not** `proc_listallpids` - the latter
     /// is silently throttled in hardened contexts and returns a partial list

@@ -4,7 +4,7 @@ import Foundation
 /// attachment capsule, and anything else that names a file abbreviate the same
 /// way: two files called `main.go` are the normal case, and only the folder
 /// tells them apart.
-nonisolated enum PathDisplay {
+enum PathDisplay {
     /// `~` for home, so the width goes to the part that identifies the file
     /// rather than to `/Users/<name>`.
     static func abbreviated(_ path: String) -> String {

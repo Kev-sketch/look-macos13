@@ -2,7 +2,7 @@ import Contacts
 import Foundation
 
 /// A parsed "call ..." line. Mirrors `look_ai::calling::CallRequest`.
-nonisolated struct CallRequest: Decodable, Equatable {
+struct CallRequest: Decodable, Equatable {
     /// The words naming the person, to match against Contacts.
     let name: String
     /// A `Modality` id, or nil when the line did not say and the default
@@ -11,7 +11,7 @@ nonisolated struct CallRequest: Decodable, Equatable {
 }
 
 /// One way to reach a person: a handle, and what it can be used for.
-nonisolated struct ContactHandle: Equatable, Identifiable {
+struct ContactHandle: Equatable, Identifiable {
     /// A `Modality` id from `look_ai::calling`, chosen when the handle was read
     /// (a phone number can message or call; an email can only FaceTime).
     let modalityID: String
@@ -25,7 +25,7 @@ nonisolated struct ContactHandle: Equatable, Identifiable {
 }
 
 /// A person Look could reach, with every way to reach them.
-nonisolated struct ContactMatch: Equatable, Identifiable {
+struct ContactMatch: Equatable, Identifiable {
     let id: String
     let name: String
     let handles: [ContactHandle]
@@ -33,7 +33,7 @@ nonisolated struct ContactMatch: Equatable, Identifiable {
 
 /// Contacts lookup for the `call` tier. Reads only what a call needs - a name,
 /// phone numbers, and email addresses - and never leaves the machine.
-nonisolated final class ContactsService: @unchecked Sendable {
+final class ContactsService: @unchecked Sendable {
     static let shared = ContactsService()
 
     private enum Metrics {
