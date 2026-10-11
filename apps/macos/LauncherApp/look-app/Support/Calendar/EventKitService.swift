@@ -84,11 +84,28 @@ final class EventKitService: @unchecked Sendable {
     }
 
     func requestCalendarAccess() async {
+#if LOOK_VENTURA_SDK13
+        // macOS 13's legacy pre-14 prompt: no full/write-only split exists.
+        await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+            store.requestAccess(to: .event) { _ in
+                continuation.resume()
+            }
+        }
+#else
         _ = try? await store.requestFullAccessToEvents()
+#endif
     }
 
     func requestReminderAccess() async {
+#if LOOK_VENTURA_SDK13
+        await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+            store.requestAccess(to: .reminder) { _ in
+                continuation.resume()
+            }
+        }
+#else
         _ = try? await store.requestFullAccessToReminders()
+#endif
     }
 
     /// Compact listing of the next `days` of events, for injection into chat
@@ -358,8 +375,12 @@ final class EventKitService: @unchecked Sendable {
 
     private static func map(_ status: EKAuthorizationStatus) -> CalendarAccess {
         switch status {
+#if LOOK_VENTURA_SDK13
+        case .authorized: return .authorized
+#else
         case .fullAccess, .authorized: return .authorized
         case .writeOnly: return .writeOnly
+#endif
         case .notDetermined: return .notDetermined
         case .denied: return .denied
         case .restricted: return .restricted

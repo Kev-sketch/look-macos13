@@ -1,5 +1,5 @@
 import AppKit
-import Observation
+import Combine
 import SwiftUI
 
 // Persistent NSStatusItem mini-timer.
@@ -17,6 +17,8 @@ import SwiftUI
 final class PomoMenuBarItem {
     private var statusItem: NSStatusItem?
     private var messageObserver: NSObjectProtocol?
+    /// Re-reads the shared PomoState whenever any published value moves.
+    private var stateCancellable: AnyCancellable?
     private var popover: NSPopover?
     private var dismissWorkItem: DispatchWorkItem?
     // Coalesces overlapping refresh() calls. Without this, each fired
@@ -67,6 +69,8 @@ final class PomoMenuBarItem {
         if let messageObserver {
             NotificationCenter.default.removeObserver(messageObserver)
         }
+        stateCancellable?.cancel()
+        stateCancellable = nil
         messageObserver = nil
         dismissWorkItem?.cancel()
         dismissWorkItem = nil
@@ -110,20 +114,21 @@ final class PomoMenuBarItem {
         let state = PomoSharedState.shared
         guard let button = statusItem?.button else { return }
 
-        // Reading inside withObservationTracking re-fires onChange when
-        // any read property next mutates. onChange fires at most once per
-        // installed tracker, so we install exactly one per refresh and
-        // gate re-entry through `refreshScheduled` to keep the count flat.
-        withObservationTracking {
-            if let _ = state.activeIndex {
-                button.title = " " + PomoCommand.formattedRemaining(state.secondsLeft)
-                if button.image !== timerImage { button.image = timerImage }
-            } else {
-                button.title = ""
-                if button.image != nil { button.image = nil }
+        // PomoState is an ObservableObject: subscribe once and re-read on
+        // every emission. The sink fires before the mutation is applied, so
+        // hop one turn of the main queue to read the settled values.
+        // Re-entry is gated through `refreshScheduled` to keep the count flat.
+        if stateCancellable == nil {
+            stateCancellable = state.objectWillChange.sink { [weak self] _ in
+                DispatchQueue.main.async { self?.scheduleRefresh() }
             }
-        } onChange: { [weak self] in
-            DispatchQueue.main.async { self?.scheduleRefresh() }
+        }
+        if let _ = state.activeIndex {
+            button.title = " " + PomoCommand.formattedRemaining(state.secondsLeft)
+            if button.image !== timerImage { button.image = timerImage }
+        } else {
+            button.title = ""
+            if button.image != nil { button.image = nil }
         }
     }
 

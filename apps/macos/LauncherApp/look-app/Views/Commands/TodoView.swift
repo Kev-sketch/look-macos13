@@ -13,7 +13,7 @@ enum TodoPage {
 
 struct TodoView: View {
     let themeStore: ThemeStore
-    @Bindable var state: TodoState
+    @ObservedObject var state: TodoState
 
     @State private var page: TodoPage
     @State private var search = ""
@@ -88,7 +88,7 @@ struct TodoView: View {
             state.ensureTodayGroup()
             focusSearchIfTasks()
         }
-        .onChange(of: page) { _, _ in focusSearchIfTasks() }
+        .onChange(of: page) { _ in focusSearchIfTasks() }
     }
 
     private func focusSearchIfTasks() {
@@ -275,7 +275,7 @@ struct TodoView: View {
 
 struct TodoTasksPage: View {
     let themeStore: ThemeStore
-    @Bindable var state: TodoState
+    @ObservedObject var state: TodoState
     let search: String
 
     private var query: String {
@@ -344,7 +344,7 @@ struct TodoTasksPage: View {
 
 struct TodoDateGroupCard: View {
     let themeStore: ThemeStore
-    @Bindable var state: TodoState
+    @ObservedObject var state: TodoState
     let group: TodoGroup
 
     private var isPast: Bool { group.kind == .past }
@@ -453,7 +453,7 @@ struct TodoTaskRow: View {
                     .foregroundStyle(themeStore.fontColor())
                     .onSubmit(commit)
                     .limitLength($draft, to: TodoCommand.taskNameMaxLength)
-                    .onChange(of: focused) { _, isFocused in
+                    .onChange(of: focused) { isFocused in
                         if !isFocused { commit() }
                     }
             } else {
@@ -565,7 +565,7 @@ struct TodoAddRow: View {
                     .foregroundStyle(themeStore.fontColor())
                     .onSubmit(commit)
                     .limitLength($draft, to: TodoCommand.taskNameMaxLength)
-                    .onChange(of: focused) { _, isFocused in
+                    .onChange(of: focused) { isFocused in
                         if !isFocused && draft.trimmingCharacters(in: .whitespaces).isEmpty {
                             active = false
                         }
@@ -841,7 +841,7 @@ extension View {
 
     /// Clamps a text binding to `max` characters as the user types.
     func limitLength(_ text: Binding<String>, to max: Int) -> some View {
-        onChange(of: text.wrappedValue) { _, value in
+        onChange(of: text.wrappedValue) { value in
             if value.count > max { text.wrappedValue = String(value.prefix(max)) }
         }
     }

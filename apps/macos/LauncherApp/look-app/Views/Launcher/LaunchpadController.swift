@@ -1,5 +1,5 @@
+import Combine
 import Foundation
-import Observation
 
 /// Holds the interactive state for the empty-state launchpad and routes tile
 /// activations (clicks and Command-mnemonics) to it.
@@ -10,22 +10,21 @@ import Observation
 /// adapter is registered, without touching this controller. Restart / Shut Down
 /// open an inline confirm before running.
 @MainActor
-@Observable
-final class LaunchpadController {
+final class LaunchpadController: ObservableObject {
     /// Mock on/off state for toggle tiles that have no native adapter yet, the
     /// framework's graceful fallback. Currently empty: every launchpad toggle is
     /// adapter-backed. An adapter-backed tile ignores this and reads
     /// `systemStates` instead.
-    private(set) var toggles: [String: Bool] = [:]
+    @Published private(set) var toggles: [String: Bool] = [:]
 
     /// Live state for adapter-backed tiles, keyed by `action_id`, refreshed from
     /// each control's `state()` read.
-    private(set) var systemStates: [String: ActionState] = [:]
+    @Published private(set) var systemStates: [String: ActionState] = [:]
 
     /// The Battery adapter's resolved info fields (currently just "charging"),
     /// refreshed alongside `systemStates`. Info tiles are the only role that
     /// reads `info()`; only Battery has one today.
-    private(set) var batteryInfo: [String: InfoValue] = [:]
+    @Published private(set) var batteryInfo: [String: InfoValue] = [:]
 
     /// Whether the battery is actively charging, for the launchpad tile's icon.
     var batteryCharging: Bool {
@@ -39,25 +38,25 @@ final class LaunchpadController {
 
     /// Latest resolved weather for the Weather tile, or nil until the first
     /// successful fetch (the tile shows a placeholder meanwhile).
-    private(set) var weather: WeatherSnapshot?
+    @Published private(set) var weather: WeatherSnapshot?
     /// Last value each user tile's command printed, keyed by the name in the
     /// drawing. Filled by the value cache.
-    private(set) var customValues: [String: LaunchpadTileValue] = [:]
+    @Published private(set) var customValues: [String: LaunchpadTileValue] = [:]
 
     private let weatherService = WeatherService.shared
 
     /// The system-wide now-playing track (any app), or nil when nothing plays.
-    private(set) var nowPlaying: NowPlayingSnapshot?
+    @Published private(set) var nowPlaying: NowPlayingSnapshot?
 
     /// The play state a just-issued command should produce, held until a read
     /// agrees. Commands apply asynchronously, so without this the tile flips
     /// three times per press: optimistic, stale read, then the truth.
-    @ObservationIgnored private var expectedIsPlaying: Bool?
-    @ObservationIgnored private var expectationDeadline = Date.distantPast
-    @ObservationIgnored private var nowPlayingReconcile: Task<Void, Never>?
+    private var expectedIsPlaying: Bool?
+    private var expectationDeadline = Date.distantPast
+    private var nowPlayingReconcile: Task<Void, Never>?
 
     /// Stops an earlier read resuming last over a newer one, as `stateGeneration` does.
-    @ObservationIgnored private var nowPlayingGeneration: UInt64 = 0
+    private var nowPlayingGeneration: UInt64 = 0
 
     private static let nowPlayingSettleNanos: UInt64 = 300_000_000
     /// Cap on holding the expected state, so a command that never lands cannot
@@ -65,7 +64,7 @@ final class LaunchpadController {
     private static let nowPlayingSettleTimeout: TimeInterval = 2.5
 
     /// The destructive tile currently awaiting an inline confirm, or nil.
-    private(set) var pendingConfirmActionID: String?
+    @Published private(set) var pendingConfirmActionID: String?
 
     /// The tile layout, needed to resolve a pressed mnemonic to a tile.
     private var tiles: [LaunchpadTileModel] = []
@@ -105,7 +104,7 @@ final class LaunchpadController {
     /// Bumped by every write to `systemStates`. Each `state()` read suspends, so
     /// two refreshes (or a refresh and a toggle) interleave on the main actor and
     /// the slower one would otherwise land last and revert the tiles.
-    @ObservationIgnored private var stateGeneration: UInt64 = 0
+    private var stateGeneration: UInt64 = 0
 
     /// Reads the current state of every adapter-backed tile. Called on launcher
     /// open so the strip reflects reality; tiles without an adapter are skipped

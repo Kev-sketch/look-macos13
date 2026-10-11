@@ -145,8 +145,8 @@ struct LauncherView: View {
     /// Empty-state launchpad: the decoded payload (tiles plus the shape the
     /// drawing declared) and the controller holding its interactive state.
     @State var launchpadLayout: LaunchpadLayout = .empty
-    @State var launchpadController = LaunchpadController()
-    @State var speedTest = SpeedTestController()
+    @StateObject var launchpadController = LaunchpadController()
+    @StateObject var speedTest = SpeedTestController()
     @State var searchTask: Task<Void, Never>?
     @State var latestSearchID: UInt64 = 0
     @State var bannerMessage: String?
@@ -931,20 +931,28 @@ struct LauncherView: View {
                 }
             }
         }
+#if LOOK_VENTURA_SDK13
+        // The 13.3 SDK's one-parameter form has no `initial:`; the first sync
+        // happens when settings load and the value first changes.
+        .onChange(of: squaresWindowCorners) { squares in
+            appUIState.squaresWindowCorners = squares
+        }
+#else
         .onChange(of: squaresWindowCorners, initial: true) { _, squares in
             appUIState.squaresWindowCorners = squares
         }
+#endif
         // A text op reads the picked file rather than the clipboard, so the
         // controller needs the picks as they change.
-        .onChange(of: pickedKeys) { _, _ in
+        .onChange(of: pickedKeys) { _ in
             actionController.pickedFilePaths = pickedFilePathsForTextOp()
         }
         // `@token` in the AI input offers files. Separate from the main query
         // handler so the mention search cannot disturb the search results.
-        .onChange(of: query) { _, _ in
+        .onChange(of: query) { _ in
             refreshMentionMatches()
         }
-        .onChange(of: isAIMode) { _, stillAI in
+        .onChange(of: isAIMode) { stillAI in
             if !stillAI {
                 dismissMentionPopup()
                 clearAttachments()
@@ -959,32 +967,32 @@ struct LauncherView: View {
             keyboardMonitor.stop()
             clipboardStore.setMonitoringMode(.background)
         }
-        .onChange(of: themeStore.settings.superActionsEnabled) { _, enabled in
+        .onChange(of: themeStore.settings.superActionsEnabled) { enabled in
             launchpadSettingChanged(enabled: enabled)
         }
-        .onChange(of: themeStore.effectiveLayout) { _, _ in
+        .onChange(of: themeStore.effectiveLayout) { _ in
             layoutChanged()
         }
         // Bumped on every show, so it stands in for the missing re-onAppear.
-        .onChange(of: appearanceRevealToken) { _, _ in
+        .onChange(of: appearanceRevealToken) { _ in
             refreshLaunchpadState()
         }
         // A model-interpreted file recall (planner `recall` step): the AI panel
         // hands it to the main results panel, which owns file rows.
-        .onChange(of: actionController.recallRequest) { _, request in
+        .onChange(of: actionController.recallRequest) { request in
             handleRecallRequestChange(request)
         }
-        .onChange(of: query) { _, _ in
+        .onChange(of: query) { _ in
             handleQueryChange()
         }
-        .onChange(of: selectedResultID) { _, _ in
+        .onChange(of: selectedResultID) { _ in
             // Load Quick Actions + read their live state for the new selection.
             refreshQuickActions()
             // Prefetch process detail for the newly selected process row so the
             // preview pane fills in (cheap per-selection reads, cached by pid).
             loadProcessDetailForSelection()
         }
-        .onChange(of: isProcessQuery) { _, entering in
+        .onChange(of: isProcessQuery) { entering in
             // Enumerate the process table once on entering `ps"` mode; leaving
             // invalidates so the next entry re-enumerates fresh.
             if entering {
@@ -995,7 +1003,7 @@ struct LauncherView: View {
                 processModel.invalidate()
             }
         }
-        .onChange(of: processModel.candidates) { _, _ in
+        .onChange(of: processModel.candidates) { _ in
             repairProcessSelection()
         }
         .background(notificationHandlers)
@@ -1012,7 +1020,7 @@ struct LauncherView: View {
         .onReceive(clipboardStore.$imageEntries) { _ in
             refreshClipboardSelectionIfNeeded()
         }
-        .onChange(of: commandInput) { _, _ in
+        .onChange(of: commandInput) { _ in
             if isCommandMode {
                 if commandArgsPart.isEmpty, activeCommandID != AppConstants.Launcher.Command.sys {
                     commandFeedback = ""
@@ -1027,14 +1035,14 @@ struct LauncherView: View {
                 setInitialSelection()
             }
         }
-        .onChange(of: activeCommandID) { _, newID in
+        .onChange(of: activeCommandID) { newID in
             if let newID { appUIState.lastCommandID = newID }
             // /kill ranks the same cached snapshot; take a fresh one on entry.
             if newID == AppConstants.Launcher.Command.kill {
                 processModel.refreshSnapshot()
             }
         }
-        .onChange(of: appUIState.showsThemeSettings) { _, showsSettings in
+        .onChange(of: appUIState.showsThemeSettings) { showsSettings in
             if showsSettings {
                 showsHelpScreen = false
                 keyboardMonitor.stop()
@@ -1312,7 +1320,7 @@ struct LauncherView: View {
             GeometryReader { geo in
                 Color.clear
                     .onAppear { panelSize = geo.size }
-                    .onChange(of: geo.size) { _, newSize in panelSize = newSize }
+                    .onChange(of: geo.size) { newSize in panelSize = newSize }
             }
         )
         .clipShape(RoundedRectangle(cornerRadius: windowCornerRadius, style: .continuous))
@@ -1884,11 +1892,11 @@ struct LauncherView: View {
                 }
                 // Scroll only when a NEW item lands, not on every streamed token,
                 // so the user can scroll freely while an answer generates.
-                .onChange(of: chat.sessionItems.count) { _, _ in
+                .onChange(of: chat.sessionItems.count) { _ in
                     proxy.scrollTo("session-top", anchor: .top)
                 }
                 // Keep the highlighted session in view as Tab/↑↓ move it.
-                .onChange(of: selectedConversationIndex) { _, idx in
+                .onChange(of: selectedConversationIndex) { idx in
                     guard idx >= 0, idx < filteredConversations.count else { return }
                     withAnimation(Motion.Selection.glide) {
                         proxy.scrollTo(filteredConversations[idx].id, anchor: .center)

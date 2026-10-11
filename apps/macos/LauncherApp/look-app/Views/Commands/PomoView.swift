@@ -1,6 +1,5 @@
 import AppKit
 import Combine
-import Observation
 import SwiftUI
 import UniformTypeIdentifiers
 
@@ -13,29 +12,32 @@ import UniformTypeIdentifiers
 // timer running because the SwiftUI WindowGroup retains its view tree
 // while the window is hidden.
 
-@Observable
-final class PomoState {
-    var sessions: [PomoSession] = PomoCommand.defaultSessions()
-    var timerStyle: PomoTimerStyle = .modern
+final class PomoState: ObservableObject {
+    @Published var sessions: [PomoSession] = PomoCommand.defaultSessions()
+    @Published var timerStyle: PomoTimerStyle = .modern
     let music = PomoMusicPlayer()
 
-    private(set) var activeIndex: Int? = nil      // nil = no session selected
-    private(set) var secondsLeft: Int = 0
-    private(set) var running: Bool = false
+    @Published private(set) var activeIndex: Int? = nil      // nil = no session selected
+    @Published private(set) var secondsLeft: Int = 0
+    @Published private(set) var running: Bool = false
 
     // UI state for the idle fade - kept here (not as @State on PomoView)
     // so other views (the launcher's command sidebar) can react to it
     // and collapse out of the way.
-    var idle: Bool = false
+    @Published var idle: Bool = false
 
-    @ObservationIgnored private var cancellable: AnyCancellable?
-    @ObservationIgnored private var lastTickAt: Date?
-    @ObservationIgnored private var didNotifyEndingSoon = false
+    private var cancellable: AnyCancellable?
+    private var lastTickAt: Date?
+    private var didNotifyEndingSoon = false
 
     init() {
         let snap = PomoPersistence.load()
         sessions = snap.sessions
         timerStyle = snap.timerStyle
+        // Forward music mutations to PomoState's observers (the nested
+        // tracking @Observable provided); installed before restore so the
+        // initial folder load notifies too.
+        music.onChanged = { [weak self] in self?.objectWillChange.send() }
         music.restore(folderPath: snap.musicFolderPath)
     }
 
@@ -218,7 +220,7 @@ enum PomoSharedState {
 
 struct PomoView: View {
     let themeStore: ThemeStore
-    @Bindable var state: PomoState
+    @ObservedObject var state: PomoState
 
     @State private var showSessionList = false
     @State private var showSettings = false
@@ -272,24 +274,24 @@ struct PomoView: View {
         .onDisappear {
             state.persist()
         }
-        .onChange(of: state.running) { _, _ in
+        .onChange(of: state.running) { _ in
             restoreFromIdle()
             scheduleIdleReset()
         }
-        .onChange(of: state.activeIndex) { _, _ in
+        .onChange(of: state.activeIndex) { _ in
             // Don't restore from standby on auto-advance - the user
             // explicitly wants to stay in focus mode across the phase
             // boundary. Re-arming the idle countdown is also unnecessary
             // here; the existing schedule (or the next activity event)
             // will handle it.
         }
-        .onChange(of: state.sessions) { _, _ in
+        .onChange(of: state.sessions) { _ in
             state.persist()
         }
-        .onChange(of: state.timerStyle) { _, _ in
+        .onChange(of: state.timerStyle) { _ in
             state.persist()
         }
-        .onChange(of: state.music.folderPath) { _, _ in
+        .onChange(of: state.music.folderPath) { _ in
             state.persist()
         }
         .background(KeyCommandsRecognizer(

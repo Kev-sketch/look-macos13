@@ -18,8 +18,10 @@ struct ContentView: View {
     }
 }
 
+#if compiler(>=5.9)
 #Preview {
     ContentView()
         .environmentObject(AppUIState())
         .environmentObject(ThemeStore())
 }
+#endif

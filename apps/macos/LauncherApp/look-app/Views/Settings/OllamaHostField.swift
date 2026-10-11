@@ -38,9 +38,9 @@ struct OllamaHostField: View {
                     showsSuggestions = true
                     probe()
                 }
-                .onChange(of: host) { _, _ in showsSuggestions = focused }
+                .onChange(of: host) { _ in showsSuggestions = focused }
                 .onSubmit { showsSuggestions = false }
-                .onChange(of: focused) { _, isFocused in
+                .onChange(of: focused) { isFocused in
                     if !isFocused { showsSuggestions = false }
                 }
 

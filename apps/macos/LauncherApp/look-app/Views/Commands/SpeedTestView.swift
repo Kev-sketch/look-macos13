@@ -5,7 +5,7 @@ import SwiftUI
 /// plain-language verdict under that. It owns no text field, so the test starts
 /// when the panel opens and `R` runs another.
 struct SpeedTestView: View {
-    var controller: SpeedTestController
+    @ObservedObject var controller: SpeedTestController
     let themeStore: ThemeStore
 
     private enum Layout {

@@ -21,9 +21,9 @@ struct QuickActionsSection: View {
     /// Changes each time the launcher opens, replaying the spawn cascade.
     var revealToken: UInt64 = 0
     /// A control was activated by click (Cmd+O runs the same path).
-    var onRun: (QuickActionDescriptor, ActionIntent) -> Void = { _, _ in }
+    var onRun: (QuickActionDescriptor, ActionIntent) -> Void = { _ in }
     /// A list item (e.g. a device row) was clicked to connect/disconnect.
-    var onActivateItem: (QuickActionDescriptor, QuickActionListItem) -> Void = { _, _ in }
+    var onActivateItem: (QuickActionDescriptor, QuickActionListItem) -> Void = { _ in }
 
     private enum Layout {
         static let rowSpacing: CGFloat = 6

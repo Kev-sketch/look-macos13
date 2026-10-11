@@ -218,10 +218,10 @@ struct SpeedGaugeView: View {
         .onAppear { snapIfStill() }
         // A paused timeline never advances the eased values, so a reading that
         // lands under Reduce Motion has to be placed directly.
-        .onChange(of: downloadBitsPerSecond) { _, _ in snapIfStill() }
-        .onChange(of: uploadBitsPerSecond) { _, _ in snapIfStill() }
+        .onChange(of: downloadBitsPerSecond) { _ in snapIfStill() }
+        .onChange(of: uploadBitsPerSecond) { _ in snapIfStill() }
         // Turning motion off mid-ease pauses the timeline short of the reading.
-        .onChange(of: reduceMotion) { _, _ in snapIfStill() }
+        .onChange(of: reduceMotion) { _ in snapIfStill() }
     }
 
     private func snapIfStill() {

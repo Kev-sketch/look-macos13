@@ -1,5 +1,5 @@
+import Combine
 import Foundation
-import Observation
 
 enum SpeedTestDefaults {
     /// How recent a reading has to be for opening the panel to reuse it rather
@@ -19,16 +19,15 @@ enum SpeedTestDefaults {
 /// start alongside the first, and two measurements compete for the bandwidth
 /// they are each trying to measure.
 @MainActor
-@Observable
-final class SpeedTestController {
-    private(set) var reading: SpeedReading?
-    private(set) var isRunning = false
-    private(set) var errorMessage: String?
-    private(set) var elapsedSeconds = 0
+final class SpeedTestController: ObservableObject {
+    @Published private(set) var reading: SpeedReading?
+    @Published private(set) var isRunning = false
+    @Published private(set) var errorMessage: String?
+    @Published private(set) var elapsedSeconds = 0
     /// This machine's address on the LAN, refreshed with the panel.
-    private(set) var localAddress: String?
+    @Published private(set) var localAddress: String?
 
-    @ObservationIgnored private var tickTask: Task<Void, Never>?
+    private var tickTask: Task<Void, Never>?
 
     init() {
         reading = Self.loadLastReading()

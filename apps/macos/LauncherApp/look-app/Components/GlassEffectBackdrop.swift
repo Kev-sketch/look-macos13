@@ -6,6 +6,7 @@ import SwiftUI
 /// Not SwiftUI's `glassEffect`: that refracts only what sits behind it inside
 /// its own view tree, and Look's window is transparent, so it renders as nearly
 /// nothing. `NSGlassEffectView` composites at the window level.
+#if !LOOK_VENTURA_SDK13
 @available(macOS 26.0, *)
 struct GlassEffectBackdrop: NSViewRepresentable {
     var cornerRadius: CGFloat
@@ -43,3 +44,5 @@ struct GlassEffectBackdrop: NSViewRepresentable {
         }
     }
 }
+
+#endif

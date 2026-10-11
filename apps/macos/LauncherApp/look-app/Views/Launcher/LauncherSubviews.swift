@@ -54,8 +54,8 @@ struct SearchInputBar: View {
                 isCommandMode || isAIMode || breadcrumb != nil
                     ? themeStore.accentColor() : themeStore.secondaryTextColor()
             )
-            .contentTransition(.symbolEffect(.replace))
-            .symbolEffect(.bounce, value: revealToken)
+            .lookSymbolReplaceTransition()
+            .lookSymbolEffectBounce(value: revealToken)
 
             if let breadcrumb {
                 Text(breadcrumb)
@@ -309,7 +309,7 @@ struct ResultsListView: View {
                 }
                 .padding(2)
             }
-            .onChange(of: selectedID) { _, newID in
+            .onChange(of: selectedID) { newID in
                 guard let newID else { return }
                 // No anchor, so this scrolls the minimum needed to bring the row
                 // into view and does nothing at all while the selection is
@@ -670,7 +670,7 @@ struct LauncherHelpScreenView: View {
         }
         // The screen is rebuilt on each open, but a reused instance would keep
         // the last topic and ignore where the reader came from.
-        .onChange(of: initialTopic) { _, requested in topic = requested }
+        .onChange(of: initialTopic) { requested in topic = requested }
     }
 
     private var topicPicker: some View {

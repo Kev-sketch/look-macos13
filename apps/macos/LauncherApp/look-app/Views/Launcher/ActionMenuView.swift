@@ -32,12 +32,12 @@ struct ActionMenuView: View {
                     GeometryReader { geo in
                         Color.clear
                             .onAppear { contentHeight = geo.size.height }
-                            .onChange(of: geo.size.height) { _, new in contentHeight = new }
+                            .onChange(of: geo.size.height) { new in contentHeight = new }
                     }
                 )
             }
             .frame(height: min(contentHeight, Layout.maxHeight))
-            .onChange(of: focusedIndex) { _, index in
+            .onChange(of: focusedIndex) { index in
                 withAnimation(Motion.Selection.glide) { proxy.scrollTo(index) }
             }
         }

@@ -9,7 +9,7 @@ struct EmptyStateLaunchpadView: View {
     let tiles: [LaunchpadTileModel]
     /// The shape the drawing declared, when the payload carries one.
     var shape: LaunchpadGrid.Shape?
-    var controller: LaunchpadController
+    @ObservedObject var controller: LaunchpadController
     var themeStore: ThemeStore
     /// Changes each time the launcher opens, replaying the spawn cascade.
     var revealToken: UInt64 = 0
@@ -66,7 +66,7 @@ struct EmptyStateLaunchpadView: View {
                 tileContent(model)
                     .frame(width: box.width, height: box.height)
                     // On the container: symbol effects reach the images inside.
-                    .symbolEffect(.bounce, value: revealToken)
+                    .lookSymbolEffectBounce(value: revealToken)
                     .spawnReveal(index: index, token: revealToken)
                     .offset(x: box.minX, y: box.minY)
             }
@@ -178,8 +178,8 @@ private struct LaunchpadToggleTile: View {
                     .font(.system(size: Const.tileIconFontSize, weight: .medium))
                     .foregroundColor(isOn ? themeStore.accentColor() : themeStore.mutedTextColor())
                     // Theme and Keep Awake swap glyph on flip.
-                    .contentTransition(.symbolEffect(.replace))
-                    .symbolEffect(.bounce, value: isOn)
+                    .lookSymbolReplaceTransition()
+                    .lookSymbolEffectBounce(value: isOn)
                 VStack(alignment: .leading, spacing: 1) {
                     mnemonicText(
                         model.title,
@@ -260,7 +260,7 @@ private struct LaunchpadInfoTile: View {
                 .font(.system(size: Const.tileIconFontSize, weight: .medium))
                 .foregroundColor(themeStore.accentColor())
                 // The glyph gains and loses its bolt as charging changes.
-                .contentTransition(.symbolEffect(.replace))
+                .lookSymbolReplaceTransition()
             VStack(alignment: .leading, spacing: 1) {
                 Text(label)
                     .font(themeStore.uiFont(size: Const.captionFontSize - 1, weight: .medium))
@@ -353,7 +353,7 @@ private struct LaunchpadCustomTile: View {
                 Image(systemName: icon)
                     .font(.system(size: Const.tileIconFontSize, weight: .medium))
                     .foregroundColor(themeStore.accentColor())
-                    .contentTransition(.symbolEffect(.replace))
+                    .lookSymbolReplaceTransition()
             }
 
             VStack(alignment: .leading, spacing: 2) {
@@ -438,7 +438,7 @@ private struct LaunchpadWeatherTile: View {
             Image(systemName: weather?.symbolName ?? "cloud.sun.fill")
                 .font(.system(size: 20, weight: .medium))
                 .foregroundColor(themeStore.accentColor())
-                .contentTransition(.symbolEffect(.replace))
+                .lookSymbolReplaceTransition()
             Text(weather?.temperature ?? Const.weatherPlaceholderValue)
                 .font(themeStore.uiFont(size: Const.valueFontSize - 4, weight: .bold))
                 .foregroundColor(themeStore.fontColor())

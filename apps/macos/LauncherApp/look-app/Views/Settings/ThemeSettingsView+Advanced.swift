@@ -60,7 +60,7 @@ extension ThemeSettingsView {
                     settingRow("File Scan Depth", hint: "How many directory levels to index") {
                         TextField("4", text: $fileScanDepthInput)
                             .textFieldStyle(.roundedBorder)
-                            .onChange(of: fileScanDepthInput) { _, value in
+                            .onChange(of: fileScanDepthInput) { value in
                                 fileScanDepthInput = sanitizedNumericInput(value)
                                 if let parsed = Int(fileScanDepthInput) {
                                     if parsed >= AppConstants.FileScan.minDepth && parsed <= AppConstants.FileScan.maxDepth {
@@ -83,7 +83,7 @@ extension ThemeSettingsView {
                     settingRow("File Scan Limit", hint: "Max files indexed per refresh") {
                         TextField("4000", text: $fileScanLimitInput)
                             .textFieldStyle(.roundedBorder)
-                            .onChange(of: fileScanLimitInput) { _, value in
+                            .onChange(of: fileScanLimitInput) { value in
                                 fileScanLimitInput = sanitizedNumericInput(value)
                                 if let parsed = Int(fileScanLimitInput) {
                                     if parsed >= AppConstants.FileScan.minLimit && parsed <= AppConstants.FileScan.maxLimit {
@@ -269,14 +269,14 @@ extension ThemeSettingsView {
                 }
             }
             .onAppear { syncIndexingInputsFromSettings() }
-            .onChange(of: settings.fileScanDepth) { _, _ in
+            .onChange(of: settings.fileScanDepth) { _ in
                 fileScanDepthInput = String(settings.fileScanDepth)
             }
-            .onChange(of: settings.fileScanLimit) { _, _ in
+            .onChange(of: settings.fileScanLimit) { _ in
                 fileScanLimitInput = String(settings.fileScanLimit)
             }
             // Reveal the About/update result after a manual "Check for Updates".
-            .onChange(of: updateChecker.statusMessage) { _, message in
+            .onChange(of: updateChecker.statusMessage) { message in
                 guard message != nil else { return }
                 withAnimation {
                     proxy.scrollTo(Self.aboutAnchorID, anchor: .bottom)

@@ -17,16 +17,19 @@ struct LaunchpadLSlotView: View {
 
     private enum Slot: Equatable { case todo, pomo, clock }
 
+    @ObservedObject private var pomoState = PomoSharedState.shared
+    @ObservedObject private var todoState = TodoSharedState.shared
+
     /// Pomo wins whenever a session is running; else Todo when tasks remain;
     /// else the Clock fallback.
     private var current: Slot {
-        if PomoSharedState.shared.activeIndex != nil { return .pomo }
+        if pomoState.activeIndex != nil { return .pomo }
         if todoRemaining > 0 { return .todo }
         return .clock
     }
 
     private var todoRemaining: Int {
-        TodoSharedState.shared.today?.openCount ?? 0
+        todoState.today?.openCount ?? 0
     }
 
     var body: some View {
@@ -60,9 +63,11 @@ private struct LaunchpadTodoTile: View {
         every: AppConstants.Launcher.Launchpad.todoTaskRotateSeconds
     )
 
-    private var stat: TodoStat { TodoSharedState.shared.todayStat }
+    @ObservedObject private var todoState = TodoSharedState.shared
+
+    private var stat: TodoStat { todoState.todayStat }
     private var openTasks: [String] {
-        TodoSharedState.shared.today?.tasks.filter { !$0.done }.map(\.name) ?? []
+        todoState.today?.tasks.filter { !$0.done }.map(\.name) ?? []
     }
 
     var body: some View {
@@ -111,7 +116,7 @@ private struct LaunchpadPomoTile: View {
 
     private typealias Const = AppConstants.Launcher.Launchpad
 
-    private var state: PomoState { PomoSharedState.shared }
+    @ObservedObject private var state = PomoSharedState.shared
 
     var body: some View {
         LaunchpadSlotCard(themeStore: themeStore, iconName: "timer", showsClock: true) {
@@ -120,7 +125,7 @@ private struct LaunchpadPomoTile: View {
                     .font(themeStore.uiFont(size: 30, weight: .bold))
                     .foregroundColor(themeStore.fontColor())
                     .monospacedDigit()
-                    .contentTransition(.numericText(countsDown: true))
+                    .lookNumericTextCountDown()
                     .animation(Motion.Value.rollDigits, value: state.secondsLeft)
                 Text(phaseLabel)
                     .font(themeStore.uiFont(size: Const.captionFontSize + 1))

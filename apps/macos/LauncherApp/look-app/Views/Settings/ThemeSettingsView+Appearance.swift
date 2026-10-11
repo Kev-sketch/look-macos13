@@ -15,7 +15,7 @@ extension ThemeSettingsView {
                     .pickerStyle(.menu)
                     .labelsHidden()
                     .frame(width: AppConstants.ThemeUI.pickerWidth)
-                    .onChange(of: settings.uiTheme) { _, newValue in
+                    .onChange(of: settings.uiTheme) { newValue in
                         themeStore.applyBuiltinTheme(newValue)
                     }
 
@@ -136,7 +136,7 @@ extension ThemeSettingsView {
                             fontSuggestions = themeStore.fontNameSuggestions(for: settings.fontName, limit: 24)
                             showsFontSuggestions = true
                         }
-                        .onChange(of: settings.fontName) { _, newValue in
+                        .onChange(of: settings.fontName) { newValue in
                             if isPickingFontSuggestion {
                                 return
                             }
@@ -190,7 +190,7 @@ extension ThemeSettingsView {
             .onAppear {
                 focusedField = nil
             }
-            .onChange(of: focusedField) { _, focused in
+            .onChange(of: focusedField) { focused in
                 if focused != .fontName {
                     showsFontSuggestions = false
                 }

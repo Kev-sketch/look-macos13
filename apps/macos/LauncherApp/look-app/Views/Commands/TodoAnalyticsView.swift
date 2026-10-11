@@ -7,7 +7,7 @@ import SwiftUI
 
 struct TodoAnalyticsPage: View {
     let themeStore: ThemeStore
-    var state: TodoState
+    @ObservedObject var state: TodoState
 
     private var trend: [Int] { TodoAnalytics.monthTrend(state.groups) }
     private var heatDays: [[TodoHeatDay]] { TodoAnalytics.heatmapDays(state.groups) }

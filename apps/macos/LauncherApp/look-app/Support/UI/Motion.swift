@@ -204,7 +204,7 @@ private struct SpawnReveal: ViewModifier {
             .scaleEffect(shown || !scales ? 1 : Motion.Spawn.startScale)
             .offset(y: shown ? 0 : Motion.Spawn.startOffsetY)
             .onAppear { rearm() }
-            .onChange(of: token) { _, _ in rearm() }
+            .onChange(of: token) { _ in rearm() }
     }
 
     private func rearm() {
@@ -236,7 +236,7 @@ private struct RootReveal: ViewModifier {
             .opacity(shown ? 1 : 0)
             .scaleEffect(shown ? 1 : Motion.Surface.arriveScale)
             .onAppear { rearm() }
-            .onChange(of: token) { _, _ in rearm() }
+            .onChange(of: token) { _ in rearm() }
     }
 
     private func rearm() {
@@ -270,7 +270,7 @@ private struct SlideReveal: ViewModifier {
             .scaleEffect(shown ? 1 : Motion.Slide.startScale)
             .offset(x: shown ? 0 : startOffsetX)
             .onAppear { rearm() }
-            .onChange(of: token) { _, _ in rearm() }
+            .onChange(of: token) { _ in rearm() }
     }
 
     private func rearm() {

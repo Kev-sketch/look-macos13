@@ -1,7 +1,7 @@
 import AVFoundation
+import Combine
 import Foundation
 import MediaPlayer
-import Observation
 
 // Streams one audio file at a time via AVPlayer. Track URLs are stored
 // as paths (lightweight); only the currently-playing AVPlayerItem holds
@@ -13,18 +13,22 @@ import Observation
 // music behaves like any other media app. That is the publish direction and
 // uses public API, unlike reading other apps' now-playing, which macOS blocks.
 
-@Observable
-final class PomoMusicPlayer {
-    private(set) var tracks: [URL] = []
-    private(set) var currentIndex: Int?
-    private(set) var isPlaying = false
-    private(set) var folderPath: String?
+final class PomoMusicPlayer: ObservableObject {
+    @Published private(set) var tracks: [URL] = []
+    @Published private(set) var currentIndex: Int?
+    @Published private(set) var isPlaying = false
+    @Published private(set) var folderPath: String?
 
-    @ObservationIgnored nonisolated(unsafe) private var player: AVPlayer?
-    @ObservationIgnored nonisolated(unsafe) private var endObserver: NSObjectProtocol?
+    /// ObservableObject forwarding hook: PomoState subscribes so a music
+    /// mutation re-renders views that observe PomoState but read music state
+    /// (what @Observable's nested tracking did automatically).
+    var onChanged: (() -> Void)?
+
+    private var player: AVPlayer?
+    private var endObserver: NSObjectProtocol?
     /// Remote-command handlers registered on the process-wide command center,
     /// kept so `deinit` can remove them and never leave stale targets behind.
-    @ObservationIgnored nonisolated(unsafe) private var commandTargets: [(command: MPRemoteCommand, token: Any)] = []
+    private var commandTargets: [(command: MPRemoteCommand, token: Any)] = []
 
     static let supportedExtensions: Set<String> = [
         "mp3", "m4a", "wav", "aac", "flac", "ogg", "aiff", "alac",
@@ -49,6 +53,7 @@ final class PomoMusicPlayer {
         currentIndex = nil
         isPlaying = false
         clearNowPlayingInfo()
+        onChanged?()
     }
 
     // Re-establish a previously-saved folder on app launch. Same as
@@ -67,6 +72,7 @@ final class PomoMusicPlayer {
         folderPath = nil
         isPlaying = false
         clearNowPlayingInfo()
+        onChanged?()
     }
 
     func togglePlay() {
@@ -84,6 +90,7 @@ final class PomoMusicPlayer {
             isPlaying = true
         }
         updateNowPlayingInfo()
+        onChanged?()
     }
 
     func next() {
@@ -131,6 +138,7 @@ final class PomoMusicPlayer {
         isPlaying = true
         newPlayer.play()
         updateNowPlayingInfo()
+        onChanged?()
     }
 
     private func clearPlayer() {

@@ -42,8 +42,8 @@ struct ResultPreviewView: View {
     var busyQuickActionIds: Set<String> = []
     /// Changes each time the launcher opens, replaying the quick-action cascade.
     var quickActionsRevealToken: UInt64 = 0
-    var onRunQuickAction: (QuickActionDescriptor, ActionIntent) -> Void = { _, _ in }
-    var onActivateQuickActionItem: (QuickActionDescriptor, QuickActionListItem) -> Void = { _, _ in }
+    var onRunQuickAction: (QuickActionDescriptor, ActionIntent) -> Void = { _ in }
+    var onActivateQuickActionItem: (QuickActionDescriptor, QuickActionListItem) -> Void = { _ in }
     var onDeleteClipboard: (() -> Void)? = nil
     /// Process-finder preview inputs (only set for `.process` results).
     var processDetail: ProcessDetail? = nil

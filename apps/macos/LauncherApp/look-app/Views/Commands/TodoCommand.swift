@@ -1,5 +1,5 @@
+import Combine
 import Foundation
-import Observation
 
 // TodoState is the source of truth for the panel, mirroring how
 // PomoState works for /pomo.
@@ -172,9 +172,8 @@ enum TodoCommand {
     }
 }
 
-@Observable
-final class TodoState {
-    private(set) var groups: [TodoGroup]
+final class TodoState: ObservableObject {
+    @Published private(set) var groups: [TodoGroup]
 
     private struct Snapshot {
         let groups: [TodoGroup]
@@ -183,7 +182,7 @@ final class TodoState {
     }
     private var undoHistory: [Snapshot] = []
     private var redoHistory: [Snapshot] = []
-    private var revision = 0
+    @Published private var revision = 0
     private var nextRevision = 0
     private var savedRevision = 0
     /// Unsaved edits pending. Save persists them to the backend.
@@ -194,7 +193,7 @@ final class TodoState {
 
     /// Number of `future` placeholder days already generated, so
     /// "Add date" walks forward one calendar day at a time.
-    @ObservationIgnored private var futureDaysAdded = 0
+    private var futureDaysAdded = 0
 
     init() {
         groups = TodoPersistence.load()

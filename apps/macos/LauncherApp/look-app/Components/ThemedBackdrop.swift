@@ -57,6 +57,7 @@ struct ThemedBackdrop: View {
     @ViewBuilder
     private var backdrop: some View {
         ZStack {
+#if !LOOK_VENTURA_SDK13
             if themeStore.settings.blurMaterial == .liquidGlass, #available(macOS 26.0, *) {
                 GlassEffectBackdrop(
                     cornerRadius: cornerRadius,
@@ -73,6 +74,7 @@ struct ThemedBackdrop: View {
                     themeTintWash
                 }
             } else {
+#endif
                 if showsFrost {
                     VisualEffectBlur(
                         material: .underWindowBackground,
@@ -85,6 +87,9 @@ struct ThemedBackdrop: View {
 
                 themeTintWash
             }
+#if !LOOK_VENTURA_SDK13
+            }
+#endif
         }
     }
 

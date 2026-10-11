@@ -67,7 +67,7 @@ private struct SelectionPillModifier: ViewModifier {
             }
             // No `.animation(_:value:)` here: per-row it fires on every
             // neighbour as the selection passes, flickering the whole list.
-            .onChange(of: isSelected) { _, selected in
+            .onChange(of: isSelected) { selected in
                 guard selected else {
                     generation &+= 1
                     zoomed = false

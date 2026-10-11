@@ -37,7 +37,7 @@ struct OllamaModelField: View {
             }
         }
         .onAppear { refresh(debounced: false) }
-        .onChange(of: host) { _, _ in refresh(debounced: true) }
+        .onChange(of: host) { _ in refresh(debounced: true) }
         .onDisappear { probeTask?.cancel() }
     }
 
