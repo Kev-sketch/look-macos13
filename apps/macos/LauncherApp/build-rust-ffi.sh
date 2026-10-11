@@ -38,7 +38,7 @@ else
   CARGO_BIN=cargo
 fi
 
-export MACOSX_DEPLOYMENT_TARGET="${MACOSX_DEPLOYMENT_TARGET:-15.0}"
+export MACOSX_DEPLOYMENT_TARGET="${MACOSX_DEPLOYMENT_TARGET:-13.0}"
 
 # One arch and it is the host arch: build without --target so the dev loop keeps
 # bridge/ffi/target/$PROFILE as its only cargo cache and needs no cross target
@@ -59,12 +59,14 @@ triple_for() {
 cargo_build() {
   local arch="$1"
   shift
-  if "$CARGO_BIN" +nightly build --manifest-path "$FFI_MANIFEST" "$@" $CARGO_FLAGS 2>&1 | tee "$CARGO_LOG"; then
+  # The manifest declares rust-version = 1.88 and no nightly features, so the
+  # default (stable) toolchain is enough; +nightly is not required.
+  if "$CARGO_BIN" build --manifest-path "$FFI_MANIFEST" "$@" $CARGO_FLAGS 2>&1 | tee "$CARGO_LOG"; then
     return 0
   fi
   if grep -q 'may not be installed' "$CARGO_LOG" 2>/dev/null; then
-    echo "error: rust target $(triple_for "$arch") is not installed on the nightly toolchain." >&2
-    echo "hint: rustup target add $(triple_for "$arch") --toolchain nightly" >&2
+    echo "error: rust target $(triple_for "$arch") is not installed on the default toolchain." >&2
+    echo "hint: rustup target add $(triple_for "$arch")" >&2
   else
     echo "error: cargo build failed for $arch; output above." >&2
   fi

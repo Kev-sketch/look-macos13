@@ -41,13 +41,13 @@ Guide for building Look locally and contributing to the project.
 
 Common:
 
-- Rust stable toolchain (for the core engine) plus the **nightly** toolchain (the macOS "Build Rust FFI" phase builds with `cargo +nightly`)
+- Rust stable toolchain (for the core engine). No nightly toolchain is needed: `bridge/ffi` declares `rust-version = 1.88` and builds with the default toolchain
 - GNU Make (top-level `Makefile` dispatches to `scripts/Makefile.mac` or `scripts/Makefile.win` based on host OS)
 
 macOS:
 
-- macOS 15.0+
-- Xcode (for the app shell)
+- macOS 13.0+ (Ventura; Intel and Apple Silicon)
+- Xcode 26.3 for the canonical release build, or Command Line Tools only: Ventura/Intel builds use `scripts/build-macos-clt.sh`, which assembles `build-clt/Look.app` without Xcode
 
 Windows / Linux (linows, the Tauri app):
 
