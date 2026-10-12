@@ -1,5 +1,12 @@
 # look
 
+> **This is a fork — a macOS 13 (Ventura) / Intel port.** It builds and runs Look on
+> **macOS 13.0+ on x86_64** using only the Command Line Tools (13.3 SDK), with **no Xcode**.
+> Upstream is [**kunkka19xx/look**](https://github.com/kunkka19xx/look), which deserves the
+> credit for Look itself; this fork only adds the older-OS build path. See
+> [PORTING-macos13.md](PORTING-macos13.md) for what was changed and what is known to be
+> limited. This is **not** an upstream release and is **not** endorsed by upstream.
+
 <img src="assets/icon.png" alt="look icon" width="96" />
 
 A keyboard-first, local-first launcher for macOS, Windows, and Linux. Open apps, files, folders, clipboard history, and quick commands without leaving the keyboard.
@@ -8,8 +15,6 @@ A keyboard-first, local-first launcher for macOS, Windows, and Linux. Open apps,
 [![macOS](https://img.shields.io/badge/macOS-000000?logo=apple&logoColor=white)](#macos)
 [![Linux](https://img.shields.io/badge/Linux-brightgreen?logo=linux&logoColor=white)](#linux)
 [![Windows](https://img.shields.io/badge/Windows-0078D4)](#windows)
-[![Latest release](https://img.shields.io/github/v/release/kunkka19xx/look)](https://github.com/kunkka19xx/look/releases/latest)
-[![Downloads](https://img.shields.io/github/downloads/kunkka19xx/look/total)](https://github.com/kunkka19xx/look/releases)
 [![License: GPLv3](https://img.shields.io/badge/license-GPLv3-blue)](LICENSE)
 
 📘 [Docs](https://noah-code.com/docs/look) · 🎬 [Demo video](https://www.youtube.com/watch?v=NBB5bmjnLFU) · 📖 [User guide](docs/user-guide.md)
@@ -33,6 +38,83 @@ Results land as fast as you can type. A Rust core under a native SwiftUI app on 
 </details>
 
 > If this is useful, ⭐ star the repo - it's the single biggest signal that helps the project keep shipping.
+
+## Build and run on macOS 13 (Ventura)
+
+This fork's reason to exist: a build path for **macOS 13.0+ on Intel (x86_64)** that needs
+only the Command Line Tools — no Xcode, no notarization. Upstream's release asset is
+arm64-only and carries `LSMinimumSystemVersion 15.0`, so it cannot run on Ventura.
+
+> **Runtime verification of the ported app is in progress** — see
+> [PORTING-macos13.md §6](PORTING-macos13.md). The steps below build and launch the app;
+> treat search, launching, and the ported views as still under test.
+
+**Prerequisites**
+
+- macOS 13.x with the Command Line Tools (`xcode-select -p` → `/Library/Developer/CommandLineTools`);
+  the 13.3 SDK is the newest Ventura can install
+- [rustup](https://rustup.rs) with a **stable** toolchain ≥ 1.88 (the crates declare
+  `rust-version = 1.88`; no nightly is needed)
+
+**Build**
+
+```bash
+./scripts/build-macos-clt.sh            # debug  -> build-clt/Look.app
+./scripts/build-macos-clt.sh release    # optimised
+```
+
+The script builds the Rust FFI static library for `x86_64-apple-darwin`, compiles every Swift
+file in `apps/macos/LauncherApp/look-app/` against the 13.3 SDK, builds the icon with
+`iconutil`, writes an `Info.plist` with `LSMinimumSystemVersion 13.0`, and ad-hoc signs the
+bundle. It does not need or use `xcodebuild`.
+
+**Run**
+
+```bash
+open build-clt/Look.app
+```
+
+Keep a separate config and database while trying it out, so your normal `~/.look` is untouched.
+Run the bundle binary directly for this: `open` launches through Launch Services, which does
+**not** forward the shell environment, so the variable would be ignored.
+
+```bash
+LOOK_CONFIG_PATH=$HOME/.look/config.ventura "build-clt/Look.app/Contents/MacOS/Look"
+```
+
+On first run the global hotkey (`Cmd+Space`) needs **Accessibility** permission
+(System Settings → Privacy & Security → Accessibility). Until it is granted the hotkey does
+nothing — but you can still show the launcher without it:
+
+```bash
+"build-clt/Look.app/Contents/MacOS/Look" --toggle
+```
+
+The canonical Xcode 26.3 release path (`scripts/release-macos-app.sh`) is unchanged and still
+requires Xcode; this script is the Ventura / Command Line Tools path only.
+
+## What differs on Ventura
+
+The port compiles the same app, but the older SDK and OS change some behaviour. These are
+degradations, not missing features, and none of them affect search or launching:
+
+- **Ad-hoc signed, not notarized.** Fine for a build you made yourself; a copy you download
+  needs a one-time Gatekeeper bypass (right-click → Open, or *Open Anyway*).
+- **Liquid Glass theme is hidden.** Upstream only shows it on macOS 26; below that the
+  backdrop falls back to `NSVisualEffectView`.
+- **Apple Intelligence is unavailable.** It requires macOS 26 and reports as such.
+- **Symbol animations are inert.** Bounce/replace symbol transitions and numeric counters
+  (`.symbolEffect`, `.contentTransition`) do not run — cosmetic only.
+- **Calendar / Reminders use the pre-macOS-14 permission API.** The full-access prompts are a
+  macOS 14+ concept; on Ventura Look requests the legacy access it can.
+- **No compiled asset catalog** (`actool` ships only with Xcode). Look references no
+  asset-catalog images or colours by name, so nothing renders differently; the icon comes
+  from `AppIcon.icns`.
+- **macOS 13.0–13.2 are untested.** The reference toolchain provides the 13.3 SDK, so 13.3+
+  is the tested floor.
+
+Full detail — the API gating (`LOOK_VENTURA_SDK13`) and the Observation → Combine change — is
+in [PORTING-macos13.md](PORTING-macos13.md).
 
 ## Install
 
@@ -283,12 +365,20 @@ Switch in `Settings > Appearance`.
 
 ## License
 
-Copyright (C) 2026 kunkka19xx
+Copyright (C) 2026 kunkka19xx — the original **look** project.
+
+This fork is a derivative work distributed under the **same license**, GPL-3.0-or-later. The
+original copyright notice is retained; see [LICENSE](LICENSE) for the full text and
+[NOTICE](NOTICE) for this fork's attribution and the list of changes it makes.
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
 Foundation, either version 3 of the License, or (at your option) any later
-version. See [LICENSE](LICENSE) for the full text.
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 ## Contributors
 

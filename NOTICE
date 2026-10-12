@@ -1,0 +1,57 @@
+look — macOS 13 (Ventura) / Intel port
+=====================================
+
+This repository is a fork. It is not the upstream project and it is not an
+upstream release, and it is not endorsed by or affiliated with the upstream
+maintainer.
+
+Upstream
+--------
+
+  Project: look
+  Repository: https://github.com/kunkka19xx/look
+  Commit: 33921ac (branch main, three commits after tag v0.7.2)
+  Tag: v0.7.2
+  License: GNU General Public License v3.0 (GPL-3.0)
+
+The original work is Copyright (C) 2026 kunkka19xx and is licensed under the GNU
+General Public License, version 3 (or later). The full license text is retained
+verbatim in LICENSE and is not modified by this fork.
+
+This fork
+---------
+
+  Purpose: build and run look on macOS 13.0+ on x86_64 (Intel) with the Command
+  Line Tools only, and no Xcode.
+  License: GPL-3.0-or-later (same as upstream).
+
+This fork is distributed under the same license as upstream. It contains the
+upstream codebase plus the following changes:
+
+  - Lowers the macOS deployment target from 15.0 to 13.0 (Xcode project and the
+    Rust FFI build phase), so the app runs on Ventura.
+  - Compiles in Swift 5 language mode (Swift 5.8 toolchain): Swift 6-only
+    declaration modifiers (`nonisolated`, `nonisolated(unsafe)`, `@concurrent`)
+    are removed, and the default-MainActor isolation the Xcode build relies on is
+    restored explicitly where it matters.
+  - Gates macOS 14+/26 SDK symbols on the `LOOK_VENTURA_SDK13` compilation
+    condition, with legacy or no-op fallbacks, for symbols that are absent from
+    the 13.3 SDK and therefore cannot be availability-guarded.
+  - Replaces the `Observation` macro with `ObservableObject` + `@Published`
+    (Combine) in the six classes that used `@Observable`, because the
+    `Observation` module is not present in the 13.3 SDK.
+  - Adds `scripts/build-macos-clt.sh`, a build path that drives `swiftc` directly
+    and assembles `Look.app` by hand, for hosts without Xcode. The canonical
+    Xcode 26.3 release path is unchanged.
+  - Fixes the Xcode project so a stray markdown file (a Quick Action controls
+    README) is excluded from the app bundle, via a
+    `PBXFileSystemSynchronizedBuildFileExceptionSet` membership exception.
+  - Exposes the SDK's `libproc.h` through a generated side modulemap
+    (`import CltLibproc`, guarded by `canImport`) because the header is not part
+    of the `Darwin` module on the 13.3 SDK.
+
+The environment facts, the full change inventory and the known limitations of
+this port are recorded in PORTING-macos13.md.
+
+Changes and limitations relative to upstream are documented; the upstream
+project, its maintainer and its contributors are the authors of look itself.

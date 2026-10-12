@@ -2,14 +2,14 @@
 
 Thanks for contributing.
 
-## Contributor License Agreement
+## Contributions and licensing
 
-Code contributions require a signed [Contributor License Agreement](CLA.md). It
-is a license grant, so you keep the copyright to your work and grant the project
-maintainer the right to relicense it, which keeps the option of a commercially
-licensed build open without having to track down every contributor later. On
-your first pull request the CLA assistant bot will post a comment; reply to it
-once and the signature covers everything you send afterwards.
+This fork does **not** use a Contributor License Agreement. Upstream's `CLA.md`
+named the upstream maintainer as the grantee of a relicensing right, which does
+not apply to this fork, so that file has been removed here. By opening a pull
+request you confirm that you have the right to submit the work and agree that
+your contribution is licensed under the project's license,
+**GPL-3.0-or-later**. You keep the copyright to your own contribution.
 
 ## Before you open an issue
 
@@ -26,10 +26,10 @@ A good bug report must include:
 - exact reproduction steps (numbered)
 - frequency (`always`, `sometimes`, `once`)
 - environment details:
-  - OS + version (macOS 15.x / Windows 11 24H2 / etc.)
+  - OS + version (macOS 13.x / macOS 15.x / Windows 11 24H2 / etc.)
   - look app version or commit SHA
   - install method:
-    - macOS: Xcode run, zip install, Homebrew
+    - macOS: Xcode run, Command Line Tools build (`./scripts/build-macos-clt.sh`), zip install, Homebrew
     - Windows: NSIS installer (`.exe`), or a local `make app-run` dev build
     - Linux: `.deb`, AppImage, AUR, or a local `make app-run` dev build
   - architecture (`arm64` / `x86_64` on macOS; `x64` / `ARM64` on Windows)
@@ -68,11 +68,25 @@ cargo test --workspace --manifest-path core/Cargo.toml
 cargo test --manifest-path bridge/ffi/Cargo.toml
 ```
 
+If you touched the macOS shell (`apps/macos/**`) or the build scripts, also run
+the Ventura / Command Line Tools build:
+
+```bash
+./scripts/build-macos-clt.sh debug
+```
+
+macOS-13-specific changes must keep the canonical Xcode 26.3 build working too.
+The Swift sources have to compile under both the CLT script (which defines
+`LOOK_VENTURA_SDK13`) and the Xcode project (which does not). Where the two
+diverge, gate the difference on `LOOK_VENTURA_SDK13` and leave the modern path
+untouched, as described in [PORTING-macos13.md](PORTING-macos13.md).
+
 ## Branch and PR flow
 
 - `main` is the only long-lived branch; every PR targets it
 - `main` must stay releasable at all times, since there is no staging branch behind it
-- releases are cut by dispatching the release workflows with an explicit version, so nothing needs to be frozen on a branch
+- this fork does not cut releases: upstream's release workflows require upstream's
+  signing secrets and Xcode/Nix setup, so they are gated off here and will not run
 
 Suggested local flow:
 
@@ -120,7 +134,11 @@ CI runs for pushes to `main` and for pull requests targeting `main`.
 
 - Rust jobs (`lint`, `test`, `cargo-audit`, release `build`) run only when Rust-related paths change
 - secrets scanning (`gitleaks`) always runs
-- macOS app build runs only for PRs to `main` when Swift files change
+- the Ventura / Command Line Tools build (`build-ventura.yml`) builds the port on an
+  Intel runner with `./scripts/build-macos-clt.sh`
+- the upstream-only jobs are skipped in this fork (guarded by
+  `github.repository_owner`): the Xcode 26.3 macOS app and release-smoke jobs, the
+  linows release flows, and the Nix/Cachix workflows
 - linows (Tauri) build runs when `apps/linows/**` or `core/**` changes
 - release-style Rust build artifacts run only on push to `main`
 

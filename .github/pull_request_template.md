@@ -26,6 +26,7 @@
   - [ ] Tauri release bundle (if packaging / release flow changed): `cd apps/linows && cargo tauri build`
   - [ ] macOS app (if `apps/macos/**` touched): `cd apps/macos/LauncherApp && swift test`
   - [ ] macOS app (if `apps/macos/**` touched): `xcodebuild -project "apps/macos/LauncherApp/look-app.xcodeproj" -scheme "Look" -configuration Debug -sdk macosx build`
+  - [ ] macOS app (if `apps/macos/**` touched): `./scripts/build-macos-clt.sh debug` (macOS 13 / Command Line Tools path)
   - [ ] Manual verification completed (if UI/behavior changed)
 
 ## Screenshots / Recordings (if UI changed)
@@ -40,8 +41,9 @@
 
 ## Checklist
 
-- [ ] I have read and agree to the CLA (CLA.md)
+- [ ] I confirm my contribution is submitted under GPL-3.0-or-later
 - [ ] PR title is clear and scoped
 - [ ] Docs updated for user-visible changes
 - [ ] No secrets or private files included
 - [ ] Backward compatibility considered
+- [ ] macOS changes compile under both the CLT script (`./scripts/build-macos-clt.sh debug`) and the Xcode 26.3 path

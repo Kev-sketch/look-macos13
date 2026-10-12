@@ -30,10 +30,15 @@ assignees: ""
 
 ## Environment
 
-- macOS version:
+- macOS version (include the point release, e.g. `13.7.8`, `15.6`):
+- CPU architecture: (Intel `x86_64` / Apple Silicon `arm64`)
+- install / build method:
+  - [ ] Command Line Tools build (`./scripts/build-macos-clt.sh`, no Xcode) — include the
+        SDK version from `xcrun --show-sdk-version`
+  - [ ] Xcode run
+  - [ ] zip install
+  - [ ] Homebrew
 - look version or commit SHA:
-- install method: (Xcode run / zip install / Homebrew)
-- architecture: (arm64 / x86_64)
 
 ## Logs / screenshots
 
