@@ -19,6 +19,9 @@ on:
 
 jobs:
   build-release:
+    # Upstream-only. This fork has no Apple Developer ID / notary secrets and
+    # does not publish releases, so the job is skipped outside upstream's repo.
+    if: github.repository_owner == 'kunkka19xx'
     uses: ./.github/workflows/reusable-release-macos.yml
     with:
       release_ref: ${{ github.event_name == 'workflow_dispatch' && inputs.version || github.ref_name }}

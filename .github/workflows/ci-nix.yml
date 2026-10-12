@@ -25,6 +25,9 @@ concurrency:
 
 jobs:
   build:
+    # Upstream-only: depends on upstream's Cachix cache and Nix flake. Skipped
+    # outside upstream's repository.
+    if: github.repository_owner == 'kunkka19xx'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7

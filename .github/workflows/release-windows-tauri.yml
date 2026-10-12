@@ -20,6 +20,9 @@ on:
 jobs:
   build-release:
     name: Build Windows release artifacts
+    # Upstream-only: this fork does not publish releases. Skipped outside
+    # upstream's repository.
+    if: github.repository_owner == 'kunkka19xx'
     runs-on: windows-latest
     concurrency:
       group: release-windows-tauri-${{ github.ref }}

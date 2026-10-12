@@ -19,6 +19,9 @@ env:
 
 jobs:
   update:
+    # Upstream-only: needs upstream's FLAKE_UPDATE_TOKEN PAT and Nix setup.
+    # Skipped outside upstream's repository.
+    if: github.repository_owner == 'kunkka19xx'
     runs-on: ubuntu-latest
     permissions:
       contents: write

@@ -1,0 +1,88 @@
+name: Build (macOS 13 / Ventura port)
+
+# This fork's own CI: build the macOS app through the Command Line Tools path
+# (scripts/build-macos-clt.sh) on an Intel (x86_64) runner and check the artifact.
+# Upstream's macOS jobs are gated off in this fork (see ci.yml).
+#
+# NOTE ON THE RUNNER: GitHub retired the `macos-13` image on 2025-12-04, so this
+# runs on `macos-15-intel` - the only remaining GitHub-hosted x86_64 image. That
+# image ships a full Xcode and a macOS 15 SDK, *not* the 13.3 SDK the port
+# targets, so this job proves the script and the `LOOK_VENTURA_SDK13` code paths
+# compile and produce a 13.0-floored x86_64 bundle; it is not a substitute for
+# testing against the 13.3 SDK. For that, run the same script on a self-hosted
+# Ventura Intel machine and point `runs-on` at its label.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "apps/macos/**"
+      - "bridge/ffi/**"
+      - "core/**"
+      - "scripts/build-macos-clt.sh"
+      - ".github/workflows/build-ventura.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "apps/macos/**"
+      - "bridge/ffi/**"
+      - "core/**"
+      - "scripts/build-macos-clt.sh"
+      - ".github/workflows/build-ventura.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: build-ventura-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  build-ventura:
+    name: Command Line Tools build (x86_64)
+    runs-on: macos-15-intel
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Install Rust (stable)
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-apple-darwin
+
+      - name: Cache cargo
+        uses: Swatinem/rust-cache@v2
+        with:
+          # There is no root Cargo.toml; name the workspaces explicitly.
+          workspaces: |
+            core
+            bridge/ffi
+
+      - name: Build (debug) via the Command Line Tools script
+        run: ./scripts/build-macos-clt.sh debug
+
+      - name: Verify the produced bundle
+        run: |
+          APP="build-clt/Look.app"
+          BIN="$APP/Contents/MacOS/Look"
+
+          archs="$(lipo -archs "$BIN")"
+          if [[ "$archs" != "x86_64" ]]; then
+            echo "expected an x86_64 binary, got: $archs" >&2
+            exit 1
+          fi
+
+          floor="$(plutil -extract LSMinimumSystemVersion raw "$APP/Contents/Info.plist")"
+          if [[ "$floor" != "13.0" ]]; then
+            echo "expected LSMinimumSystemVersion 13.0, got: $floor" >&2
+            exit 1
+          fi
+
+          codesign --verify --deep "$APP"
+          echo "ok: $archs binary, LSMinimumSystemVersion $floor"

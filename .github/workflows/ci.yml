@@ -279,7 +279,10 @@ jobs:
     name: Build macOS App
     runs-on: macos-latest
     needs: changes
-    if: github.event_name == 'pull_request' && github.base_ref == 'main' && needs.changes.outputs.swift == 'true'
+    # Upstream-only: requires the Xcode 26.3 toolchain below. This fork builds the
+    # macOS app with scripts/build-macos-clt.sh (see build-ventura.yml), so this
+    # job is skipped outside upstream's repository.
+    if: github.repository_owner == 'kunkka19xx' && github.event_name == 'pull_request' && github.base_ref == 'main' && needs.changes.outputs.swift == 'true'
     env:
       # Pin to Xcode 26.3 - the runner default is 16.4, whose Swift 6
       # diagnostics are stricter than current dev machines and produce
@@ -297,7 +300,9 @@ jobs:
     name: Release smoke (${{ matrix.arch }})
     runs-on: macos-latest
     needs: changes
-    if: needs.changes.outputs.release_macos == 'true'
+    # Upstream-only: exercises the Xcode 26.3 release path, which this fork does
+    # not ship. Skipped outside upstream's repository.
+    if: github.repository_owner == 'kunkka19xx' && needs.changes.outputs.release_macos == 'true'
     strategy:
       fail-fast: false
       matrix:

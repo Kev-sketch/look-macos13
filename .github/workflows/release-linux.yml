@@ -20,6 +20,9 @@ on:
 jobs:
   build-release:
     name: Build Linux release artifacts
+    # Upstream-only: this fork does not publish releases. Skipped outside
+    # upstream's repository.
+    if: github.repository_owner == 'kunkka19xx'
     runs-on: ubuntu-22.04
     concurrency:
       group: release-linux-${{ github.ref }}
@@ -120,6 +123,8 @@ jobs:
 
   nix-build:
     name: Build and push Nix package to Cachix
+    # Upstream-only: needs upstream's Cachix token and Nix setup.
+    if: github.repository_owner == 'kunkka19xx'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -142,7 +147,8 @@ jobs:
   publish-aur:
     name: Publish look-bin to AUR
     needs: build-release
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    # Upstream-only: pushes to upstream's AUR package with upstream's SSH key.
+    if: github.repository_owner == 'kunkka19xx' && github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     container: archlinux:base
     steps:
