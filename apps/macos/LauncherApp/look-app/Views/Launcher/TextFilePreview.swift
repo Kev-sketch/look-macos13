@@ -17,12 +17,11 @@ struct TextFilePreview: View {
     // NSTextView (used by HighlightedTextView) virtualizes layout via
     // TextKit, so we can comfortably show larger files than SwiftUI
     // Text allowed. 64 KB is ≈2000 lines - well over preview needs.
-    nonisolated private static let displayByteCap: Int = 64 * 1024
+ private static let displayByteCap: Int = 64 * 1024
     // NSAttributedString isn't Sendable but is documented thread-safe
     // for read access; mark the static empty constant nonisolated(unsafe).
-    nonisolated(unsafe) private static let empty = NSAttributedString(string: "")
-
-    nonisolated private final class HighlightResult: @unchecked Sendable {
+ private static let empty = NSAttributedString(string: "")
+ private final class HighlightResult: @unchecked Sendable {
         let attr: NSAttributedString
         let key: String?
         init(_ attr: NSAttributedString, _ key: String?) {

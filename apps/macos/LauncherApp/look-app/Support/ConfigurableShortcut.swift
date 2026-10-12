@@ -68,7 +68,7 @@ struct ConfigurableShortcut {
     }
 
     /// In-app chords accept Shift+Enter and Shift+Esc; a global one does not.
-    nonisolated func check(_ spec: String) -> HotkeyCheck? {
+ func check(_ spec: String) -> HotkeyCheck? {
         local == nil
             ? EngineBridge.shared.hotkeyCheck(spec)
             : EngineBridge.shared.hotkeyCheckLocal(spec)
@@ -102,7 +102,8 @@ struct ConfigurableShortcut {
 
     /// True when the value is what the shortcut ships with, so saving leaves
     /// the config clean instead of restating a default.
-    @MainActor
+    /// Not @MainActor: it is pure string comparison, and saving may run off
+    /// the main actor (and under Swift 5 builds it has no default isolation).
     func isDefaultValue(_ value: String) -> Bool {
         guard let local else { return false }
         let defaults = ShortcutBindingTable.definition(local).defaults.compactMap { check($0)?.spec }

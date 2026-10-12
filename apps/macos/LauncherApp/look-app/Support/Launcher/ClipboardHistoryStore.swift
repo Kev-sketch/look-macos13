@@ -223,8 +223,8 @@ final class ClipboardHistoryStore: ObservableObject {
     private var monitoringMode: MonitoringMode = .foreground
     // nonisolated(unsafe) so the nonisolated deinit can call invalidate()
     // on these without going through the actor.
-    nonisolated(unsafe) private var timer: Timer?
-    nonisolated(unsafe) private var burstTimer: Timer?
+ private var timer: Timer?
+ private var burstTimer: Timer?
     private var remainingBurstSamples = 0
     private var lastChangeCount: Int
 
@@ -265,7 +265,7 @@ final class ClipboardHistoryStore: ObservableObject {
 
     /// A row whose file is gone is dropped rather than shown broken: the bytes
     /// are the clip, and without them there is nothing to paste.
-    nonisolated private static func restoredImageEntry(from stored: EngineBridge.ClipboardEntry)
+ private static func restoredImageEntry(from stored: EngineBridge.ClipboardEntry)
         -> ClipboardImageEntry?
     {
         guard let url = ClipboardImageFiles.fileURL(forHash: stored.contentHash),
@@ -376,9 +376,9 @@ final class ClipboardHistoryStore: ObservableObject {
     private func startMonitoring() {
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: monitoringMode.interval, repeats: true) { [weak self] _ in
-            // Timer fires on RunLoop.main; assumeIsolated avoids a needless
-            // Task hop while satisfying Swift 6's Sendable-closure check.
-            MainActor.assumeIsolated {
+            // Timer fires on RunLoop.main. (MainActor.assumeIsolated is a
+            // Swift 5.10+ API; a main-queue hop is equivalent and older.)
+            DispatchQueue.main.async {
                 self?.captureLatestClipboardIfNeeded()
             }
         }
@@ -557,7 +557,7 @@ final class ClipboardHistoryStore: ObservableObject {
             withTimeInterval: AppConstants.Launcher.Clipboard.burstPollInterval,
             repeats: true
         ) { [weak self] _ in
-            MainActor.assumeIsolated {
+            DispatchQueue.main.async {
                 guard let self else { return }
 
                 if self.remainingBurstSamples <= 0 {

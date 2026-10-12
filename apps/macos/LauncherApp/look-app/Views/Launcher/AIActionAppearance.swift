@@ -13,25 +13,27 @@ enum AIActionAppearance {
     }
 
     static func look(forToolID toolID: String) -> Look {
+        // Explicit `return` in every case: this was a Swift 5.9 switch
+        // expression (implicit return), which Swift 5.8 does not parse.
         switch toolID {
         case "calendar.add_event":
-            Look(symbol: "calendar.badge.plus", typeName: "Event", verb: "Add to Calendar")
+            return Look(symbol: "calendar.badge.plus", typeName: "Event", verb: "Add to Calendar")
         case "calendar.block_time":
-            Look(symbol: "timer", typeName: "Focus", verb: "Block time")
+            return Look(symbol: "timer", typeName: "Focus", verb: "Block time")
         case "calendar.move_event":
-            Look(symbol: "calendar.badge.clock", typeName: "Event", verb: "Reschedule")
+            return Look(symbol: "calendar.badge.clock", typeName: "Event", verb: "Reschedule")
         case "calendar.cancel_event":
-            Look(symbol: "calendar.badge.minus", typeName: "Event", verb: "Remove from Calendar")
+            return Look(symbol: "calendar.badge.minus", typeName: "Event", verb: "Remove from Calendar")
         case "reminder.add":
-            Look(symbol: "checklist", typeName: "Reminder", verb: "Add Reminder")
+            return Look(symbol: "checklist", typeName: "Reminder", verb: "Add Reminder")
         case "reminder.complete":
-            Look(symbol: "checkmark.circle", typeName: "Reminder", verb: "Mark Done")
+            return Look(symbol: "checkmark.circle", typeName: "Reminder", verb: "Mark Done")
         case "reminder.remove":
-            Look(symbol: "minus.circle", typeName: "Reminder", verb: "Remove Reminder")
+            return Look(symbol: "minus.circle", typeName: "Reminder", verb: "Remove Reminder")
         case "reminder.snooze":
-            Look(symbol: "clock.badge", typeName: "Reminder", verb: "Snooze")
+            return Look(symbol: "clock.badge", typeName: "Reminder", verb: "Snooze")
         default:
-            Look(symbol: "sparkles", typeName: "Action", verb: "Run")
+            return Look(symbol: "sparkles", typeName: "Action", verb: "Run")
         }
     }
 

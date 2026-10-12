@@ -437,9 +437,9 @@ final class ChatSessionController: ObservableObject {
         switch source {
         // The file rides along as a capsule under the turn, so repeating its
         // path here would just say the same thing twice.
-        case .file: label
-        case .clipboard: input.isEmpty ? label : "\(label)\n\(input)"
-        case .ambiguous: label
+        case .file: return label
+        case .clipboard: return input.isEmpty ? label : "\(label)\n\(input)"
+        case .ambiguous: return label
         }
     }
 

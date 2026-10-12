@@ -736,8 +736,8 @@ final class TodoKeyHostView: NSView {
     var onSave: (() -> Void)?
     var onUndo: (() -> Bool)?
     var onRedo: (() -> Bool)?
-    nonisolated(unsafe) private var monitor: Any?
-    nonisolated(unsafe) private var editObservers: [NSObjectProtocol] = []
+ private var monitor: Any?
+ private var editObservers: [NSObjectProtocol] = []
     /// Set once the focused field editor takes a keystroke, cleared when
     /// editing starts or ends.
     private var fieldEdited = false
@@ -797,7 +797,10 @@ final class TodoKeyHostView: NSView {
                 object: nil,
                 queue: .main
             ) { [weak self] _ in
-                MainActor.assumeIsolated { self?.fieldEdited = edited }
+                // `MainActor.assumeIsolated` is a Swift 5.10+ API and does not
+                // exist in this toolchain; the closure already runs on the main
+                // queue (`queue: .main`), so the assignment happens inline.
+                self?.fieldEdited = edited
             }
         }
     }

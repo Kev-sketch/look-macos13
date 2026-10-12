@@ -2,15 +2,15 @@ import AppKit
 import Foundation
 
 @_silgen_name("look_modes_list_text")
-nonisolated
+
 private func look_modes_list_text() -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_modes_parse_json")
-nonisolated
+
 private func look_modes_parse_json(_ argvJSON: UnsafePointer<CChar>?) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_free_cstring")
-nonisolated
+
 private func look_free_cstring(_ ptr: UnsafeMutablePointer<CChar>?)
 
 /// `lookapp clipboard`: open the launcher already in a mode. The table and the
@@ -32,9 +32,9 @@ enum LaunchModes {
     }
 
     /// A query this process will serve itself, applied once the launcher is up.
-    nonisolated(unsafe) static var pendingQuery: String?
+ static var pendingQuery: String?
     /// A cold `lookapp --toggle`: show the launcher once it is up.
-    nonisolated(unsafe) static var pendingToggle = false
+ static var pendingToggle = false
 
     /// Set on the app a cold `lookapp` launches, so it serves the mode itself
     /// instead of mistaking that still-exiting `lookapp` for a running Look.

@@ -11,8 +11,7 @@ enum HighlightedTextCache {
     private static let cacheCountLimit = 32
     private static let cacheCostLimitBytes = 16 * 1024 * 1024
     private static let estimatedBytesPerCharacter = 10
-
-    nonisolated(unsafe) private static let cache: NSCache<NSString, NSAttributedString> = {
+ private static let cache: NSCache<NSString, NSAttributedString> = {
         let c = NSCache<NSString, NSAttributedString>()
         c.countLimit = cacheCountLimit
         c.totalCostLimit = cacheCostLimitBytes

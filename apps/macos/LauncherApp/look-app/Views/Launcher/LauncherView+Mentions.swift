@@ -54,12 +54,11 @@ extension LauncherView {
             mentionHighlight = -1
         }
     }
-
-    nonisolated static let mentionLimit = 6
+ static let mentionLimit = 6
 
     /// The mention list's own pill id. One per list: sharing an id with another
     /// list on screen would make the pill fly between the two.
-    nonisolated static let mentionPillID = "look.mention.pill"
+ static let mentionPillID = "look.mention.pill"
 
     /// Tab / Shift-Tab (and the arrows) roll the list. Returns false when there
     /// is no popup, so the caller falls through to normal selection.

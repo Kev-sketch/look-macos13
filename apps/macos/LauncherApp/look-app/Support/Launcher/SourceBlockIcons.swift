@@ -72,7 +72,11 @@ enum SourceBlockCatalog {
                 return SourceBlockRowTargets(own: block.then, global: block.globals)
             }.value
             await MainActor.run {
-                targetsByCandidateID[key] = targets
+                // Assign through a local: Swift 5.8 rejects an inout subscript
+                // on a main-actor-isolated static inside MainActor.run.
+                var updated = targetsByCandidateID
+                updated[key] = targets
+                targetsByCandidateID = updated
                 targetsInFlight.remove(key)
                 NotificationCenter.default.post(name: .lookSourceTargetsLoaded, object: nil)
             }

@@ -89,7 +89,7 @@ final class ShortcutBindings: ObservableObject {
     }
 
     /// A stored value is one chord, or several separated by `|`.
-    nonisolated static func specs(in value: String) -> [String] {
+ static func specs(in value: String) -> [String] {
         value
             .split(separator: "|")
             .map { $0.trimmingCharacters(in: .whitespaces) }

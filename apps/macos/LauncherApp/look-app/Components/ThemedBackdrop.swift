@@ -57,7 +57,24 @@ struct ThemedBackdrop: View {
     @ViewBuilder
     private var backdrop: some View {
         ZStack {
-#if !LOOK_VENTURA_SDK13
+#if LOOK_VENTURA_SDK13
+            // macOS 13.3 SDK: no NSGlassEffectView, so the glass paths (and the
+            // type itself) do not exist; the frost material path is the only
+            // one that compiles here. Kept as a complete branch: Swift 5.8's
+            // conditional compilation cannot split a brace-balanced construct
+            // across #if boundaries.
+            if showsFrost {
+                VisualEffectBlur(
+                    material: .underWindowBackground,
+                    blendingMode: blendingMode,
+                    appearance: themeStore.themeAppearance()
+                )
+
+                themeStore.scrimColor(opacity: frostScrimOpacity)
+            }
+
+            themeTintWash
+#else
             if themeStore.settings.blurMaterial == .liquidGlass, #available(macOS 26.0, *) {
                 GlassEffectBackdrop(
                     cornerRadius: cornerRadius,
@@ -74,7 +91,6 @@ struct ThemedBackdrop: View {
                     themeTintWash
                 }
             } else {
-#endif
                 if showsFrost {
                     VisualEffectBlur(
                         material: .underWindowBackground,
@@ -86,8 +102,6 @@ struct ThemedBackdrop: View {
                 }
 
                 themeTintWash
-            }
-#if !LOOK_VENTURA_SDK13
             }
 #endif
         }

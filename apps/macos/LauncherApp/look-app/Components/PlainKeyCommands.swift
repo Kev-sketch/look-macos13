@@ -21,7 +21,7 @@ struct PlainKeyCommands: NSViewRepresentable {
 
 final class PlainKeyCommandsHostView: NSView {
     var actions: [String: () -> Void] = [:]
-    nonisolated(unsafe) private var monitor: Any?
+    private var monitor: Any?
 
     override func viewDidMoveToWindow() {
         super.viewDidMoveToWindow()

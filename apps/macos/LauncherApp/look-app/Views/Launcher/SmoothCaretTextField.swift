@@ -442,11 +442,10 @@ final class CaretTextField: NSTextField {
             withTimeInterval: Motion.Caret.blinkResumeSeconds,
             repeats: false
         ) { [weak self] _ in
-            // Timer fires on RunLoop.main; assumeIsolated avoids a needless
-            // Task hop while satisfying Swift 6's Sendable-closure check.
-            MainActor.assumeIsolated {
-                self?.startBlink()
-            }
+            // Timer fires on RunLoop.main. `MainActor.assumeIsolated` is a Swift
+            // 5.10+ API; nothing in this port is actor-isolated here, so the
+            // call runs inline instead of costing a runloop turn.
+            self?.startBlink()
         }
     }
 
@@ -472,9 +471,9 @@ final class CaretTextField: NSTextField {
         ) { [weak self] _ in
             // Delivered on `queue: .main`, so the caret can move without a hop
             // that would land it a frame behind the selection.
-            MainActor.assumeIsolated {
-                self?.refreshCaret(animated: true)
-            }
+            // (`MainActor.assumeIsolated` is a Swift 5.10+ API; nothing in this
+            // port is actor-isolated here, so the call runs inline.)
+            self?.refreshCaret(animated: true)
         }
     }
 

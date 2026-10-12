@@ -11,9 +11,9 @@ enum FrontmostAppPaste {
         var banner: String {
             switch self {
             case .accessibilityDenied:
-                AppConstants.Launcher.Clipboard.accessibilityDeniedBanner
+                return AppConstants.Launcher.Clipboard.accessibilityDeniedBanner
             case .secureInput:
-                AppConstants.Launcher.Clipboard.secureInputBanner
+                return AppConstants.Launcher.Clipboard.secureInputBanner
             }
         }
     }
@@ -35,8 +35,7 @@ enum FrontmostAppPaste {
     /// Virtual key codes past this are modifiers and function keys.
     private static let maxScannedKeyCode: UInt16 = 128
     private static let translatedCharacterCapacity = 4
-
-    nonisolated private static let logger = Logger(subsystem: "noah-code.Look", category: "paste")
+ private static let logger = Logger(subsystem: "noah-code.Look", category: "paste")
 
     static func blocker() -> Blocker? {
         // Secure input (a password field, `sudo` in a terminal) drops

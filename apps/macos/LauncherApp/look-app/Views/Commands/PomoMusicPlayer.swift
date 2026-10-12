@@ -122,13 +122,15 @@ final class PomoMusicPlayer: ObservableObject {
         let item = AVPlayerItem(url: url)
         let newPlayer = AVPlayer(playerItem: item)
         endObserver = NotificationCenter.default.addObserver(
-            forName: AVPlayerItem.didPlayToEndTimeNotification,
+            // .AVPlayerItemDidPlayToEndTime is the 13.3-SDK spelling.
+            forName: .AVPlayerItemDidPlayToEndTime,
             object: item,
             queue: .main
         ) { [weak self] _ in
-            // Notification queue: .main delivers on the main thread; the
-            // explicit hop satisfies Swift 6's @Sendable-closure check.
-            MainActor.assumeIsolated {
+            // The observer already fires on the main queue; the hop keeps the
+            // closure's state access on one turn of the main queue on every
+            // SDK (MainActor.assumeIsolated is a Swift 5.10+ API).
+            DispatchQueue.main.async {
                 // Loops at end of list (next wraps via modulo).
                 self?.next()
             }
@@ -170,30 +172,33 @@ final class PomoMusicPlayer: ObservableObject {
     // track-end observer above).
     private func configureRemoteCommands() {
         let center = MPRemoteCommandCenter.shared()
+        // MediaPlayer delivers these handlers on the main thread; the
+        // main-queue hop (rather than MainActor.assumeIsolated, a Swift 5.10+
+        // API) keeps the state mutation on the main queue on every SDK.
         register(center.playCommand) { [weak self] _ in
-            MainActor.assumeIsolated {
+            DispatchQueue.main.async {
                 guard let self, !self.isPlaying else { return }
                 self.togglePlay()
             }
             return .success
         }
         register(center.pauseCommand) { [weak self] _ in
-            MainActor.assumeIsolated {
+            DispatchQueue.main.async {
                 guard let self, self.isPlaying else { return }
                 self.togglePlay()
             }
             return .success
         }
         register(center.togglePlayPauseCommand) { [weak self] _ in
-            MainActor.assumeIsolated { self?.togglePlay() }
+            DispatchQueue.main.async { self?.togglePlay() }
             return .success
         }
         register(center.nextTrackCommand) { [weak self] _ in
-            MainActor.assumeIsolated { self?.next() }
+            DispatchQueue.main.async { self?.next() }
             return .success
         }
         register(center.previousTrackCommand) { [weak self] _ in
-            MainActor.assumeIsolated { self?.prev() }
+            DispatchQueue.main.async { self?.prev() }
             return .success
         }
     }

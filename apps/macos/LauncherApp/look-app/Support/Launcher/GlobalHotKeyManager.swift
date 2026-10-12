@@ -9,14 +9,14 @@ final class GlobalHotKeyManager {
     // nonisolated(unsafe) so the nonisolated deinit can release these
     // (they're Carbon/AppKit handles - not actually Sendable, but they're
     // only mutated from MainActor anyway).
-    nonisolated(unsafe) private var hotKeyRef: EventHotKeyRef?
-    nonisolated(unsafe) private var eventHandler: EventHandlerRef?
+ private var hotKeyRef: EventHotKeyRef?
+ private var eventHandler: EventHandlerRef?
     // Carbon's RegisterEventHotKey only fires when the registering app is
     // NOT the currently-active app. When Look is in the foreground (e.g.
     // user has the launcher open and focused), Cmd+Space goes through
     // the normal local event chain instead. Install a parallel local
     // NSEvent monitor so the toggle works regardless of focus state.
-    nonisolated(unsafe) private var localMonitor: Any?
+ private var localMonitor: Any?
 
     // Defense-in-depth for one specific, rare failure: another app already
     // owns Cmd+Space when Look launches, so RegisterEventHotKey returns -9878

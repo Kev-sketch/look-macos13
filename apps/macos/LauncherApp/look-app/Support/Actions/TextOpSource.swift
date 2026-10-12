@@ -75,14 +75,14 @@ enum TextExtraction {
         /// No trailing period - callers punctuate to suit their surface.
         func message(for name: String) -> String {
             switch self {
-            case .notText: "\"\(name)\" is not a text file"
-            case .empty: "\"\(name)\" is empty"
-            case .unreadable: "Could not read \"\(name)\""
-            case .locked: "\"\(name)\" is password-protected"
+            case .notText: return "\"\(name)\" is not a text file"
+            case .empty: return "\"\(name)\" is empty"
+            case .unreadable: return "Could not read \"\(name)\""
+            case .locked: return "\"\(name)\" is password-protected"
             // Naming the scan is what points the user at OCR instead of at a
             // bug in look.
-            case .noTextLayer: "\"\(name)\" has no text layer - it looks scanned"
-            case .garbled: "\"\(name)\" did not decode to readable text"
+            case .noTextLayer: return "\"\(name)\" has no text layer - it looks scanned"
+            case .garbled: return "\"\(name)\" did not decode to readable text"
             }
         }
     }

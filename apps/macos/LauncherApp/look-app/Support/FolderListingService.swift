@@ -14,15 +14,14 @@ struct FolderListing: Equatable {
 }
 
 enum FolderListingService {
-    nonisolated static let listCap = 30
+ static let listCap = 30
 
     static func list(path: String) async -> FolderListing? {
         await Task.detached(priority: .userInitiated) {
             listSync(path: path)
         }.value
     }
-
-    nonisolated private static func listSync(path: String) -> FolderListing? {
+ private static func listSync(path: String) -> FolderListing? {
         let url = URL(fileURLWithPath: path)
         let keys: [URLResourceKey] = [.isDirectoryKey, .fileSizeKey]
         guard let entries = try? FileManager.default.contentsOfDirectory(

@@ -48,7 +48,7 @@ enum BundleSizeService {
 
     /// `root` must be symlink-resolved: enumerating a link (Safari.app, apps
     /// installed by Nix) yields nothing, and the bundle would read as empty.
-    nonisolated private static func sumSync(root: URL) -> Int64? {
+ private static func sumSync(root: URL) -> Int64? {
         let keys: Set<URLResourceKey> = [.isRegularFileKey, .totalFileSizeKey]
         guard
             let enumerator = FileManager.default.enumerator(

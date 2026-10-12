@@ -19,8 +19,7 @@ struct PomoSession: Identifiable, Equatable {
         case focus
         case `break`
     }
-
-    nonisolated init(id: UUID = UUID(), type: SessionType, durationMinutes: Int, name: String) {
+ init(id: UUID = UUID(), type: SessionType, durationMinutes: Int, name: String) {
         self.id = id
         self.type = type
         self.durationMinutes = durationMinutes
@@ -139,8 +138,7 @@ enum PomoPersistence {
             return "\(type):\(s.durationMinutes):\(nameEncoded)"
         }.joined(separator: ",")
     }
-
-    nonisolated private static func decodeSessions(_ value: String) -> [PomoSession]? {
+ private static func decodeSessions(_ value: String) -> [PomoSession]? {
         let trimmed = value.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmed.isEmpty else { return nil }
         var result: [PomoSession] = []
@@ -169,7 +167,7 @@ enum PomoNotifications {
     // queue (not main). nonisolated(unsafe) is fine: occasional
     // double-set is harmless (worst case: we issue the auth prompt
     // twice; the system de-dupes).
-    nonisolated(unsafe) private static var permissionRequested = false
+ private static var permissionRequested = false
 
     static func notifyEndingSoon(session: PomoSession, secondsLeft: Int) {
         pomoNotifLog.notice("notifyEndingSoon name=\(session.name, privacy: .public) secondsLeft=\(secondsLeft)")
@@ -284,7 +282,7 @@ enum PomoNotifications {
     // Wrap center.add so we capture any post-add error (e.g. malformed
     // request, system unavailable). Without this completion handler the
     // failure is silent.
-    nonisolated private static func deliver(_ req: UNNotificationRequest, label: String) {
+ private static func deliver(_ req: UNNotificationRequest, label: String) {
         UNUserNotificationCenter.current().add(req) { error in
             if let error {
                 pomoNotifLog.error("\(label, privacy: .public) add error: \(error.localizedDescription, privacy: .public)")

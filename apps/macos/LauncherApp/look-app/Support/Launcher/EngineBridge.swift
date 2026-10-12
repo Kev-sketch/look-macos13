@@ -1,299 +1,299 @@
 import Foundation
 
 @_silgen_name("look_search_json")
-nonisolated
+
 private func look_search_json(_ query: UnsafePointer<CChar>?, _ limit: UInt32) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_search_json_compact")
-nonisolated
+
 private func look_search_json_compact(_ query: UnsafePointer<CChar>?, _ limit: UInt32) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_search_files_json")
-nonisolated
+
 private func look_search_files_json(_ query: UnsafePointer<CChar>?, _ now: Int64, _ limit: UInt32) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_record_usage_json")
-nonisolated
+
 private func look_record_usage_json(_ candidateID: UnsafePointer<CChar>?, _ action: UnsafePointer<CChar>?) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_free_cstring")
-nonisolated
+
 private func look_free_cstring(_ ptr: UnsafeMutablePointer<CChar>?)
 
 @_silgen_name("look_reload_config")
-nonisolated
+
 private func look_reload_config() -> Bool
 
 @_silgen_name("look_request_index_refresh")
-nonisolated
+
 private func look_request_index_refresh() -> Bool
 
 @_silgen_name("look_translate_json")
-nonisolated
+
 private func look_translate_json(_ text: UnsafePointer<CChar>?, _ targetLang: UnsafePointer<CChar>?) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_fuzzy_score")
-nonisolated
+
 private func look_fuzzy_score(_ query: UnsafePointer<CChar>?, _ title: UnsafePointer<CChar>?) -> Int64
 
 @_silgen_name("look_instant_answer_json")
-nonisolated
+
 private func look_instant_answer_json(_ query: UnsafePointer<CChar>?) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_ai_is_referent")
-nonisolated
+
 private func look_ai_is_referent(_ phrase: UnsafePointer<CChar>?) -> Bool
 
 @_silgen_name("look_search_files_params_json")
-nonisolated
+
 private func look_search_files_params_json(_ paramsJSON: UnsafePointer<CChar>?, _ now: Int64, _ limit: UInt32) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_ai_query_window")
-nonisolated
+
 private func look_ai_query_window(_ query: UnsafePointer<CChar>?, _ nowEpoch: Int64) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_ai_day_phrase")
-nonisolated
+
 private func look_ai_day_phrase(_ phrase: UnsafePointer<CChar>?, _ nowEpoch: Int64) -> Int64
 
 @_silgen_name("look_ai_plan_start")
-nonisolated
+
 private func look_ai_plan_start(_ host: UnsafePointer<CChar>?, _ model: UnsafePointer<CChar>?, _ query: UnsafePointer<CChar>?) -> UInt64
 
 @_silgen_name("look_ai_plan_poll")
-nonisolated
+
 private func look_ai_plan_poll(_ id: UInt64) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_ai_plan_cancel")
-nonisolated
+
 private func look_ai_plan_cancel(_ id: UInt64)
 
 @_silgen_name("look_ai_warm_planner")
-nonisolated
+
 private func look_ai_warm_planner(_ host: UnsafePointer<CChar>?, _ model: UnsafePointer<CChar>?)
 
 @_silgen_name("look_ai_conversations_json")
-nonisolated
+
 private func look_ai_conversations_json(_ path: UnsafePointer<CChar>?) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_ai_conversation_upsert")
-nonisolated
+
 private func look_ai_conversation_upsert(_ path: UnsafePointer<CChar>?, _ json: UnsafePointer<CChar>?) -> Bool
 
 @_silgen_name("look_ai_conversation_delete")
-nonisolated
+
 private func look_ai_conversation_delete(_ path: UnsafePointer<CChar>?, _ id: UnsafePointer<CChar>?) -> Bool
 
 @_silgen_name("look_ai_resolve")
-nonisolated
+
 private func look_ai_resolve(_ requestJSON: UnsafePointer<CChar>?) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_ai_load_targets")
-nonisolated
+
 private func look_ai_load_targets(_ eventsJSON: UnsafePointer<CChar>?, _ remindersJSON: UnsafePointer<CChar>?)
 
 @_silgen_name("look_ai_memory_context")
-nonisolated
+
 private func look_ai_memory_context(_ path: UnsafePointer<CChar>?) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_ai_context_window")
-nonisolated
+
 private func look_ai_context_window(_ textsJSON: UnsafePointer<CChar>?, _ budget: UInt32) -> UInt32
 
 @_silgen_name("look_ai_parse_explicit")
-nonisolated
+
 private func look_ai_parse_explicit(_ input: UnsafePointer<CChar>?, _ modelAvailable: Bool) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_ai_route")
-nonisolated
+
 private func look_ai_route(_ memoryPath: UnsafePointer<CChar>?, _ input: UnsafePointer<CChar>?, _ modelAvailable: Bool, _ now: Int64) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_meeting_join_query_json")
-nonisolated
+
 private func look_meeting_join_query_json(_ query: UnsafePointer<CChar>?) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_call_query_json")
-nonisolated
+
 private func look_call_query_json(_ query: UnsafePointer<CChar>?) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_call_url")
-nonisolated
+
 private func look_call_url(_ modality: UnsafePointer<CChar>?, _ handle: UnsafePointer<CChar>?) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_call_default_modality")
-nonisolated
+
 private func look_call_default_modality() -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_meeting_outcome_json")
-nonisolated
+
 private func look_meeting_outcome_json(_ eventsJSON: UnsafePointer<CChar>?, _ now: Int64, _ name: UnsafePointer<CChar>?) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_ai_chat_start")
-nonisolated
+
 private func look_ai_chat_start(_ host: UnsafePointer<CChar>?, _ model: UnsafePointer<CChar>?, _ messagesJSON: UnsafePointer<CChar>?, _ optionsJSON: UnsafePointer<CChar>?) -> UInt64
 
 @_silgen_name("look_ai_chat_poll")
-nonisolated
+
 private func look_ai_chat_poll(_ id: UInt64) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_ai_chat_cancel")
-nonisolated
+
 private func look_ai_chat_cancel(_ id: UInt64)
 
 @_silgen_name("look_ai_future_leaning")
-nonisolated
+
 private func look_ai_future_leaning(_ phrase: UnsafePointer<CChar>?, _ resolvedEpoch: Int64, _ nowEpoch: Int64) -> Int64
 
 @_silgen_name("look_ai_markdown_segments_json")
-nonisolated
+
 private func look_ai_markdown_segments_json(_ text: UnsafePointer<CChar>?) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_instant_has_match")
-nonisolated
+
 private func look_instant_has_match(_ query: UnsafePointer<CChar>?) -> Bool
 
 @_silgen_name("look_calc_eval_json")
-nonisolated
+
 private func look_calc_eval_json(_ expr: UnsafePointer<CChar>?) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_calc_inline_json")
-nonisolated
+
 private func look_calc_inline_json(_ query: UnsafePointer<CChar>?) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_web_suggestions_json")
-nonisolated
+
 private func look_web_suggestions_json(_ query: UnsafePointer<CChar>?, _ limit: UInt32) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_duckduckgo_answer_json")
-nonisolated
+
 private func look_duckduckgo_answer_json(_ query: UnsafePointer<CChar>?) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_wikipedia_answer_json")
-nonisolated
+
 private func look_wikipedia_answer_json(_ searchTerm: UnsafePointer<CChar>?) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_classify_url_json")
-nonisolated
+
 private func look_classify_url_json(_ query: UnsafePointer<CChar>?) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_record_url_hit")
-nonisolated
+
 private func look_record_url_hit(_ url: UnsafePointer<CChar>?) -> Bool
 
 @_silgen_name("look_recent_urls_json")
-nonisolated
+
 private func look_recent_urls_json(_ query: UnsafePointer<CChar>?, _ limit: UInt32) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_clipboard_record")
-nonisolated
+
 private func look_clipboard_record(_ content: UnsafePointer<CChar>?, _ appBundleID: UnsafePointer<CChar>?) -> Int64
 
 @_silgen_name("look_clipboard_record_image")
-nonisolated
+
 private func look_clipboard_record_image(_ label: UnsafePointer<CChar>?, _ imageHash: UnsafePointer<CChar>?, _ appBundleID: UnsafePointer<CChar>?) -> Int64
 
 @_silgen_name("look_clipboard_images_dir")
-nonisolated
+
 private func look_clipboard_images_dir() -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_clipboard_list_json")
-nonisolated
+
 private func look_clipboard_list_json(_ kind: UnsafePointer<CChar>?, _ query: UnsafePointer<CChar>?, _ limit: UInt32) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_clipboard_delete")
-nonisolated
+
 private func look_clipboard_delete(_ id: Int64) -> Bool
 
 @_silgen_name("look_clipboard_clear")
-nonisolated
+
 private func look_clipboard_clear() -> UInt32
 
 @_silgen_name("look_qactions_json")
-nonisolated
+
 private func look_qactions_json(_ resultID: UnsafePointer<CChar>?, _ kind: UnsafePointer<CChar>?) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_quick_actions_launchpad_json")
-nonisolated
+
 private func look_quick_actions_launchpad_json() -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_launchpad_warnings_json")
-nonisolated
+
 private func look_launchpad_warnings_json() -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_launchpad_tile_values_json")
-nonisolated
+
 private func look_launchpad_tile_values_json() -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_launchpad_refresh_tiles_json")
-nonisolated
+
 private func look_launchpad_refresh_tiles_json() -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_launchpad_press_tile_json")
-nonisolated
+
 private func look_launchpad_press_tile_json(_ name: UnsafePointer<CChar>?) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_definitional_entity_json")
-nonisolated
+
 private func look_definitional_entity_json(_ query: UnsafePointer<CChar>?) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_todo_list_json")
-nonisolated
+
 private func look_todo_list_json() -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_todo_save_json")
-nonisolated
+
 private func look_todo_save_json(_ json: UnsafePointer<CChar>?) -> Bool
 
 @_silgen_name("look_launcher_hotkey_json")
-nonisolated
+
 private func look_launcher_hotkey_json() -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_hotkey_check_local_json")
-nonisolated
+
 private func look_hotkey_check_local_json(_ spec: UnsafePointer<CChar>?) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_hotkey_check_json")
-nonisolated
+
 private func look_hotkey_check_json(_ spec: UnsafePointer<CChar>?) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_lunar_date_json")
-nonisolated
+
 private func look_lunar_date_json(_ year: Int64, _ month: Int64, _ day: Int64, _ tz: Double) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_refresh_run_blocks_json")
-nonisolated
+
 private func look_refresh_run_blocks_json() -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_source_preview_json")
-nonisolated
+
 private func look_source_preview_json(_ candidateID: UnsafePointer<CChar>?, _ rowID: UnsafePointer<CChar>?, _ rowTitle: UnsafePointer<CChar>?, _ rowPath: UnsafePointer<CChar>?, _ ancestorsJSON: UnsafePointer<CChar>?) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_source_blocks_json")
-nonisolated
+
 private func look_source_blocks_json() -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_source_rows_json")
-nonisolated
+
 private func look_source_rows_json(_ blockID: UnsafePointer<CChar>?, _ parentCandidateID: UnsafePointer<CChar>?, _ parentTitle: UnsafePointer<CChar>?, _ parentPath: UnsafePointer<CChar>?, _ query: UnsafePointer<CChar>?, _ ancestorsJSON: UnsafePointer<CChar>?) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_source_block_json")
-nonisolated
+
 private func look_source_block_json(_ candidateID: UnsafePointer<CChar>?, _ rowID: UnsafePointer<CChar>?, _ rowTitle: UnsafePointer<CChar>?, _ rowPath: UnsafePointer<CChar>?, _ ancestorsJSON: UnsafePointer<CChar>?) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_perform_block_json")
-nonisolated
+
 private func look_perform_block_json(_ blockID: UnsafePointer<CChar>?, _ rowID: UnsafePointer<CChar>?, _ rowTitle: UnsafePointer<CChar>?, _ rowPath: UnsafePointer<CChar>?, _ query: UnsafePointer<CChar>?, _ ancestorsJSON: UnsafePointer<CChar>?, _ asTarget: Bool) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_tool_action_json")
-nonisolated
+
 private func look_tool_action_json(_ action: UnsafePointer<CChar>?, _ candidateID: UnsafePointer<CChar>?, _ rowTitle: UnsafePointer<CChar>?, _ path: UnsafePointer<CChar>?, _ isDir: Bool, _ ancestorsJSON: UnsafePointer<CChar>?) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_perform_tool_action_json")
-nonisolated
+
 private func look_perform_tool_action_json(_ action: UnsafePointer<CChar>?, _ candidateID: UnsafePointer<CChar>?, _ rowTitle: UnsafePointer<CChar>?, _ path: UnsafePointer<CChar>?, _ isDir: Bool, _ ancestorsJSON: UnsafePointer<CChar>?) -> UnsafeMutablePointer<CChar>?
 
 @_silgen_name("look_netspeed_run_json")
-nonisolated
+
 private func look_netspeed_run_json() -> UnsafeMutablePointer<CChar>?
 
 /// One measurement from the shared `core/netspeed` crate. The display strings
@@ -344,11 +344,9 @@ struct LunarDate: Decodable {
 }
 
 final class EngineBridge: @unchecked Sendable {
-    nonisolated static let shared = EngineBridge()
-
-    nonisolated private init() {}
-
-    nonisolated func search(query: String, limit: Int = 40) -> [LauncherResult] {
+ static let shared = EngineBridge()
+ private init() {}
+ func search(query: String, limit: Int = 40) -> [LauncherResult] {
         let ptr = query.withCString { cstr in
             look_search_json_compact(cstr, UInt32(limit))
         }
@@ -401,8 +399,7 @@ final class EngineBridge: @unchecked Sendable {
         case plan
         case chat
     }
-
-    nonisolated func aiRoute(input: String, memoryPath: String, modelAvailable: Bool) -> AIRoute {
+ func aiRoute(input: String, memoryPath: String, modelAvailable: Bool) -> AIRoute {
         struct Payload: Decodable {
             struct Call: Decodable {
                 let tool: String
@@ -456,14 +453,14 @@ final class EngineBridge: @unchecked Sendable {
 
     /// File-recall results plus which fallback produced them, when the strict
     /// query matched nothing ("window" | "terms" | "window_terms", nil = exact).
-    nonisolated struct FileRecallOutcome {
+ struct FileRecallOutcome {
         let results: [LauncherResult]
         let relaxed: String?
     }
 
     /// The join request in the typed text, or nil when it is an ordinary
     /// search. Pure string work in core, so it is safe per keystroke.
-    nonisolated func joinQuery(_ query: String) -> JoinRequest? {
+ func joinQuery(_ query: String) -> JoinRequest? {
         guard let ptr = query.withCString({ look_meeting_join_query_json($0) }) else {
             return nil
         }
@@ -474,7 +471,7 @@ final class EngineBridge: @unchecked Sendable {
 
     /// The call request in the typed text, or nil when it is an ordinary
     /// search. Pure string work in core, so it is safe per keystroke.
-    nonisolated func callQuery(_ query: String) -> CallRequest? {
+ func callQuery(_ query: String) -> CallRequest? {
         guard let ptr = query.withCString({ look_call_query_json($0) }) else { return nil }
         defer { look_free_cstring(ptr) }
         guard let data = String(cString: ptr).data(using: .utf8) else { return nil }
@@ -485,7 +482,7 @@ final class EngineBridge: @unchecked Sendable {
 
     /// The URL that dials `handle` with `modality`, or nil when the modality
     /// is unknown to core. Building it there keeps the schemes in one place.
-    nonisolated func callURL(modality: String, handle: String) -> String? {
+ func callURL(modality: String, handle: String) -> String? {
         guard
             let ptr = modality.withCString({ modalityC in
                 handle.withCString { look_call_url(modalityC, $0) }
@@ -497,7 +494,7 @@ final class EngineBridge: @unchecked Sendable {
     }
 
     /// The modality a bare "call" means, straight from core.
-    nonisolated var defaultCallModality: String {
+ var defaultCallModality: String {
         guard let ptr = look_call_default_modality() else { return "" }
         defer { look_free_cstring(ptr) }
         return String(cString: ptr)
@@ -508,7 +505,7 @@ final class EngineBridge: @unchecked Sendable {
     /// narrows to meetings whose title holds those words. The ordering, and
     /// where a join link hides inside an event, are decided in core
     /// (`look_ai::meeting`) so every shell agrees.
-    nonisolated func joinOutcome(
+ func joinOutcome(
         eventsJSON: String, now: Int64, name: String = ""
     ) -> JoinOutcome {
         guard
@@ -525,7 +522,7 @@ final class EngineBridge: @unchecked Sendable {
 
     /// Natural-language file recall over Look's own index. Returns nil when the
     /// query is not a file-recall query (so the caller does normal search).
-    nonisolated func searchFiles(query: String, limit: Int = 40) -> FileRecallOutcome? {
+ func searchFiles(query: String, limit: Int = 40) -> FileRecallOutcome? {
         let now = Int64(Date().timeIntervalSince1970)
         guard let ptr = query.withCString({ look_search_files_json($0, now, UInt32(limit)) }) else {
             return nil
@@ -541,7 +538,7 @@ final class EngineBridge: @unchecked Sendable {
 
     /// File recall from the model's structured `recall` params (terms, types,
     /// when, location). Nil when the params are unusable.
-    nonisolated func searchFiles(params: [String: String], limit: Int = 40) -> FileRecallOutcome? {
+ func searchFiles(params: [String: String], limit: Int = 40) -> FileRecallOutcome? {
         guard
             let paramsData = try? JSONSerialization.data(withJSONObject: params),
             let paramsJSON = String(data: paramsData, encoding: .utf8)
@@ -563,8 +560,7 @@ final class EngineBridge: @unchecked Sendable {
         let results = payload.results.map { LauncherResult($0, defaultKind: .file) }
         return FileRecallOutcome(results: results, relaxed: payload.relaxed)
     }
-
-    nonisolated func recordUsage(candidateID: String, action: String) -> BridgeError? {
+ func recordUsage(candidateID: String, action: String) -> BridgeError? {
         let ptr = candidateID.withCString { idCstr in
             action.withCString { actionCstr in
                 look_record_usage_json(idCstr, actionCstr)
@@ -588,13 +584,12 @@ final class EngineBridge: @unchecked Sendable {
 
         return payload.error
     }
-
-    nonisolated func reloadConfig() -> Bool {
+ func reloadConfig() -> Bool {
         look_reload_config()
     }
 
     /// Loads the full /todo task set from the shared core backend.
-    nonisolated func todoList() -> [TodoBackendTask] {
+ func todoList() -> [TodoBackendTask] {
         guard let ptr = look_todo_list_json() else { return [] }
         defer { look_free_cstring(ptr) }
         guard let data = String(cString: ptr).data(using: .utf8) else { return [] }
@@ -604,7 +599,7 @@ final class EngineBridge: @unchecked Sendable {
     /// Persists the full /todo task set to the shared core backend
     /// (lossless replace). Returns true on success.
     @discardableResult
-    nonisolated func todoSave(_ tasks: [TodoBackendTask]) -> Bool {
+ func todoSave(_ tasks: [TodoBackendTask]) -> Bool {
         guard let data = try? JSONEncoder().encode(tasks),
             let json = String(data: data, encoding: .utf8)
         else { return false }
@@ -612,22 +607,21 @@ final class EngineBridge: @unchecked Sendable {
     }
 
     @discardableResult
-    nonisolated func requestIndexRefresh() -> Bool {
+ func requestIndexRefresh() -> Bool {
         look_request_index_refresh()
     }
 
     /// `launcher_hotkey` resolved by core, already defaulted when unset or invalid.
-    nonisolated func launcherHotkey() -> LauncherHotkeySpec? {
+ func launcherHotkey() -> LauncherHotkeySpec? {
         Self.decodeOwnedJSON(look_launcher_hotkey_json())
     }
-
-    nonisolated func hotkeyCheck(_ spec: String) -> HotkeyCheck? {
+ func hotkeyCheck(_ spec: String) -> HotkeyCheck? {
         Self.decodeOwnedJSON(spec.withCString { look_hotkey_check_json($0) })
     }
 
     /// An in-app shortcut, where Shift+Enter and Shift+Esc are chords rather
     /// than typing.
-    nonisolated func hotkeyCheckLocal(_ spec: String) -> HotkeyCheck? {
+ func hotkeyCheckLocal(_ spec: String) -> HotkeyCheck? {
         Self.decodeOwnedJSON(spec.withCString { look_hotkey_check_local_json($0) })
     }
 
@@ -639,7 +633,7 @@ final class EngineBridge: @unchecked Sendable {
 
     /// Lunar date from the shared core. `tzHours` is the viewer's UTC offset,
     /// which selects the calendar variant (7 = Vietnamese, 8 = Chinese).
-    nonisolated func lunarDate(year: Int, month: Int, day: Int, tzHours: Double) -> LunarDate? {
+ func lunarDate(year: Int, month: Int, day: Int, tzHours: Double) -> LunarDate? {
         guard let ptr = look_lunar_date_json(Int64(year), Int64(month), Int64(day), tzHours) else {
             return nil
         }
@@ -651,7 +645,7 @@ final class EngineBridge: @unchecked Sendable {
     /// Runs the shared core speed test. Blocks for 15 seconds and up, so call it
     /// off the main thread. There is no cancel: core bounds each phase with its
     /// own timeout.
-    nonisolated func speedTest() -> SpeedTestOutcome {
+ func speedTest() -> SpeedTestOutcome {
         guard let ptr = look_netspeed_run_json() else {
             return .failure(speedTestUnknownFailure)
         }
@@ -671,8 +665,7 @@ final class EngineBridge: @unchecked Sendable {
         }
         return .reading(reading)
     }
-
-    nonisolated func translate(text: String, targetLang: String = "en") -> TranslationResult? {
+ func translate(text: String, targetLang: String = "en") -> TranslationResult? {
         let result = text.withCString { textCstr in
             targetLang.withCString { langCstr in
                 look_translate_json(textCstr, langCstr)
@@ -707,14 +700,14 @@ final class EngineBridge: @unchecked Sendable {
 
     /// Whether a mutate `match` phrase refers to conversation context ("it",
     /// "this event") rather than naming an item. Rust core (core/ai).
-    nonisolated func aiIsReferent(_ phrase: String) -> Bool {
+ func aiIsReferent(_ phrase: String) -> Bool {
         phrase.withCString { look_ai_is_referent($0) }
     }
 
     /// The specific day a phrase names ("wed", "tmr", "last fri"), from the
     /// shared lexicon - the fallback behind NSDataDetector so abbreviations
     /// resolve the same on every shell. Local midnight; nil when none named.
-    nonisolated func aiDayPhrase(_ phrase: String) -> Date? {
+ func aiDayPhrase(_ phrase: String) -> Date? {
         let now = Int64(Date().timeIntervalSince1970)
         let epoch = phrase.withCString { look_ai_day_phrase($0, now) }
         guard epoch > 0 else { return nil }
@@ -723,7 +716,7 @@ final class EngineBridge: @unchecked Sendable {
 
     /// Timeframe a schedule question names ("next week", "in august"), from the
     /// Rust-core window grammar (core/ai). ISO Monday weeks, local midnights.
-    nonisolated func aiQueryWindow(_ query: String) -> (start: Date, end: Date, label: String)? {
+ func aiQueryWindow(_ query: String) -> (start: Date, end: Date, label: String)? {
         struct RawWindow: Decodable {
             let start: Int64
             let end: Int64
@@ -744,7 +737,7 @@ final class EngineBridge: @unchecked Sendable {
 
     /// One line of a planning session poll: pending until `done`, then the
     /// resolved call (nil call = not an action / failure).
-    nonisolated struct AIPlanSnapshot: Decodable {
+ struct AIPlanSnapshot: Decodable {
         struct RawCall: Decodable {
             let tool: String
             let params: [String: String]
@@ -759,7 +752,7 @@ final class EngineBridge: @unchecked Sendable {
 
     /// Starts a cancellable planning call via the Rust-core planner (core/ai):
     /// the prompt, aliases, and mapping live there. Returns 0 on failure.
-    nonisolated func aiPlanStart(host: String, model: String, query: String) -> UInt64 {
+ func aiPlanStart(host: String, model: String, query: String) -> UInt64 {
         host.withCString { hostC in
             model.withCString { modelC in
                 query.withCString { queryC in
@@ -771,7 +764,7 @@ final class EngineBridge: @unchecked Sendable {
 
     /// Snapshot of a planning session; nil for unknown ids. The poll that
     /// observes `done` removes the session.
-    nonisolated func aiPlanPoll(_ id: UInt64) -> AIPlanSnapshot? {
+ func aiPlanPoll(_ id: UInt64) -> AIPlanSnapshot? {
         guard let ptr = look_ai_plan_poll(id) else { return nil }
         defer { look_free_cstring(ptr) }
         guard let data = String(cString: ptr).data(using: .utf8) else { return nil }
@@ -779,12 +772,12 @@ final class EngineBridge: @unchecked Sendable {
     }
 
     /// Kills the planning request (Ollama aborts generation on disconnect).
-    nonisolated func aiPlanCancel(_ id: UInt64) {
+ func aiPlanCancel(_ id: UInt64) {
         look_ai_plan_cancel(id)
     }
 
     /// Primes the model + prompt cache (BLOCKING network; call off-thread).
-    nonisolated func aiWarmPlanner(host: String, model: String) {
+ func aiWarmPlanner(host: String, model: String) {
         host.withCString { hostC in
             model.withCString { modelC in
                 look_ai_warm_planner(hostC, modelC)
@@ -793,22 +786,21 @@ final class EngineBridge: @unchecked Sendable {
     }
 
     /// Stored AI conversations (newest first) from the Rust-core store.
-    nonisolated func aiConversationsJSON(path: String) -> Data? {
+ func aiConversationsJSON(path: String) -> Data? {
         guard let ptr = path.withCString({ look_ai_conversations_json($0) }) else { return nil }
         defer { look_free_cstring(ptr) }
         return String(cString: ptr).data(using: .utf8)
     }
 
     /// Insert-or-replace one conversation in the Rust-core store.
-    nonisolated func aiConversationUpsert(path: String, json: String) -> Bool {
+ func aiConversationUpsert(path: String, json: String) -> Bool {
         path.withCString { pathC in
             json.withCString { jsonC in
                 look_ai_conversation_upsert(pathC, jsonC)
             }
         }
     }
-
-    nonisolated func aiConversationDelete(path: String, id: String) -> Bool {
+ func aiConversationDelete(path: String, id: String) -> Bool {
         path.withCString { pathC in
             id.withCString { idC in
                 look_ai_conversation_delete(pathC, idC)
@@ -818,7 +810,7 @@ final class EngineBridge: @unchecked Sendable {
 
     /// Tool resolution via the Rust core (core/ai): candidates + params in,
     /// a data-only planned/choice/invalid outcome out. Pure CPU.
-    nonisolated func aiResolve(requestJSON: String) -> Data? {
+ func aiResolve(requestJSON: String) -> Data? {
         guard let ptr = requestJSON.withCString({ look_ai_resolve($0) }) else { return nil }
         defer { look_free_cstring(ptr) }
         return String(cString: ptr).data(using: .utf8)
@@ -826,7 +818,7 @@ final class EngineBridge: @unchecked Sendable {
 
     /// Load the AI mutate targets once (events + reminders JSON arrays) so
     /// per-keystroke `aiResolve` calls can omit the lists. Rust core.
-    nonisolated func aiLoadTargets(eventsJSON: String, remindersJSON: String) {
+ func aiLoadTargets(eventsJSON: String, remindersJSON: String) {
         eventsJSON.withCString { ev in
             remindersJSON.withCString { rem in
                 look_ai_load_targets(ev, rem)
@@ -835,7 +827,7 @@ final class EngineBridge: @unchecked Sendable {
     }
 
     /// Stored facts as a model context block (empty when none). Rust core.
-    nonisolated func aiMemoryContext(path: String) -> String {
+ func aiMemoryContext(path: String) -> String {
         guard let ptr = path.withCString({ look_ai_memory_context($0) }) else { return "" }
         defer { look_free_cstring(ptr) }
         return String(cString: ptr)
@@ -843,7 +835,7 @@ final class EngineBridge: @unchecked Sendable {
 
     /// How many recent item texts fit the token budget (0 = default). The shell
     /// keeps that many tail turns as chat history. Rust core (core/ai/context).
-    nonisolated func aiContextWindow(texts: [String], budget: Int = 0) -> Int {
+ func aiContextWindow(texts: [String], budget: Int = 0) -> Int {
         guard
             let data = try? JSONSerialization.data(withJSONObject: texts),
             let json = String(data: data, encoding: .utf8)
@@ -854,7 +846,7 @@ final class EngineBridge: @unchecked Sendable {
 
     /// The explicit `>verb title @ when` parser (Rust core). Nil = natural
     /// language, deferred to the model.
-    nonisolated func aiParseExplicit(_ input: String, modelAvailable: Bool) -> (toolID: String, params: [String: String])? {
+ func aiParseExplicit(_ input: String, modelAvailable: Bool) -> (toolID: String, params: [String: String])? {
         struct RawCall: Decodable {
             let tool: String
             let params: [String: String]
@@ -868,8 +860,7 @@ final class EngineBridge: @unchecked Sendable {
         else { return nil }
         return (call.tool, call.params)
     }
-
-    nonisolated struct AIChatSnapshot: Decodable {
+ struct AIChatSnapshot: Decodable {
         let text: String
         let done: Bool
         let error: String?
@@ -880,7 +871,7 @@ final class EngineBridge: @unchecked Sendable {
     /// Start a streamed chat session in the Rust core (curl child). 0 = failed.
     /// `optionsJSON` tunes the generation for this surface
     /// (`{num_predict, temperature, timeout_secs}`); empty for core defaults.
-    nonisolated func aiChatStart(
+ func aiChatStart(
         host: String, model: String, messagesJSON: String, optionsJSON: String = ""
     ) -> UInt64 {
         host.withCString { hostC in
@@ -898,7 +889,7 @@ final class EngineBridge: @unchecked Sendable {
     /// cumulative text (the `AIQueryProvider.answer` contract). One transport
     /// for every Ollama caller: same cancellation, timeout, and error handling
     /// as session chat. Cancelling the consuming task kills the request.
-    nonisolated func aiChatStream(
+ func aiChatStream(
         host: String, model: String, messagesJSON: String, optionsJSON: String
     ) -> AsyncThrowingStream<String, Error>? {
         let session = aiChatStart(
@@ -932,7 +923,7 @@ final class EngineBridge: @unchecked Sendable {
     }
 
     /// Snapshot of a chat session's cumulative text; nil for unknown ids.
-    nonisolated func aiChatPoll(_ id: UInt64) -> AIChatSnapshot? {
+ func aiChatPoll(_ id: UInt64) -> AIChatSnapshot? {
         guard let ptr = look_ai_chat_poll(id) else { return nil }
         defer { look_free_cstring(ptr) }
         guard let data = String(cString: ptr).data(using: .utf8) else { return nil }
@@ -940,12 +931,12 @@ final class EngineBridge: @unchecked Sendable {
     }
 
     /// Abort a chat session (Ollama stops generating).
-    nonisolated func aiChatCancel(_ id: UInt64) {
+ func aiChatCancel(_ id: UInt64) {
         look_ai_chat_cancel(id)
     }
 
     /// Rolls a time-only phrase forward when it already passed today (Rust core).
-    nonisolated func aiFutureLeaning(phrase: String, resolved: Date, now: Date) -> Date {
+ func aiFutureLeaning(phrase: String, resolved: Date, now: Date) -> Date {
         let adjusted = phrase.withCString {
             look_ai_future_leaning($0, Int64(resolved.timeIntervalSince1970), Int64(now.timeIntervalSince1970))
         }
@@ -953,7 +944,7 @@ final class EngineBridge: @unchecked Sendable {
     }
 
     /// Markdown segmentation for AI chat answers. Rust core (core/ai).
-    nonisolated func aiMarkdownSegments(_ text: String) -> [AIMarkdownSegment] {
+ func aiMarkdownSegments(_ text: String) -> [AIMarkdownSegment] {
         guard let ptr = text.withCString({ look_ai_markdown_segments_json($0) }) else { return [] }
         defer { look_free_cstring(ptr) }
         guard
@@ -962,8 +953,7 @@ final class EngineBridge: @unchecked Sendable {
         else { return [] }
         return segments
     }
-
-    nonisolated func fuzzyScore(query: String, title: String) -> Int? {
+ func fuzzyScore(query: String, title: String) -> Int? {
         let score = query.withCString { queryCstr in
             title.withCString { titleCstr in
                 look_fuzzy_score(queryCstr, titleCstr)
@@ -974,7 +964,7 @@ final class EngineBridge: @unchecked Sendable {
 
     /// Network-free gate: whether `query` matches a shared instant-answer
     /// provider (currency/weather/crypto). Cheap - safe to call while typing.
-    nonisolated func instantAnswerMatches(_ query: String) -> Bool {
+ func instantAnswerMatches(_ query: String) -> Bool {
         query.withCString { look_instant_has_match($0) }
     }
 
@@ -982,7 +972,7 @@ final class EngineBridge: @unchecked Sendable {
     /// dedicated `/calc` panel, where the user already declared this is a
     /// calculation and a specific error is worth showing. Network-free; safe
     /// to call while typing.
-    nonisolated func calcEval(expr: String) -> CalcEvalResult {
+ func calcEval(expr: String) -> CalcEvalResult {
         let fallback = CalcEvalResult(calculation: nil, error: "Invalid expression")
         guard let ptr = expr.withCString({ look_calc_eval_json($0) }) else { return fallback }
         defer { look_free_cstring(ptr) }
@@ -995,31 +985,31 @@ final class EngineBridge: @unchecked Sendable {
     /// The main search field: resolves `query` only when it was clearly meant
     /// as arithmetic (dates/resolutions/ratios stay untouched). Network-free
     /// and cheap enough to call on every keystroke.
-    nonisolated func calcInline(query: String) -> CalculationDTO? {
+ func calcInline(query: String) -> CalculationDTO? {
         decodeCalculation(query.withCString { look_calc_inline_json($0) })
     }
 
     /// Resolves a shared instant answer (currency/weather/crypto) for `query`,
     /// or nil when nothing matches / the lookup fails. Blocking - call off the
     /// main thread (it performs network I/O in the Rust core).
-    nonisolated func instantAnswer(query: String) -> WebAnswer? {
+ func instantAnswer(query: String) -> WebAnswer? {
         decodeWebAnswer(query.withCString { look_instant_answer_json($0) })
     }
 
     /// DuckDuckGo instant answer for `query`, or nil. Blocking - call off-thread.
-    nonisolated func duckDuckGoAnswer(query: String) -> WebAnswer? {
+ func duckDuckGoAnswer(query: String) -> WebAnswer? {
         decodeWebAnswer(query.withCString { look_duckduckgo_answer_json($0) })
     }
 
     /// Wikipedia summary for an already-chosen `searchTerm`, or nil. Blocking -
     /// call off-thread.
-    nonisolated func wikipediaAnswer(searchTerm: String) -> WebAnswer? {
+ func wikipediaAnswer(searchTerm: String) -> WebAnswer? {
         decodeWebAnswer(searchTerm.withCString { look_wikipedia_answer_json($0) })
     }
 
     /// Up to `limit` search autocomplete suggestions for `query`. Blocking -
     /// call off-thread.
-    nonisolated func webSuggestions(query: String, limit: Int) -> [String] {
+ func webSuggestions(query: String, limit: Int) -> [String] {
         let ptr = query.withCString { look_web_suggestions_json($0, UInt32(limit)) }
         guard let ptr else { return [] }
         defer { look_free_cstring(ptr) }
@@ -1031,7 +1021,7 @@ final class EngineBridge: @unchecked Sendable {
 
     /// Classifies `query` as a URL, or nil to leave it as a search term.
     /// Network-free; shares the Rust core's tier rules and TLD list with linows.
-    nonisolated func classifyURL(query: String) -> URLMatch? {
+ func classifyURL(query: String) -> URLMatch? {
         let ptr = query.withCString { look_classify_url_json($0) }
         guard let ptr else { return nil }
         defer { look_free_cstring(ptr) }
@@ -1043,14 +1033,14 @@ final class EngineBridge: @unchecked Sendable {
     /// Records that `url` was opened through the launcher, for later re-open
     /// suggestions. Fire-and-forget; opens the shared look.db (own connection).
     @discardableResult
-    nonisolated func recordURLHit(url: String) -> Bool {
+ func recordURLHit(url: String) -> Bool {
         url.withCString { look_record_url_hit($0) }
     }
 
     /// The user-declared block a row belongs to, with the exact steps Enter will
     /// perform, and the actions declared for rows like it. Reads the sources
     /// directory, so call it off the main thread.
-    nonisolated func sourceBlock(
+ func sourceBlock(
         candidateID: String, row: RowRef, ancestorsJSON: String = "[]"
     ) -> SourceBlock? {
         let ptr = candidateID.withCString { candidate in
@@ -1073,7 +1063,7 @@ final class EngineBridge: @unchecked Sendable {
     /// The rows of `blockID`, produced against the row a level is opening from.
     /// Runs the block's command, so call it off the main thread. `error`
     /// non-nil means do not descend.
-    nonisolated func sourceRows(
+ func sourceRows(
         blockID: String, parentCandidateID: String, parentTitle: String, parentPath: String,
         query: String, ancestorsJSON: String = "[]"
     ) -> SourceLevel? {
@@ -1099,7 +1089,7 @@ final class EngineBridge: @unchecked Sendable {
 
     /// What `action` would do to a row, without doing it: the tool it would
     /// start, or why it cannot. For labels and availability.
-    nonisolated func toolAction(
+ func toolAction(
         _ action: String, row: ToolActionRow, isDirectory: Bool
     ) -> ToolAction? {
         let ptr = row.withCStrings { candidate, title, path, ancestors in
@@ -1113,7 +1103,7 @@ final class EngineBridge: @unchecked Sendable {
     /// Runs `action` on a row. Shell actions are spawned detached inside core;
     /// an `application` result is handed back for `NSWorkspace` to launch.
     /// Spawns a process, so call it off the main thread.
-    nonisolated func performToolAction(
+ func performToolAction(
         _ action: String, row: ToolActionRow, isDirectory: Bool
     ) -> ToolAction? {
         let ptr = row.withCStrings { candidate, title, path, ancestors in
@@ -1133,7 +1123,7 @@ final class EngineBridge: @unchecked Sendable {
 
     /// Re-runs every `run` block and stores its rows for the next index pass.
     /// Spawns the user's commands and waits for them - call off the main thread.
-    nonisolated func refreshRunBlocks() -> RunBlockRefreshOutcome {
+ func refreshRunBlocks() -> RunBlockRefreshOutcome {
         guard let ptr = look_refresh_run_blocks_json() else {
             return RunBlockRefreshOutcome(refreshed: 0, errors: [])
         }
@@ -1148,7 +1138,7 @@ final class EngineBridge: @unchecked Sendable {
 
     /// A block's declared `preview`, run against the selected row. Nil when the
     /// block declares none. Runs a command - call off the main thread.
-    nonisolated func sourcePreview(
+ func sourcePreview(
         candidateID: String, row: RowRef, ancestorsJSON: String = "[]"
     ) -> SourcePreview? {
         let ptr = candidateID.withCString { candidate in
@@ -1170,7 +1160,7 @@ final class EngineBridge: @unchecked Sendable {
 
     /// Every declared block, for the row-icon cache. Reads the sources
     /// directory, so call it off the main thread.
-    nonisolated func sourceBlocks() -> [SourceBlockSummary] {
+ func sourceBlocks() -> [SourceBlockSummary] {
         guard let ptr = look_source_blocks_json() else { return [] }
         defer { look_free_cstring(ptr) }
         guard let data = String(cString: ptr).data(using: .utf8) else { return [] }
@@ -1182,7 +1172,7 @@ final class EngineBridge: @unchecked Sendable {
     /// `asTarget` is the caller's intent, and only the caller knows it: Enter on
     /// a row runs that block's `open`, while a `then` target that produces rows
     /// is a level to descend into rather than something to run.
-    nonisolated func performBlock(
+ func performBlock(
         blockID: String,
         row: RowRef,
         query: String = "",
@@ -1228,7 +1218,7 @@ final class EngineBridge: @unchecked Sendable {
 
     /// Up to `limit` previously-opened URLs matching `query`, most-recent first.
     /// Opens the shared look.db - call off the main thread.
-    nonisolated func recentURLs(query: String, limit: Int) -> [URLHistoryEntry] {
+ func recentURLs(query: String, limit: Int) -> [URLHistoryEntry] {
         let ptr = query.withCString { look_recent_urls_json($0, UInt32(limit)) }
         guard let ptr else { return [] }
         defer { look_free_cstring(ptr) }
@@ -1239,7 +1229,7 @@ final class EngineBridge: @unchecked Sendable {
     }
 
     /// One remembered clip, as stored in the shared look.db.
-    nonisolated struct ClipboardEntry: Decodable, Identifiable, Equatable {
+ struct ClipboardEntry: Decodable, Identifiable, Equatable {
         let id: Int64
         let content: String
         /// Identity of what was copied. For an image clip it is also the stem
@@ -1261,7 +1251,7 @@ final class EngineBridge: @unchecked Sendable {
     /// manager's clip can be kept out of the database.
     /// Opens the shared look.db - call off the main thread.
     @discardableResult
-    nonisolated func recordClipboard(content: String, appBundleID: String? = nil) -> Int64? {
+ func recordClipboard(content: String, appBundleID: String? = nil) -> Int64? {
         let id = content.withCString { contentC in
             if let appBundleID {
                 return appBundleID.withCString { appC in
@@ -1280,7 +1270,7 @@ final class EngineBridge: @unchecked Sendable {
     /// Same concealed-clip rule as `recordClipboard`: only this side sees the
     /// pasteboard markers.
     @discardableResult
-    nonisolated func recordClipboardImage(
+ func recordClipboardImage(
         label: String, imageHash: String, appBundleID: String? = nil
     ) -> Int64? {
         let id = label.withCString { labelC in
@@ -1299,7 +1289,7 @@ final class EngineBridge: @unchecked Sendable {
     /// Where image clips keep their bytes. Core owns the location and sweeps
     /// anything in it that no row claims, so this side asks rather than
     /// assembling the path itself.
-    nonisolated func clipboardImagesDirectory() -> URL? {
+ func clipboardImagesDirectory() -> URL? {
         guard let ptr = look_clipboard_images_dir() else { return nil }
         defer { look_free_cstring(ptr) }
         let path = String(cString: ptr)
@@ -1309,7 +1299,7 @@ final class EngineBridge: @unchecked Sendable {
     /// Up to `limit` remembered clips of `kind` matching `query` (newest
     /// first). An empty query returns the most recent. Opens look.db - call off
     /// the main thread.
-    nonisolated func clipboardEntries(
+ func clipboardEntries(
         kind: String = AppConstants.Launcher.Clipboard.textKind,
         query: String = "",
         limit: Int
@@ -1326,20 +1316,20 @@ final class EngineBridge: @unchecked Sendable {
     }
 
     @discardableResult
-    nonisolated func deleteClipboardEntry(id: Int64) -> Bool {
+ func deleteClipboardEntry(id: Int64) -> Bool {
         look_clipboard_delete(id)
     }
 
     /// Forgets every clip, returning how many were removed.
     @discardableResult
-    nonisolated func clearClipboardHistory() -> Int {
+ func clearClipboardHistory() -> Int {
         Int(look_clipboard_clear())
     }
 
     /// Quick Action descriptors for a result, from the shared `look_qactions`
     /// catalog (see docs/writing-controls.md). Empty when the result has none.
     /// Pure catalog lookup - cheap, safe to call while typing.
-    nonisolated func quickActions(forResultID resultID: String, kind: String) -> [QuickActionDescriptor] {
+ func quickActions(forResultID resultID: String, kind: String) -> [QuickActionDescriptor] {
         let ptr = resultID.withCString { idCstr in
             kind.withCString { kindCstr in
                 look_qactions_json(idCstr, kindCstr)
@@ -1358,7 +1348,7 @@ final class EngineBridge: @unchecked Sendable {
     /// tile arrives knowing the cell it occupies. Reads a small file, so it is
     /// cheap but not free - call it on a reload, not per frame. Empty only on
     /// an unexpected decode failure.
-    nonisolated func launchpadLayout() -> LaunchpadLayout {
+ func launchpadLayout() -> LaunchpadLayout {
         guard let ptr = look_quick_actions_launchpad_json() else { return .empty }
         defer { look_free_cstring(ptr) }
         guard let data = String(cString: ptr).data(using: .utf8) else { return .empty }
@@ -1368,7 +1358,7 @@ final class EngineBridge: @unchecked Sendable {
     }
 
     /// What each user tile shows. Reads a cache; runs nothing.
-    nonisolated func launchpadTileValues() -> [String: LaunchpadTileValue] {
+ func launchpadTileValues() -> [String: LaunchpadTileValue] {
         guard let ptr = look_launchpad_tile_values_json() else { return [:] }
         defer { look_free_cstring(ptr) }
         guard let data = String(cString: ptr).data(using: .utf8) else { return [:] }
@@ -1376,7 +1366,7 @@ final class EngineBridge: @unchecked Sendable {
     }
 
     /// Spawns and blocks: never on the main thread.
-    nonisolated func refreshLaunchpadTiles() -> LaunchpadTileRefresh {
+ func refreshLaunchpadTiles() -> LaunchpadTileRefresh {
         guard let ptr = look_launchpad_refresh_tiles_json() else { return .init() }
         defer { look_free_cstring(ptr) }
         guard let data = String(cString: ptr).data(using: .utf8) else { return .init() }
@@ -1384,7 +1374,7 @@ final class EngineBridge: @unchecked Sendable {
     }
 
     /// Runs a user tile's `press`.
-    nonisolated func pressLaunchpadTile(_ name: String) -> String? {
+ func pressLaunchpadTile(_ name: String) -> String? {
         let ptr = name.withCString { look_launchpad_press_tile_json($0) }
         guard let ptr else { return "the core did not answer" }
         defer { look_free_cstring(ptr) }
@@ -1398,7 +1388,7 @@ final class EngineBridge: @unchecked Sendable {
     /// The core prints these to stderr, which is invisible to anyone who did
     /// not launch Look from a terminal - and this is the one config edited by
     /// people who then immediately look at the window to see what it did.
-    nonisolated func launchpadWarnings() -> [String] {
+ func launchpadWarnings() -> [String] {
         guard let ptr = look_launchpad_warnings_json() else { return [] }
         defer { look_free_cstring(ptr) }
         guard let data = String(cString: ptr).data(using: .utf8) else { return [] }
@@ -1407,7 +1397,7 @@ final class EngineBridge: @unchecked Sendable {
 
     /// The entity from a definitional query ("what is vim" -> "vim"), or nil.
     /// Network-free heuristic in the Rust core.
-    nonisolated func definitionalEntity(query: String) -> String? {
+ func definitionalEntity(query: String) -> String? {
         let ptr = query.withCString { look_definitional_entity_json($0) }
         guard let ptr else { return nil }
         defer { look_free_cstring(ptr) }
@@ -1419,7 +1409,7 @@ final class EngineBridge: @unchecked Sendable {
     /// Decodes a `look_answers::Answer` JSON C string (or `null`) into a
     /// `WebAnswer`, freeing the pointer. Shared by the instant/DDG/Wikipedia
     /// paths since they all return the same shape.
-    nonisolated private func decodeWebAnswer(_ ptr: UnsafeMutablePointer<CChar>?) -> WebAnswer? {
+ private func decodeWebAnswer(_ ptr: UnsafeMutablePointer<CChar>?) -> WebAnswer? {
         guard let ptr else { return nil }
         defer { look_free_cstring(ptr) }
 
@@ -1439,7 +1429,7 @@ final class EngineBridge: @unchecked Sendable {
 
     /// Decodes a `look_calc::Calculation` JSON C string (or `null`), freeing
     /// the pointer.
-    nonisolated private func decodeCalculation(_ ptr: UnsafeMutablePointer<CChar>?) -> CalculationDTO? {
+ private func decodeCalculation(_ ptr: UnsafeMutablePointer<CChar>?) -> CalculationDTO? {
         guard let ptr else { return nil }
         defer { look_free_cstring(ptr) }
 
@@ -1447,8 +1437,7 @@ final class EngineBridge: @unchecked Sendable {
         guard raw != "null", let data = raw.data(using: .utf8) else { return nil }
         return try? JSONDecoder().decode(CalculationDTO.self, from: data)
     }
-
-    nonisolated private func fallbackResults() -> [LauncherResult] {
+ private func fallbackResults() -> [LauncherResult] {
         []
     }
 }

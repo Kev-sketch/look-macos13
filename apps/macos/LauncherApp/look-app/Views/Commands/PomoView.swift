@@ -757,8 +757,8 @@ private final class KeyCommandsHostView: NSView {
     var onR: (() -> Void)?
     var onP: (() -> Void)?
     var onActivity: (() -> Void)?
-    nonisolated(unsafe) private var keyMonitor: Any?
-    nonisolated(unsafe) private var activityMonitor: Any?
+ private var keyMonitor: Any?
+ private var activityMonitor: Any?
 
     override func viewDidMoveToWindow() {
         super.viewDidMoveToWindow()

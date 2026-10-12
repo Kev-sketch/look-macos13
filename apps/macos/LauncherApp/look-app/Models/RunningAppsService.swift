@@ -125,7 +125,7 @@ final class RunningAppsService: ObservableObject {
             queue: .main
         ) { [weak self] note in
             let activatedPID = (note.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication)?.processIdentifier
-            Task { @MainActor in
+            Task { @MainActor [weak self] in
                 guard let self else { return }
                 // Track which app is frontmost (for the accent ring) but
                 // do NOT reorder items - positions are kept stable.
@@ -139,7 +139,9 @@ final class RunningAppsService: ObservableObject {
             NSWorkspace.didTerminateApplicationNotification,
         ] {
             nc.addObserver(forName: name, object: nil, queue: .main) { [weak self] _ in
-                Task { @MainActor in self?.refresh() }
+                Task { @MainActor [weak self] in
+                    self?.refresh()
+                }
             }
         }
     }

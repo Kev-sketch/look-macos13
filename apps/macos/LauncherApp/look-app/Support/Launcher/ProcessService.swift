@@ -1,5 +1,11 @@
 import Darwin
 import Foundation
+#if canImport(CltLibproc)
+// SDK 13.3: libproc.h is not part of the Darwin module (it joined the umbrella
+// in later SDKs). scripts/build-macos-clt.sh supplies it through an extra
+// module map; on newer SDKs these come from Darwin and this import is skipped.
+import CltLibproc
+#endif
 
 /// One row in the `ps"` finder: a raw process. Kept minimal so enumeration stays
 /// cheap; richer fields load per-selection via `ProcessService.detail`. Mirrors

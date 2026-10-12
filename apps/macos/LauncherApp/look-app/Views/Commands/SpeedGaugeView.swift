@@ -108,11 +108,14 @@ private struct GaugePalette {
         label = themeStore.mutedTextColor()
         download = themeStore.successColor()
         upload = themeStore.accentColor()
-        latency = switch latencyLevel {
-        case "bad": themeStore.dangerColor()
-        case "warn": themeStore.warningColor()
-        case "good": themeStore.successColor()
-        default: themeStore.mutedTextColor()
+        // Exactly one assignment per branch: Swift 5.8 rejects re-assigning a
+        // `let` that a previous statement already initialised, which Swift 6
+        // permits.
+        switch latencyLevel {
+        case "bad": latency = themeStore.dangerColor()
+        case "warn": latency = themeStore.warningColor()
+        case "good": latency = themeStore.successColor()
+        default: latency = themeStore.mutedTextColor()
         }
     }
 }
@@ -166,6 +169,11 @@ private final class GaugeMotion {
 /// inner one, around a centre that beats once per round trip. Speed shows as
 /// orbit pace and tail length rather than a needle position, so the dial reads
 /// as a working instrument even before you read the numbers.
+/// `@MainActor` explicitly: the app's Xcode build gets this implicitly from
+/// `SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor`, which the Command Line Tools
+/// build has no equivalent for. Without it the `Canvas` render closures are
+/// nonisolated and cannot read `GaugeMotion`, which is `@MainActor`.
+@MainActor
 struct SpeedGaugeView: View {
     let downloadBitsPerSecond: Double
     let uploadBitsPerSecond: Double
@@ -253,8 +261,12 @@ struct SpeedGaugeView: View {
 
         for mbps in Orbit.majorMbps {
             drawTick(in: &context, dial: dial, mbps: mbps, length: Orbit.majorTickLength, color: palette.majorTick)
+            // `foregroundColor`, not `foregroundStyle`: on the macOS 13.3 SDK
+            // `Text.foregroundStyle` resolves to the generic `View` modifier,
+            // which returns `some View` and has no `GraphicsContext.draw`
+            // overload. `foregroundColor` returns `Text` on every SDK.
             context.draw(
-                Text(Self.tickLabel(mbps)).font(labelFont).foregroundStyle(palette.label),
+                Text(Self.tickLabel(mbps)).font(labelFont).foregroundColor(palette.label),
                 at: Orbit.point(
                     center: dial.center,
                     radius: outerRadius + Orbit.labelGap,

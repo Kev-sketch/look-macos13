@@ -414,7 +414,7 @@ enum AppConstants {
 
         /// `nonisolated`: read by the writer that stores a clip off the main
         /// thread.
-        nonisolated enum Clipboard {
+ enum Clipboard {
             static let resultIDPrefix = "clipboard:"
             static let resultPath = "clipboard://history"
             /// The `kind` column's values. Must match core/storage.
@@ -449,7 +449,7 @@ enum AppConstants {
 
         /// The `ci"` history. Shares rows and storage with Clipboard above;
         /// only the capture limits and the labels differ.
-        nonisolated enum ClipboardImage {
+ enum ClipboardImage {
             static let resultIDPrefix = "clipimage:"
             static let resultPath = "clipboard://images"
             /// The fallback when `clipboard_image_limit` in ~/.look/config is

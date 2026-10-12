@@ -3,6 +3,10 @@ import Darwin
 import SwiftUI
 import UserNotifications
 
+private final class SingletonLockBox {
+    var fd: CInt = -1
+}
+
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private let pomoMenuBarItem = PomoMenuBarItem()
@@ -20,11 +24,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private static let relaunchGracePeriodSeconds: TimeInterval = 0.8
     private static let contentionRetrySeconds: TimeInterval = 0.25
     private static let lockPollIntervalMicros: useconds_t = 50_000
-    nonisolated(unsafe) private static var singletonLockFD: CInt = -1
+    /// Process-wide singleton-lock fd. A reference type, not a static var on
+    /// the @MainActor class: the nonisolated deinit has to release the lock
+    /// without an isolation hop.
+    private static let singletonLock = SingletonLockBox()
 
     deinit {
-        SingleInstanceLock.release(Self.singletonLockFD)
-        Self.singletonLockFD = -1
+        SingleInstanceLock.release(Self.singletonLock.fd)
+        Self.singletonLock.fd = -1
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
@@ -134,8 +141,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func acquireSingletonLock(lockPath: String, timeoutSeconds: TimeInterval) -> SingleInstanceLockResult {
-        if Self.singletonLockFD >= 0 {
-            return .acquired(Self.singletonLockFD)
+        if Self.singletonLock.fd >= 0 {
+            return .acquired(Self.singletonLock.fd)
         }
 
         let lockResult = SingleInstanceLock.acquire(
@@ -145,7 +152,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         )
 
         if case .acquired(let fd) = lockResult {
-            Self.singletonLockFD = fd
+            Self.singletonLock.fd = fd
         }
 
         return lockResult

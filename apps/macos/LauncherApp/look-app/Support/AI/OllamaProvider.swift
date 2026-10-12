@@ -79,7 +79,7 @@ struct OllamaProvider: AIQueryProvider {
 
     /// Loads the model into memory (no generation), so the first real request is
     /// warm. Held resident by `keep_alive`.
-    nonisolated static func warm(host: String, model: String) async {
+ static func warm(host: String, model: String) async {
         guard
             let url = URL(string: host + "/api/generate"),
             let body = OllamaCodec.warmRequestBody(model: model)
@@ -89,7 +89,7 @@ struct OllamaProvider: AIQueryProvider {
 
     /// One-shot `GET /api/tags` probe mapped to availability. Called only from
     /// the background refresh, never on the UI thread.
-    nonisolated static func probe(host: String, model: String) async -> AIProviderAvailability {
+ static func probe(host: String, model: String) async -> AIProviderAvailability {
         guard let url = URL(string: host + "/api/tags") else {
             return .unavailable(.other("Invalid Ollama host: \(host)"))
         }
@@ -111,7 +111,7 @@ struct OllamaProvider: AIQueryProvider {
 
     /// Installed model names from `GET /api/tags`, for the Settings picker. Empty
     /// when Ollama is unreachable, so the UI falls back to manual entry.
-    nonisolated static func listModels(host: String) async -> [String] {
+ static func listModels(host: String) async -> [String] {
         guard let url = URL(string: host + "/api/tags") else { return [] }
         var request = URLRequest(url: url)
         request.timeoutInterval = 2
@@ -152,7 +152,7 @@ enum OllamaError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .server(let message): message
+        case .server(let message): return message
         }
     }
 }

@@ -10,7 +10,7 @@ import Foundation
 enum RowIconCache {
     // NSCache is documented thread-safe; nonisolated(unsafe) satisfies Swift 6
     // strict-concurrency without an actor wrapper, as in `HighlightedTextCache`.
-    nonisolated(unsafe) private static let cache: NSCache<NSString, NSImage> = {
+ private static let cache: NSCache<NSString, NSImage> = {
         let c = NSCache<NSString, NSImage>()
         // Several screenfuls, so scrolling does not evict icons about to return.
         c.countLimit = 256

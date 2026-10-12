@@ -16,7 +16,7 @@ struct LaunchpadGrid {
     private let gap: CGFloat
 
     /// The shape a drawing declared, as the core resolved it.
-    nonisolated struct Shape: Decodable, Equatable {
+ struct Shape: Decodable, Equatable {
         let columns: Int
         let rows: Int
     }

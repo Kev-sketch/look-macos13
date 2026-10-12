@@ -87,7 +87,7 @@ final class EventKitService: @unchecked Sendable {
 #if LOOK_VENTURA_SDK13
         // macOS 13's legacy pre-14 prompt: no full/write-only split exists.
         await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-            store.requestAccess(to: .event) { _ in
+            store.requestAccess(to: .event) { _, _ in
                 continuation.resume()
             }
         }
@@ -99,7 +99,7 @@ final class EventKitService: @unchecked Sendable {
     func requestReminderAccess() async {
 #if LOOK_VENTURA_SDK13
         await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
-            store.requestAccess(to: .reminder) { _ in
+            store.requestAccess(to: .reminder) { _, _ in
                 continuation.resume()
             }
         }

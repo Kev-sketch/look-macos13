@@ -42,10 +42,10 @@ struct AIMessage: Equatable, Sendable {
         }
         guard turns.count > 1 else { return flattened(turns) }
         return turns
-            .map { turn in
+            .map { turn -> String in
                 switch turn.role {
-                case .assistant: "Assistant: \(turn.content)"
-                case .user, .system: "User: \(turn.content)"
+                case .assistant: return "Assistant: \(turn.content)"
+                case .user, .system: return "User: \(turn.content)"
                 }
             }
             .joined(separator: "\n\n")

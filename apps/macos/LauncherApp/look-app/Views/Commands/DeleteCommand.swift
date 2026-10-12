@@ -111,8 +111,7 @@ struct EmptyTrashCommand {
             DispatchQueue.main.async { completion(error) }
         }
     }
-
-    nonisolated private static func runFinder(_ body: String) -> (NSAppleEventDescriptor?, String?) {
+ private static func runFinder(_ body: String) -> (NSAppleEventDescriptor?, String?) {
         let source = "tell application \"Finder\"\n\(body)\nend tell"
         guard let script = NSAppleScript(source: source) else {
             return (nil, "Could not build Finder script")

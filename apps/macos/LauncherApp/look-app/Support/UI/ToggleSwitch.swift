@@ -44,10 +44,12 @@ struct ToggleSwitch: View {
     }
 
     private var trackColor: Color {
+        // Explicit .some/.none patterns: Swift 5.8's exhaustiveness check does
+        // not accept literal cases against an Optional subject.
         switch isOn {
-        case true: return Color.green.opacity(Track.onOpacity)
-        case false: return themeStore.dividerColor().opacity(Track.offOpacity)
-        case nil: return themeStore.dividerColor().opacity(Track.loadingOpacity)
+        case .some(true): return Color.green.opacity(Track.onOpacity)
+        case .some(false): return themeStore.dividerColor().opacity(Track.offOpacity)
+        case .none: return themeStore.dividerColor().opacity(Track.loadingOpacity)
         }
     }
 }

@@ -8,15 +8,14 @@ private typealias KeyCode = AppConstants.Launcher.KeyCode
 final class KeyboardSelectionMonitor {
     private var monitor: Any?
     private var isKillConfirmationActive: @MainActor () -> Bool = { false }
-    nonisolated private static let logger = Logger(subsystem: "noah-code.Look", category: "ui-key")
-    nonisolated private static let debugKeyLoggingEnabled: Bool = {
+ private static let logger = Logger(subsystem: "noah-code.Look", category: "ui-key")
+ private static let debugKeyLoggingEnabled: Bool = {
         let env = ProcessInfo.processInfo.environment
         let raw = env["LOOK_UI_DEBUG_EVENTS"] ?? env["LOOK_DEV_HINT"] ?? ""
         return ["1", "true", "yes", "on"].contains(
             raw.trimmingCharacters(in: .whitespacesAndNewlines).lowercased())
     }()
-
-    nonisolated private static func logKey(_ message: String) {
+ private static func logKey(_ message: String) {
         guard Self.debugKeyLoggingEnabled else { return }
         Self.logger.notice("\(message, privacy: .public)")
     }
@@ -24,7 +23,7 @@ final class KeyboardSelectionMonitor {
     /// ⌘ and ⌃ are interchangeable for the action-menu J/K pair, so the same
     /// vim keys work whichever modifier the hand is already on. Exact match, so
     /// adding Shift or Option still falls through to whatever owns that chord.
-    nonisolated private static func isActionMenuChord(_ flags: NSEvent.ModifierFlags) -> Bool {
+ private static func isActionMenuChord(_ flags: NSEvent.ModifierFlags) -> Bool {
         flags == [.command] || flags == [.control]
     }
 
