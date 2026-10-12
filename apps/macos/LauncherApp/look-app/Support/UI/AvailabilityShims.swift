@@ -50,4 +50,34 @@ extension View {
         }
 #endif
     }
+
+    /// macOS 14 `.scrollClipDisabled()`; no-op on older SDKs/systems, which
+    /// only costs the cosmetic ability of a tooltip to spill past the clip.
+    @ViewBuilder
+    func lookScrollClipDisabled() -> some View {
+#if LOOK_VENTURA_SDK13
+        self
+#else
+        if #available(macOS 14.0, *) {
+            self.scrollClipDisabled()
+        } else {
+            self
+        }
+#endif
+    }
+
+    /// macOS 15 `.pointerStyle(.link)`; no-op on older SDKs/systems. The link
+    /// cursor is cosmetic - rows stay fully clickable without it.
+    @ViewBuilder
+    func lookPointerStyleLink(_ isLink: Bool) -> some View {
+#if LOOK_VENTURA_SDK13
+        self
+#else
+        if #available(macOS 15.0, *) {
+            self.pointerStyle(isLink ? .link : nil)
+        } else {
+            self
+        }
+#endif
+    }
 }

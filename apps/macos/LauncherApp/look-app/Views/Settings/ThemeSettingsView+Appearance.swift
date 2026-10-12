@@ -5,187 +5,195 @@ extension ThemeSettingsView {
     var appearanceTab: some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(alignment: .leading, spacing: 10) {
-                HStack(spacing: 14) {
-                    inlinePickerLabel("Theme")
-                    Picker("Theme", selection: $settings.uiTheme) {
-                        ForEach(BuiltinThemePreset.options(including: settings.uiTheme)) { preset in
-                            Text(preset.pickerTitle).tag(preset)
-                        }
-                    }
-                    .pickerStyle(.menu)
-                    .labelsHidden()
-                    .frame(width: AppConstants.ThemeUI.pickerWidth)
-                    .onChange(of: settings.uiTheme) { newValue in
-                        themeStore.applyBuiltinTheme(newValue)
-                    }
-
-                    Spacer(minLength: 0)
-                }
-
-                HStack(spacing: 14) {
-                    // Compact shows neither the strip nor the launchpad, so
-                    // the session override (⌘⇧C) hides these too.
-                    if themeStore.effectiveLayout == .split {
-                        appearanceSwitch(
-                            "Running Apps",
-                            isOn: Binding(
-                                get: { settings.runningAppsPlacement != .none },
-                                set: { settings.runningAppsPlacement = $0 ? .right : .none }
-                            ),
-                            help: "Show running apps in the right half of the search bar (⌘1-9 to switch)")
-
-                        Spacer().frame(width: 40)
-
-                        appearanceSwitch(
-                            "Super Actions",
-                            isOn: $settings.superActionsEnabled,
-                            help: "Show the quick-actions launchpad on the empty home screen (⌘ + letter)")
-
-                        Spacer().frame(width: 40)
-                    }
-
-                    appearanceSwitch(
-                        "Animations",
-                        isOn: $settings.animationsEnabled,
-                        help: "Animate the launcher when it opens and as the selection moves. Off shows every change instantly.")
-
-                    Spacer(minLength: 0)
-                }
-
-                Divider()
-                    .overlay(themeStore.dividerColor())
-                    .padding(.vertical, 4)
-
-                sectionHeader("Layout")
-
-                HStack(spacing: 10) {
-                    Text("Window")
-                        .frame(width: AppConstants.ThemeUI.labelWidth, alignment: .leading)
-                        .font(themeStore.uiFont(size: CGFloat(settings.fontSize - 1), weight: .regular))
-                        .foregroundStyle(themeStore.secondaryTextColor())
-
-                    layoutSegment
-
-                    Spacer(minLength: 0)
-                }
-
-                LabeledSlider(
-                    title: "Inner Gap",
-                    value: $settings.innerGap,
-                    range: AppConstants.ThemeUI.innerGapRange)
-                    .help("i3-style gap between the top row, results list and preview. 0 = flat layout; higher turns each into its own card.")
-
-                LabeledSlider(
-                    title: "Corner Radius",
-                    value: $settings.surfaceRadius,
-                    range: AppConstants.ThemeUI.surfaceRadiusRange)
-                    .help("Corner rounding, shared by every surface: the panel, the top bar, the launchpad tiles and the controls. 0 = square.")
-
-                sectionHeader("Tint Color")
-
-                LabeledSlider(title: "Red", value: $settings.tintRed, range: 0...1)
-                LabeledSlider(title: "Green", value: $settings.tintGreen, range: 0...1)
-                LabeledSlider(title: "Blue", value: $settings.tintBlue, range: 0...1)
-                LabeledSlider(title: "Tint Opacity", value: $settings.tintOpacity, range: 0...1)
-
-                sectionHeader("Blur")
-
-                // Disabled rather than hidden, to keep the value visible.
-                LabeledSlider(title: "Blur Opacity", value: $settings.blurOpacity, range: 0...1)
-                    .disabled(settings.blurMaterial.rendersGlass)
-                    .opacity(settings.blurMaterial.rendersGlass ? AppConstants.ThemeUI.disabledControlOpacity : 1)
-
-                LabeledSlider(title: "Settings Blur", value: $settings.settingsBlurMultiplier, range: 0.4...1)
-                    .help("How much the backdrop thins while Settings is open.")
-
-                HStack(spacing: 10) {
-                    Text("Blur Style")
-                        .frame(width: AppConstants.ThemeUI.labelWidth, alignment: .leading)
-                        .font(themeStore.uiFont(size: CGFloat(settings.fontSize - 1), weight: .regular))
-                        .foregroundStyle(themeStore.secondaryTextColor())
-
-                    Picker("Blur Style", selection: $settings.blurMaterial) {
-                        ForEach(LauncherBlurMaterial.options(including: settings.blurMaterial)) { item in
-                            Text(item.pickerTitle).tag(item)
-                        }
-                    }
-                    .pickerStyle(.menu)
-                    .labelsHidden()
-                    .frame(width: AppConstants.ThemeUI.pickerWidth)
-
-                    Text(settings.blurMaterial.detail)
-                        .font(themeStore.uiFont(size: CGFloat(settings.fontSize - 2), weight: .regular))
-                        .foregroundStyle(themeStore.mutedTextColor())
-                        .lineLimit(1)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-
-                sectionHeader("Font")
-
-                HStack(spacing: 10) {
-                    Text("Font Name")
-                        .frame(width: AppConstants.ThemeUI.labelWidth, alignment: .leading)
-                        .font(themeStore.uiFont(size: CGFloat(settings.fontSize - 1), weight: .regular))
-                        .foregroundStyle(themeStore.secondaryTextColor())
-
-                    TextField("SF Pro Text", text: $settings.fontName)
-                        .textFieldStyle(.roundedBorder)
-                        .focused($focusedField, equals: .fontName)
-                        .onTapGesture {
-                            focusedField = .fontName
-                            fontSuggestions = themeStore.fontNameSuggestions(for: settings.fontName, limit: 24)
-                            showsFontSuggestions = true
-                        }
-                        .onChange(of: settings.fontName) { newValue in
-                            if isPickingFontSuggestion {
-                                return
+                Group {
+                    HStack(spacing: 14) {
+                        inlinePickerLabel("Theme")
+                        Picker("Theme", selection: $settings.uiTheme) {
+                            ForEach(BuiltinThemePreset.options(including: settings.uiTheme)) { preset in
+                                Text(preset.pickerTitle).tag(preset)
                             }
-                            fontSuggestions = themeStore.fontNameSuggestions(for: newValue, limit: 24)
-                            showsFontSuggestions = focusedField == .fontName
                         }
-                        .onSubmit {
-                            if let first = fontSuggestions.first {
-                                isPickingFontSuggestion = true
-                                settings.fontName = first
-                                DispatchQueue.main.async {
-                                    placeCaretAtEndOfFontField()
-                                    isPickingFontSuggestion = false
+                        .pickerStyle(.menu)
+                        .labelsHidden()
+                        .frame(width: AppConstants.ThemeUI.pickerWidth)
+                        .onChange(of: settings.uiTheme) { newValue in
+                            themeStore.applyBuiltinTheme(newValue)
+                        }
+
+                        Spacer(minLength: 0)
+                    }
+
+                    HStack(spacing: 14) {
+                        // Compact shows neither the strip nor the launchpad, so
+                        // the session override (⌘⇧C) hides these too.
+                        if themeStore.effectiveLayout == .split {
+                            appearanceSwitch(
+                                "Running Apps",
+                                isOn: Binding(
+                                    get: { settings.runningAppsPlacement != .none },
+                                    set: { settings.runningAppsPlacement = $0 ? .right : .none }
+                                ),
+                                help: "Show running apps in the right half of the search bar (⌘1-9 to switch)")
+
+                            Spacer().frame(width: 40)
+
+                            appearanceSwitch(
+                                "Super Actions",
+                                isOn: $settings.superActionsEnabled,
+                                help: "Show the quick-actions launchpad on the empty home screen (⌘ + letter)")
+
+                            Spacer().frame(width: 40)
+                        }
+
+                        appearanceSwitch(
+                            "Animations",
+                            isOn: $settings.animationsEnabled,
+                            help: "Animate the launcher when it opens and as the selection moves. Off shows every change instantly.")
+
+                        Spacer(minLength: 0)
+                    }
+
+                    Divider()
+                        .overlay(themeStore.dividerColor())
+                        .padding(.vertical, 4)
+
+                    sectionHeader("Layout")
+
+                    HStack(spacing: 10) {
+                        Text("Window")
+                            .frame(width: AppConstants.ThemeUI.labelWidth, alignment: .leading)
+                            .font(themeStore.uiFont(size: CGFloat(settings.fontSize - 1), weight: .regular))
+                            .foregroundStyle(themeStore.secondaryTextColor())
+
+                        layoutSegment
+
+                        Spacer(minLength: 0)
+                    }
+
+                    LabeledSlider(
+                        title: "Inner Gap",
+                        value: $settings.innerGap,
+                        range: AppConstants.ThemeUI.innerGapRange)
+                        .help("i3-style gap between the top row, results list and preview. 0 = flat layout; higher turns each into its own card.")
+
+                    LabeledSlider(
+                        title: "Corner Radius",
+                        value: $settings.surfaceRadius,
+                        range: AppConstants.ThemeUI.surfaceRadiusRange)
+                        .help("Corner rounding, shared by every surface: the panel, the top bar, the launchpad tiles and the controls. 0 = square.")
+                }
+
+                Group {
+                    sectionHeader("Tint Color")
+
+                    LabeledSlider(title: "Red", value: $settings.tintRed, range: 0...1)
+                    LabeledSlider(title: "Green", value: $settings.tintGreen, range: 0...1)
+                    LabeledSlider(title: "Blue", value: $settings.tintBlue, range: 0...1)
+                    LabeledSlider(title: "Tint Opacity", value: $settings.tintOpacity, range: 0...1)
+
+                    sectionHeader("Blur")
+
+                    // Disabled rather than hidden, to keep the value visible.
+                    LabeledSlider(title: "Blur Opacity", value: $settings.blurOpacity, range: 0...1)
+                        .disabled(settings.blurMaterial.rendersGlass)
+                        .opacity(settings.blurMaterial.rendersGlass ? AppConstants.ThemeUI.disabledControlOpacity : 1)
+
+                    LabeledSlider(title: "Settings Blur", value: $settings.settingsBlurMultiplier, range: 0.4...1)
+                        .help("How much the backdrop thins while Settings is open.")
+
+                    HStack(spacing: 10) {
+                        Text("Blur Style")
+                            .frame(width: AppConstants.ThemeUI.labelWidth, alignment: .leading)
+                            .font(themeStore.uiFont(size: CGFloat(settings.fontSize - 1), weight: .regular))
+                            .foregroundStyle(themeStore.secondaryTextColor())
+
+                        Picker("Blur Style", selection: $settings.blurMaterial) {
+                            ForEach(LauncherBlurMaterial.options(including: settings.blurMaterial)) { item in
+                                Text(item.pickerTitle).tag(item)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        .labelsHidden()
+                        .frame(width: AppConstants.ThemeUI.pickerWidth)
+
+                        Text(settings.blurMaterial.detail)
+                            .font(themeStore.uiFont(size: CGFloat(settings.fontSize - 2), weight: .regular))
+                            .foregroundStyle(themeStore.mutedTextColor())
+                            .lineLimit(1)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                }
+
+                Group {
+                    sectionHeader("Font")
+
+                    HStack(spacing: 10) {
+                        Text("Font Name")
+                            .frame(width: AppConstants.ThemeUI.labelWidth, alignment: .leading)
+                            .font(themeStore.uiFont(size: CGFloat(settings.fontSize - 1), weight: .regular))
+                            .foregroundStyle(themeStore.secondaryTextColor())
+
+                        TextField("SF Pro Text", text: $settings.fontName)
+                            .textFieldStyle(.roundedBorder)
+                            .focused($focusedField, equals: .fontName)
+                            .onTapGesture {
+                                focusedField = .fontName
+                                fontSuggestions = themeStore.fontNameSuggestions(for: settings.fontName, limit: 24)
+                                showsFontSuggestions = true
+                            }
+                            .onChange(of: settings.fontName) { newValue in
+                                if isPickingFontSuggestion {
+                                    return
                                 }
+                                fontSuggestions = themeStore.fontNameSuggestions(for: newValue, limit: 24)
+                                showsFontSuggestions = focusedField == .fontName
                             }
-                            showsFontSuggestions = false
-                        }
-                        .frame(width: 220, alignment: .leading)
+                            .onSubmit {
+                                if let first = fontSuggestions.first {
+                                    isPickingFontSuggestion = true
+                                    settings.fontName = first
+                                    DispatchQueue.main.async {
+                                        placeCaretAtEndOfFontField()
+                                        isPickingFontSuggestion = false
+                                    }
+                                }
+                                showsFontSuggestions = false
+                            }
+                            .frame(width: 220, alignment: .leading)
 
-                    Text("Installed font name")
-                        .font(themeStore.uiFont(size: CGFloat(settings.fontSize - 2), weight: .regular))
-                        .foregroundStyle(themeStore.mutedTextColor())
-                        .lineLimit(1)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                .overlay(alignment: .topLeading) {
-                    if showsFontSuggestions && !fontSuggestions.isEmpty {
-                        fontSuggestionsDropdown
-                            .offset(x: AppConstants.ThemeUI.labelWidth + 10, y: 30)
+                        Text("Installed font name")
+                            .font(themeStore.uiFont(size: CGFloat(settings.fontSize - 2), weight: .regular))
+                            .foregroundStyle(themeStore.mutedTextColor())
+                            .lineLimit(1)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                     }
+                    .overlay(alignment: .topLeading) {
+                        if showsFontSuggestions && !fontSuggestions.isEmpty {
+                            fontSuggestionsDropdown
+                                .offset(x: AppConstants.ThemeUI.labelWidth + 10, y: 30)
+                        }
+                    }
+                    .zIndex(showsFontSuggestions ? 100 : 1)
+
+                    LabeledSlider(title: "Font Size", value: $settings.fontSize, range: 10...28)
+
+                    sectionHeader("Font Color")
+
+                    LabeledSlider(title: "Text Red", value: $settings.fontRed, range: 0...1)
+                    LabeledSlider(title: "Text Green", value: $settings.fontGreen, range: 0...1)
+                    LabeledSlider(title: "Text Blue", value: $settings.fontBlue, range: 0...1)
+                    LabeledSlider(title: "Text Opacity", value: $settings.fontOpacity, range: 0...1)
                 }
-                .zIndex(showsFontSuggestions ? 100 : 1)
 
-                LabeledSlider(title: "Font Size", value: $settings.fontSize, range: 10...28)
+                Group {
+                    sectionHeader("Border")
 
-                sectionHeader("Font Color")
-
-                LabeledSlider(title: "Text Red", value: $settings.fontRed, range: 0...1)
-                LabeledSlider(title: "Text Green", value: $settings.fontGreen, range: 0...1)
-                LabeledSlider(title: "Text Blue", value: $settings.fontBlue, range: 0...1)
-                LabeledSlider(title: "Text Opacity", value: $settings.fontOpacity, range: 0...1)
-
-                sectionHeader("Border")
-
-                LabeledSlider(title: "Border Thick", value: $settings.borderThickness, range: 0...6)
-                LabeledSlider(title: "Border Red", value: $settings.borderRed, range: 0...1)
-                LabeledSlider(title: "Border Green", value: $settings.borderGreen, range: 0...1)
-                LabeledSlider(title: "Border Blue", value: $settings.borderBlue, range: 0...1)
-                LabeledSlider(title: "Border Opacity", value: $settings.borderOpacity, range: 0...1)
+                    LabeledSlider(title: "Border Thick", value: $settings.borderThickness, range: 0...6)
+                    LabeledSlider(title: "Border Red", value: $settings.borderRed, range: 0...1)
+                    LabeledSlider(title: "Border Green", value: $settings.borderGreen, range: 0...1)
+                    LabeledSlider(title: "Border Blue", value: $settings.borderBlue, range: 0...1)
+                    LabeledSlider(title: "Border Opacity", value: $settings.borderOpacity, range: 0...1)
+                }
             }
             .onAppear {
                 focusedField = nil

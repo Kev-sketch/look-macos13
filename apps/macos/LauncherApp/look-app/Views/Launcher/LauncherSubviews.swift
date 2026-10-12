@@ -200,7 +200,7 @@ struct CommandListView: View {
             .padding(2)
         }
         // Lets the row tooltip extend past the sidebar.
-        .scrollClipDisabled()
+        .lookScrollClipDisabled()
         .padding(5)
         // No outer panel-fill: matches the bg-less right column. Rows
         // sit directly on the command-mode backdrop. Only the selected /

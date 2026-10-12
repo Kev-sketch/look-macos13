@@ -21,9 +21,9 @@ struct QuickActionsSection: View {
     /// Changes each time the launcher opens, replaying the spawn cascade.
     var revealToken: UInt64 = 0
     /// A control was activated by click (Cmd+O runs the same path).
-    var onRun: (QuickActionDescriptor, ActionIntent) -> Void = { _ in }
+    var onRun: (QuickActionDescriptor, ActionIntent) -> Void = { _, _ in }
     /// A list item (e.g. a device row) was clicked to connect/disconnect.
-    var onActivateItem: (QuickActionDescriptor, QuickActionListItem) -> Void = { _ in }
+    var onActivateItem: (QuickActionDescriptor, QuickActionListItem) -> Void = { _, _ in }
 
     private enum Layout {
         static let rowSpacing: CGFloat = 6
@@ -283,7 +283,7 @@ private struct ListItemRow: View {
         .opacity(isPending || isBusy ? Layout.pendingOpacity : 1)
         // Native pointer (macOS 15+) avoids the unbalanced NSCursor push/pop
         // stack that would leave a stuck cursor when a row is removed on reload.
-        .pointerStyle(isActionable ? .link : nil)
+        .lookPointerStyleLink(isActionable)
         .onHover { hovering = $0 }
     }
 }

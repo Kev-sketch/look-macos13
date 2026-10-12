@@ -670,13 +670,15 @@ extension LauncherView {
         // off the main thread so the launcher window stays responsive.
         EmptyTrashCommand.empty { error in
             // Completion is delivered on the main queue (see EmptyTrashCommand),
-            // so assert main-actor isolation to touch UI state.
-            MainActor.assumeIsolated {
-                isDeleteInFlight = false
+            // but the closure is @Sendable, so hop explicitly back to the main
+            // actor before touching @State / the MainActor-isolated banner.
+            // (`MainActor.assumeIsolated` is a Swift 5.10+ API absent here.)
+            Task { @MainActor in
+                self.isDeleteInFlight = false
                 if let error {
-                    showBanner(error, style: .error, duration: 2.6)
+                    self.showBanner(error, style: .error, duration: 2.6)
                 } else {
-                    showBanner("Emptied Trash", style: .success, duration: 1.6)
+                    self.showBanner("Emptied Trash", style: .success, duration: 1.6)
                 }
             }
         }
